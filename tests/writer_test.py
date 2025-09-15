@@ -28,6 +28,7 @@ def test_model_writer():
 
     xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
     assert isinstance(xml_str, str)
+    print(xml_str)
 
 
 def test_model_writer_from_standard_hbjson():
@@ -37,3 +38,4 @@ def test_model_writer_from_standard_hbjson():
 
     xml_str = hb_model.to.dsbxml(hb_model)
     assert isinstance(xml_str, str)
+    print(xml_str)

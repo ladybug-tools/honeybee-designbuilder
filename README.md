@@ -3,7 +3,7 @@
 ![Honeybee](https://www.ladybug.tools/assets/img/honeybee.png) ![DesignBuilder](https://avatars.githubusercontent.com/u/17565908?s=200&v=4)
 
 [![Build Status](https://github.com/ladybug-tools/honeybee-designbuilder/workflows/CI/badge.svg)](https://github.com/ladybug-tools/honeybee-designbuilder/actions)
-[![Python 3.10](https://img.shields.io/badge/python-3.10-orange.svg)](https://www.python.org/downloads/release/python-3100/) [![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![Python 3.10](https://img.shields.io/badge/python-3.10-orange.svg)](https://www.python.org/downloads/release/python-3100/)
 
 Honeybee extension for translation to/from DesignBuilder.
 
