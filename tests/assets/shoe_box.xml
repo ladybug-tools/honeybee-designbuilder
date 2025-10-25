@@ -291,31 +291,9 @@
 										<VoidPerimeterList></VoidPerimeterList>
 										<Attributes>
 											<Attribute key="Title">Office Shoe Box</Attribute>
-											<Attribute key="ZoneIdRef">Office_Shoe_Box_aad7fa23</Attribute>
-											<Attribute key="SurfaceShadingHVACColour">14615680</Attribute>
 											<Attribute key="ID">Office_Shoe_Box_aad7fa23_Space</Attribute>
-											<Attribute key="ZoneCADObjectId">UNKNOWN</Attribute>
-											<Attribute key="SurfaceShadingActivityColour">8540510</Attribute>
-											<Attribute key="ImportMode">Surface</Attribute>
-											<Attribute key="ImportedSpaceType">Space</Attribute>
-											<Attribute key="ZoneVolumeEdit">0</Attribute>
 										</Attributes>
 									</Body>
-								<LightSensorOne index="0">
-										<Point3D>0.0000000000000000; 0.0000000000000002; 0.0000000000000000</Point3D>
-								</LightSensorOne>
-								<LightSensorTwo index="1">
-										<Point3D>0.5000000000000000; 0.0000000000000002; 0.0000000000000000</Point3D>
-								</LightSensorTwo>
-								<LabelPosition>
-										<Point3D>0.0000000000000000; 0.0000000000000002; 0.0000000000000000</Point3D>
-								</LabelPosition>
-									<Polygon auxiliaryType="-1">
-										<ObjectIDs handle="-1" buildingHandle="-1" buildingBlockHandle="-1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1"></ObjectIDs>
-										<Vertices>
-										</Vertices>
-										<PolygonHoles></PolygonHoles>
-									</Polygon>
 								<InnerSurfaceBody>
 									<Body volume="124.7016750000" extrusionHeight="3.0000">
 										<ObjectIDs handle="11" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1"></ObjectIDs>
@@ -561,81 +539,9 @@
 								</Polygon>
 							</Perimeter>
 						<BaseProfileBody>
-							<ProfileBody elementSlope="0.0000" roofOverlap="0.0000">
-								<Body volume="150.0000000000" extrusionHeight="3.0000">
-									<ObjectIDs handle="-1" buildingHandle="-1" buildingBlockHandle="-1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1"></ObjectIDs>
-									<Vertices>
-										<Point3D>2.5000000000000000; 5.0000000000000009; 0.0000000000000000</Point3D>
-										<Point3D>2.5000000000000000; -4.9999999999999991; 0.0000000000000000</Point3D>
-										<Point3D>-2.4999999999999996; -5.0000000000000000; 0.0000000000000000</Point3D>
-										<Point3D>-2.5000000000000000; 4.9999999999999991; 0.0000000000000000</Point3D>
-										<Point3D>2.5000000000000000; 5.0000000000000009; 3.0000000000000000</Point3D>
-										<Point3D>2.5000000000000000; -4.9999999999999991; 3.0000000000000000</Point3D>
-										<Point3D>-2.4999999999999996; -5.0000000000000000; 3.0000000000000000</Point3D>
-										<Point3D>-2.5000000000000000; 4.9999999999999991; 3.0000000000000000</Point3D>
-									</Vertices>
-									<Surfaces>
-									<Surface type= "Floor" area="50.000000000000" alpha="0.00000000000000000000" phi="-1.57079632679489655800" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.100000">
-										<ObjectIDs handle="-1" buildingHandle="-1" buildingBlockHandle="-1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1"></ObjectIDs>
-										<VertexIndices>0; 1; 2; 3; </VertexIndices>
-										<HoleIndices></HoleIndices>
-										<Openings></Openings>
-										<Adjacencies></Adjacencies>
-										<Attributes></Attributes>
-									</Surface>
-									<Surface type= "Flat roof" area="50.000000000000" alpha="3.14159265358979311600" phi="1.57079632679489655800" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.100000">
-										<ObjectIDs handle="-1" buildingHandle="-1" buildingBlockHandle="-1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1"></ObjectIDs>
-										<VertexIndices>7; 6; 5; 4; </VertexIndices>
-										<HoleIndices></HoleIndices>
-										<Openings></Openings>
-										<Adjacencies></Adjacencies>
-										<Attributes></Attributes>
-									</Surface>
-									<Surface type= "Wall" area="30.000000000000" alpha="1.57079632679489655800" phi="0.00000000000000000000" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.100000">
-										<ObjectIDs handle="-1" buildingHandle="-1" buildingBlockHandle="-1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1"></ObjectIDs>
-										<VertexIndices>4; 5; 1; 0; </VertexIndices>
-										<HoleIndices></HoleIndices>
-										<Openings></Openings>
-										<Adjacencies></Adjacencies>
-										<Attributes></Attributes>
-									</Surface>
-									<Surface type= "Wall" area="15.000000000000" alpha="3.14159265358979267191" phi="0.00000000000000000000" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.100000">
-										<ObjectIDs handle="-1" buildingHandle="-1" buildingBlockHandle="-1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1"></ObjectIDs>
-										<VertexIndices>5; 6; 2; 1; </VertexIndices>
-										<HoleIndices></HoleIndices>
-										<Openings></Openings>
-										<Adjacencies></Adjacencies>
-										<Attributes></Attributes>
-									</Surface>
-									<Surface type= "Wall" area="30.000000000000" alpha="4.71238898038468967400" phi="0.00000000000000000000" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.100000">
-										<ObjectIDs handle="-1" buildingHandle="-1" buildingBlockHandle="-1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1"></ObjectIDs>
-										<VertexIndices>6; 7; 3; 2; </VertexIndices>
-										<HoleIndices></HoleIndices>
-										<Openings></Openings>
-										<Adjacencies></Adjacencies>
-										<Attributes></Attributes>
-									</Surface>
-									<Surface type= "Wall" area="15.000000000000" alpha="-0.00000000000000047370" phi="0.00000000000000000000" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.100000">
-										<ObjectIDs handle="-1" buildingHandle="-1" buildingBlockHandle="-1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1"></ObjectIDs>
-										<VertexIndices>7; 4; 0; 3; </VertexIndices>
-										<HoleIndices></HoleIndices>
-										<Openings></Openings>
-										<Adjacencies></Adjacencies>
-										<Attributes></Attributes>
-									</Surface>
-									</Surfaces>
-									<VoidPerimeterList></VoidPerimeterList>
-									<Attributes></Attributes>
-								</Body>
-							</ProfileBody>
 						</BaseProfileBody>
 						<Attributes>
 							<Attribute key="Title">Block 1</Attribute>
-							<Attribute key="HasReturnPlenumZone">0</Attribute>
-							<Attribute key="ReturnPlenumZone"></Attribute>
-							<Attribute key="ImportMode">Surface</Attribute>
-							<Attribute key="HasSupplyPlenumZone">0</Attribute>
-							<Attribute key="SupplyPlenumZone"></Attribute>
 						</Attributes>
 					</BuildingBlock>
 				</BuildingBlocks>

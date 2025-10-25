@@ -2,11 +2,13 @@
 """Methods to write Honeybee core objects to dsbXML."""
 import datetime
 import math
+from copy import deepcopy
 import xml.etree.ElementTree as ET
 
 from ladybug_geometry.geometry3d import Face3D
 from honeybee.typing import clean_string
 from honeybee.facetype import RoofCeiling, AirBoundary
+from honeybee.boundarycondition import Surface
 from honeybee.aperture import Aperture
 from honeybee.room import Room
 
@@ -14,10 +16,7 @@ DESIGNBUILDER_VERSION = '2025.1.0.085'
 HANDLE_COUNTER = 1  # counter used to generate unique handles when necessary
 
 
-def sub_face_to_dsbxml_element(
-    sub_face, surface_element=None,
-    block_handle='-1', zone_handle='-1', surface_index=0
-):
+def sub_face_to_dsbxml_element(sub_face, surface_element=None):
     """Generate an dsbXML Opening Element object from a honeybee Aperture or Door.
 
     Args:
@@ -27,13 +26,8 @@ def sub_face_to_dsbxml_element(
             generated opening object will be added. If None, a new XML Element
             will be generated. Note that this Surface element should have a
             Openings tag already created within it.
-        block_handle: Integer for the handle of the block to which the opening
-            belongs. (Default: -1).
-        zone_handle: Integer for the handle of the zone to which the opening
-            belongs. (Default: -1).
-        surface_index: Integer for the index of the surface in the zone to which
-            the opening belongs. (Default: 0).
     """
+    # create the Opening element
     open_type = 'Window' if isinstance(sub_face, Aperture) else 'Door'
     if surface_element is not None:
         surfaces_element = surface_element.find('Openings')
@@ -41,10 +35,36 @@ def sub_face_to_dsbxml_element(
         obj_ids = surface_element.find('ObjectIDs')
         block_handle = obj_ids.get('buildingBlockHandle')
         zone_handle = obj_ids.get('zoneHandle')
+        surface_index = obj_ids.get('surfaceIndex')
     else:
-        xml_face = ET.Element('Opening', face_id_attr)
-        block_handle, zone_handle, surface_index = '-1', '-1', 0
-    _object_ids(xml_sub_face, ap.identifier, '0', block_handle, zone_handle, surface_index)
+        xml_sub_face = ET.Element('Opening', type=open_type)
+        block_handle, zone_handle, surface_index = '-1', '-1', '0'
+
+    # add the vertices for the geometry
+    xml_sub_geo = ET.SubElement(xml_sub_face, 'Polygon', auxiliaryType='-1')
+    _object_ids(xml_sub_geo, sub_face.identifier, '0',
+                str(block_handle), str(zone_handle), surface_index)
+    xml_sub_pts = ET.SubElement(xml_sub_geo, 'Vertices')
+    for pt in sub_face.geometry.boundary:
+        xml_point = ET.SubElement(xml_sub_pts, 'Point3D')
+        xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+    xml_sub_holes = ET.SubElement(xml_sub_geo, 'PolygonHoles')
+    if sub_face.geometry.has_holes:
+        flip_plane = sub_face.geometry.flip()  # flip to make holes clockwise
+        for hole in sub_face.geometry.holes:
+            hole_face = Face3D(hole, plane=flip_plane)
+            xml_sub_hole = ET.SubElement(xml_sub_holes, 'PolygonHole')
+            _object_ids(xml_sub_geo, sub_face.identifier, '0',
+                        str(block_handle), str(zone_handle), surface_index)
+            xml_sub_hole_pts = ET.SubElement(xml_sub_hole, 'Vertices')
+            for pt in hole_face:
+                xml_point = ET.SubElement(xml_sub_hole_pts, 'Point3D')
+                xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+
+    # add other required but usually empty tags
+    ET.SubElement(xml_sub_face, 'Attributes')
+    ET.SubElement(xml_sub_face, 'SegmentList')
+    return xml_sub_face
 
 
 def face_to_dsbxml_element(
@@ -64,10 +84,10 @@ def face_to_dsbxml_element(
         face_index: An integer for the index of the parent Room Polyface3D
             to which this Face belongs. (Default: 0).
         angle_tolerance: The angle tolerance at which the geometry will
-            be evaluated in degrees. (Default: 1 degree).
+            be evaluated in degrees. This is needed to determine whether to
+            write roof faces as flat or pitched. (Default: 1 degree).
     """
     global HANDLE_COUNTER  # declare that we will edit the global variable
-
     # get the basic attributes of the Face
     if isinstance(face.type, RoofCeiling):
         face_type = 'Pitched roof' if face.tilt > angle_tolerance else 'Flat roof'
@@ -96,7 +116,7 @@ def face_to_dsbxml_element(
     else:
         xml_face = ET.Element('Surface', face_id_attr)
         dsb_face_i, block_handle, zone_handle = 0, '-1', '-1'
-    _object_ids(xml_face, face.identifier, '0', block_handle)
+    _object_ids(xml_face, face.identifier, '0', block_handle, zone_handle, str(dsb_face_i))
 
     # add the vertices that define the Face
     if face.has_parent:
@@ -142,12 +162,46 @@ def face_to_dsbxml_element(
     # add any openings if they exist
     ET.SubElement(xml_face, 'Openings')
     for ap in face.apertures:
-        sub_face_to_dsbxml_element(ap, xml_face, block_handle, zone_handle, dsb_face_i)
+        sub_face_to_dsbxml_element(ap, xml_face)
     for dr in face.doors:
-        sub_face_to_dsbxml_element(dr, xml_face, block_handle, zone_handle, dsb_face_i)
+        sub_face_to_dsbxml_element(dr, xml_face)
 
-    # TODO: see if adjacencies need to be added for every face
-    ET.SubElement(xml_face, 'Adjacencies')
+    # add the adjacency information
+    # TODO: consider refactoring so that coplanar faces of the same type are one face
+    xml_face_adjs = ET.SubElement(xml_face, 'Adjacencies')
+    xml_face_adj = ET.SubElement(xml_face_adjs, 'Adjacency',
+                                 type=face_type, adjacencyDistance='0.000')
+    if isinstance(face.boundary_condition, Surface):
+        adj_face, adj_room = face.boundary_condition.boundary_condition_objects
+        _object_ids(xml_face_adj, '-1', '-1', '-1', adj_room, adj_face)
+        # TODO: write a face index in the zone XML instead of the face handle
+    else:  # add a meaningless ID object
+        _object_ids(xml_face_adj, '-1')
+    xml_adj_geos = ET.SubElement(xml_face_adj, 'AdjacencyPolygonList')
+    xml_adj_geo = ET.SubElement(xml_adj_geos, 'Polygon', auxiliaryType='-1')
+    if isinstance(face.boundary_condition, Surface):
+        _object_ids(xml_adj_geo, '-1')  # add a meaningless ID object
+    else:  # add an ID object referencing the self
+        _object_ids(xml_adj_geo, '-1', '0',
+                    str(block_handle), str(zone_handle), str(dsb_face_i))
+    xml_adj_pts = ET.SubElement(xml_adj_geo, 'Vertices')
+    for pt in face.geometry.boundary:
+        xml_point = ET.SubElement(xml_adj_pts, 'Point3D')
+        xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+    xml_holes = ET.SubElement(xml_adj_pts, 'PolygonHoles')
+    if face.geometry.has_holes:
+        flip_plane = face.geometry.flip()  # flip to make holes clockwise
+        for hole, hole_i in zip(face.geometry.holes, hole_is):
+            hole_face = Face3D(hole, plane=flip_plane)
+            xml_hole = ET.SubElement(xml_holes, 'PolygonHole')
+            if isinstance(face.boundary_condition, Surface):
+                _object_ids(xml_hole, '-1')  # add a meaningless ID object
+            else:  # add an ID object referencing the self
+                _object_ids(xml_hole, '-1', '0', block_handle, zone_handle, hole_i)
+            xml_hole_pts = ET.SubElement(xml_hole, 'Vertices')
+            for pt in hole_face:
+                xml_point = ET.SubElement(xml_hole_pts, 'Point3D')
+                xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
 
     return xml_face
 
@@ -171,14 +225,13 @@ def room_to_dsbxml_element(
             be evaluated in degrees. (Default: 1 degree).
     """
     global HANDLE_COUNTER  # declare that we will edit the global variable
-
-    # create the zone root
+    # create the zone element
     is_extrusion = room.is_extrusion(tolerance, angle_tolerance)
     zone_id_attr = {
         'parentZoneHandle': room.identifier,
         'inheritedZoneHandle': room.identifier,
         'planExtrusion': str(is_extrusion),
-        'innerSurfaceMode': 'Deflation'
+        'innerSurfaceMode': 'Approximate'  # TODO: eventually change to deflation
     }
     if block_element is not None:
         block_zones_element = block_element.find('Zones')
@@ -188,20 +241,150 @@ def room_to_dsbxml_element(
     else:
         xml_zone = ET.Element('Zone', zone_id_attr)
         block_handle = '-1'
-    # create the body of the room with the polyhedral vertices
+
+    # create the body of the room using the polyhedral vertices
     hgt = round(room.max.z - room.min.z, 4)
-    xml_body = ET.SubElement(xml_zone, 'Body', volume=room.volume, extrusionHeight=hgt)
+    xml_body = ET.SubElement(
+        xml_zone, 'Body', volume=str(room.volume), extrusionHeight=str(hgt))
     _object_ids(xml_body, room.identifier, '0', block_handle)
     xml_vertices = ET.SubElement(xml_body, 'Vertices')
     for pt in room.geometry.vertices:
         xml_point = ET.SubElement(xml_vertices, 'Point3D')
         xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+
     # add the surfaces
+    xml_faces = ET.SubElement(xml_body, 'Surfaces')
+    for i, face in enumerate(room.faces):
+        face_to_dsbxml_element(face, xml_body, i, angle_tolerance)
+
+    # add the other body attributes
+    ET.SubElement(xml_body, 'VoidPerimeterList')
+    xml_room_attr = ET.SubElement(xml_body, 'Attributes')
+    xml_room_name = ET.SubElement(xml_room_attr, 'Attribute', key='Title')
+    xml_room_name.text = str(room.display_name)
+    if room.user_data is not None and '__identifier__' in room.user_data:
+        xml_room_id = ET.SubElement(xml_room_attr, 'Attribute', key='ID')
+        xml_room_id.text = room.user_data['__identifier__']
+
+    # add an inner surface body that is a copy of the body
+    # TODO: consider offsetting the room polyface inwards to create this object
+    xml_in_body = ET.SubElement(
+        xml_zone, 'InnerSurfaceBody', volume=str(room.volume), extrusionHeight=str(hgt))
+    _object_ids(xml_body, room.identifier, '0', block_handle)
+    xml_in_vertices = ET.SubElement(xml_in_body, 'Vertices')
+    for pt in room.geometry.vertices:
+        xml_point = ET.SubElement(xml_in_vertices, 'Point3D')
+        xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+    xml_in_faces = ET.SubElement(xml_body, 'Surfaces')
+    for xml_face in xml_faces:
+        in_face = ET.SubElement(xml_in_faces, 'Surface', xml_face.attrib)
+        obj_ids = xml_face.find('ObjectIDs')
+        copied_obj_ids = deepcopy(obj_ids)
+        in_face.append(copied_obj_ids)
+        pt_i = xml_face.find('VertexIndices')
+        copied_pt_i = deepcopy(pt_i)
+        in_face.append(copied_pt_i)
+        hole_i = xml_face.find('HoleIndices')
+        copied_hole_i = deepcopy(hole_i)
+        in_face.append(copied_hole_i)
+        ET.SubElement(in_face, 'Openings')
+        ET.SubElement(in_face, 'Adjacencies')
+        ET.SubElement(in_face, 'Attributes')
+
+    return xml_zone
+
+
+def room_group_to_dsbxml_block(
+    room_group, block_handle, building_element=None, block_name=None,
+    tolerance=0.01, angle_tolerance=1.0
+):
+    """Generate an dsbXML BuildingBlock Element object for a list of honeybee Rooms.
+
+    The resulting Element has all geometry (Rooms, Faces, Apertures, Doors, Shades).
+
+    Args:
+        room_group: A list of honeybee Room objects  for which an dsbXML
+            BuildingBlock Element object will be returned. Note that these rooms
+            must form a contiguous volume across their adjacencies for the
+            resulting block to be valid.
+        block_handle: An integer for the handle of the block. This must be unique
+            within the larger model.
+        building_element: An optional XML Element for the Building to which the
+            generated block object will be added. If None, a new XML Element
+            will be generated. Note that this Building element should
+            have a BuildingBlocks tag already created within it.
+        tolerance: The absolute tolerance with which the Room geometry will
+            be evaluated. (Default: 0.01, suitable for objects in meters).
+        angle_tolerance: The angle tolerance at which the geometry will
+            be evaluated in degrees. (Default: 1 degree).
+    """
+    global HANDLE_COUNTER  # declare that we will edit the global variable
+    # get a room representing the fully-joined volume to be used for the block body
+    block_room = room_group[0].duplicate() if len(room_group) == 1 else \
+        Room.join_adjacent_rooms(room_group, tolerance)[0]
+    block_room.identifier = str(block_handle)
+    for f in block_room.faces:
+        f.remove_sub_faces()
+        f.identifier = str(HANDLE_COUNTER)
+        HANDLE_COUNTER += 1
+
+    # create the block element
+    is_extrusion = block_room.is_extrusion(tolerance, angle_tolerance)
+    block_type = 'Plan extrusion' if is_extrusion else 'General'
+    hgt = round(block_room.max.z - block_room.min.z, 4)
+    block_id_attr = {
+        'type': block_type,
+        'height': str(hgt),
+        'roofSlope': '30.0000',
+        'roofOverlap': '0.0000',
+        'roofType': 'Gable',
+        'wallSlope': '80.0000'
+    }
+    if building_element is not None:
+        blocks_element = building_element.find('BuildingBlocks')
+        xml_block = ET.SubElement(blocks_element, 'BuildingBlock', block_id_attr)
+    else:
+        xml_block = ET.Element('Zone', block_id_attr)
+
+    # add the extra attributes that are typically empty
+    _object_ids(xml_block, str(block_handle), '0')
+    ET.SubElement(xml_block, 'ComponentBlocks')
+    ET.SubElement(xml_block, 'CFDFans')
+    ET.SubElement(xml_block, 'AssemblyInstances')
+    ET.SubElement(xml_block, 'ProfileOutlines')
+    ET.SubElement(xml_block, 'VoidBodies')
+
+    # TODO: add internal partitions to the block
+    # add the rooms to the block
+    ET.SubElement(xml_block, 'Zones')
+    for room in room_group:
+        room_to_dsbxml_element(room, xml_block, tolerance, angle_tolerance)
+
+    # create the body of the block using the polyhedral vertices
+    xml_profile = ET.SubElement(
+        xml_block, 'ProfileBody', elementSlope='0.0000', roofOverlap='0.0000')
+    xml_body = ET.SubElement(
+        xml_profile, 'Body', volume=str(block_room.volume), extrusionHeight=str(hgt))
+    _object_ids(xml_body, room.identifier, '0', block_handle)
+    xml_vertices = ET.SubElement(xml_body, 'Vertices')
+    for pt in block_room.geometry.vertices:
+        xml_point = ET.SubElement(xml_vertices, 'Point3D')
+        xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
     ET.SubElement(xml_body, 'Surfaces')
     for i, face in enumerate(room.faces):
         face_to_dsbxml_element(face, xml_body, i, angle_tolerance)
 
-    return xml_zone
+    # add the other properties that are usually empty
+    ET.SubElement(xml_body, 'VoidPerimeterList')
+    ET.SubElement(xml_body, 'Attributes')
+    ET.SubElement(xml_block, 'BaseProfileBody')
+    xml_block_attr = ET.SubElement(xml_block, 'Attributes')
+    xml_block_name = ET.SubElement(xml_block_attr, 'Attribute', key='Title')
+    xml_block_name.text = block_name if block_name is not None \
+        else 'Block {}'.format(block_handle)
+
+    # TODO: add the perimeter for the block
+    return xml_block
 
 
 def model_to_dsbxml_element(model):
@@ -213,7 +396,6 @@ def model_to_dsbxml_element(model):
         model: A honeybee Model for which an dsbXML ElementTree object will be returned.
     """
     global HANDLE_COUNTER  # declare that we will edit the global variable
-
     # duplicate model to avoid mutating it as we edit it for INP export
     original_model = model
     model = model.duplicate()
@@ -231,6 +413,9 @@ def model_to_dsbxml_element(model):
     # auto-assign stories if there are none since these are needed for blocks
     if len(model.stories) == 0 and len(model.rooms) != 0:
         model.assign_stories_by_floor_height(min_difference=2.0)
+    # erase room user data and use it to store attributes for later
+    for room in model.rooms:
+        room.user_data = {'__identifier__': room.identifier}
 
     # set up the ElementTree for the XML
     model_name = clean_string(model.display_name)
@@ -276,12 +461,16 @@ def model_to_dsbxml_element(model):
                 block_rooms.append(adj_group)
                 block_names.append('{} {}'.format(flr_name, i + 1))
 
-    # give unique integers to each of the building blocks
+    # give unique integers to each of the building blocks and faces
     HANDLE_COUNTER = len(block_rooms)
     # convert identifiers to integers as this is the only ID format used by DesignBuilder
     HANDLE_COUNTER = model.reset_ids_to_integers(start_integer=HANDLE_COUNTER)
     HANDLE_COUNTER += 1
+
     # translate each block to dsbXML; including all geometry
+    ET.SubElement(xml_bldg, 'BuildingBlocks')
+    for i, (room_group, block_name) in enumerate(zip(block_rooms, block_names)):
+        room_group_to_dsbxml_block(room_group, i + 1, xml_bldg, block_name)
 
     # set the handle of the site to the last index and reset the counter
     xml_site.set('handle', str(HANDLE_COUNTER))
