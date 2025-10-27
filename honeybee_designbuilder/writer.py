@@ -197,7 +197,7 @@ def face_to_dsbxml_element(
             if isinstance(face.boundary_condition, Surface):
                 _object_ids(xml_hole, '-1')  # add a meaningless ID object
             else:  # add an ID object referencing the self
-                _object_ids(xml_hole, '-1', '0', block_handle, zone_handle, hole_i)
+                _object_ids(xml_hole, '-1', '0', str(block_handle), zone_handle, hole_i)
             xml_hole_pts = ET.SubElement(xml_hole, 'Vertices')
             for pt in hole_face:
                 xml_point = ET.SubElement(xml_hole_pts, 'Point3D')
@@ -365,7 +365,7 @@ def room_group_to_dsbxml_block(
         xml_block, 'ProfileBody', elementSlope='0.0000', roofOverlap='0.0000')
     xml_body = ET.SubElement(
         xml_profile, 'Body', volume=str(block_room.volume), extrusionHeight=str(hgt))
-    _object_ids(xml_body, room.identifier, '0', block_handle)
+    _object_ids(xml_body, room.identifier, '0', str(block_handle))
     xml_vertices = ET.SubElement(xml_body, 'Vertices')
     for pt in block_room.geometry.vertices:
         xml_point = ET.SubElement(xml_vertices, 'Point3D')

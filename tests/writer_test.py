@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 
 from ladybug_geometry.geometry3d import Point3D, Vector3D, Mesh3D
 
+from honeybee.boundarycondition import boundary_conditions as bcs
 from honeybee.model import Model
 from honeybee.room import Room
 from honeybee.shademesh import ShadeMesh
@@ -28,14 +29,19 @@ def test_model_writer():
 
     xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
     assert isinstance(xml_str, str)
-    print(xml_str)
+
+    # write the string to a file
+    test_file = 'C:/Users/Chris/Documents/GitHub/honeybee-designbuilder/tests/assets/test.xml'
+    with open(test_file, 'w') as fp:
+        fp.write(xml_str)
 
 
 def test_model_writer_from_standard_hbjson():
     """Test translating a HBJSON to an XML ElementTree."""
     standard_test = './tests/assets/small_revit_sample.hbjson'
     hb_model = Model.from_file(standard_test)
+    for face in hb_model.faces:
+        face.boundary_condition = bcs.outdoors
 
     xml_str = hb_model.to.dsbxml(hb_model)
     assert isinstance(xml_str, str)
-    print(xml_str)
