@@ -462,7 +462,7 @@ def model_to_dsbxml_element(model):
                 block_names.append('{} {}'.format(flr_name, i + 1))
 
     # give unique integers to each of the building blocks and faces
-    HANDLE_COUNTER = len(block_rooms)
+    HANDLE_COUNTER = len(block_rooms) + 1
     # convert identifiers to integers as this is the only ID format used by DesignBuilder
     HANDLE_COUNTER = model.reset_ids_to_integers(start_integer=HANDLE_COUNTER)
     HANDLE_COUNTER += 1
@@ -532,6 +532,45 @@ def model_to_dsbxml(model, program_name=None):
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n{}'.format(prog_comment)
     dsbxml_str = base_template + dsbxml_str
     return dsbxml_str
+
+
+def sub_face_to_dsbxml(sub_face):
+    """Generate an dsbXML Opening string from a honeybee Aperture or Door.
+
+    Args:
+        sub_face: A honeybee Aperture or Door for which an dsbXML Opening XML
+            string will be returned.
+    """
+    xml_root = sub_face_to_dsbxml_element(sub_face)
+    ET.indent(xml_root)
+    return ET.tostring(xml_root, encoding='unicode')
+
+
+def face_to_dsbxml(face):
+    """Generate an dsbXML Surface string from a honeybee Face.
+
+    The resulting string has all constituent geometry (Apertures, Doors).
+
+    Args:
+        face: A honeybee Face for which an dsbXML Surface string object will
+            be returned.
+    """
+    xml_root = face_to_dsbxml_element(face)
+    ET.indent(xml_root)
+    return ET.tostring(xml_root, encoding='unicode')
+
+
+def room_to_dsbxml(room):
+    """Generate an dsbXML Zone string object for a honeybee Room.
+
+    The resulting string has all constituent geometry (Faces, Apertures, Doors).
+
+    Args:
+        room: A honeybee Room for which an dsbXML Zone string object will be returned.
+    """
+    xml_root = room_to_dsbxml_element(room)
+    ET.indent(xml_root)
+    return ET.tostring(xml_root, encoding='unicode')
 
 
 def _object_ids(
