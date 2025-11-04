@@ -42,8 +42,7 @@ def sub_face_to_dsbxml_element(sub_face, surface_element=None):
 
     # add the vertices for the geometry
     xml_sub_geo = ET.SubElement(xml_sub_face, 'Polygon', auxiliaryType='-1')
-    _object_ids(xml_sub_geo, sub_face.identifier, '0',
-                str(block_handle), str(zone_handle), surface_index)
+    _object_ids(xml_sub_geo, '-1', '0', str(block_handle), str(zone_handle), surface_index)
     xml_sub_pts = ET.SubElement(xml_sub_geo, 'Vertices')
     for pt in sub_face.geometry.boundary:
         xml_point = ET.SubElement(xml_sub_pts, 'Point3D')
@@ -62,7 +61,9 @@ def sub_face_to_dsbxml_element(sub_face, surface_element=None):
                 xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
 
     # add other required but usually empty tags
-    ET.SubElement(xml_sub_face, 'Attributes')
+    xml_sf_attr = ET.SubElement(xml_sub_face, 'Attributes')
+    xml_sf_name = ET.SubElement(xml_sf_attr, 'Attribute', key='Title')
+    xml_sf_name.text = str(sub_face.display_name)
     ET.SubElement(xml_sub_face, 'SegmentList')
     return xml_sub_face
 
@@ -270,12 +271,12 @@ def room_to_dsbxml_element(
     # TODO: consider offsetting the room polyface inwards to create this object
     xml_in_body = ET.SubElement(
         xml_zone, 'InnerSurfaceBody', volume=str(room.volume), extrusionHeight=str(hgt))
-    _object_ids(xml_body, room.identifier, '0', block_handle)
+    _object_ids(xml_in_body, room.identifier, '0', block_handle)
     xml_in_vertices = ET.SubElement(xml_in_body, 'Vertices')
     for pt in room.geometry.vertices:
         xml_point = ET.SubElement(xml_in_vertices, 'Point3D')
         xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
-    xml_in_faces = ET.SubElement(xml_body, 'Surfaces')
+    xml_in_faces = ET.SubElement(xml_in_body, 'Surfaces')
     for xml_face in xml_faces:
         in_face = ET.SubElement(xml_in_faces, 'Surface', xml_face.attrib)
         obj_ids = xml_face.find('ObjectIDs')
@@ -322,7 +323,8 @@ def room_group_to_dsbxml_block(
     # get a room representing the fully-joined volume to be used for the block body
     block_room = room_group[0].duplicate() if len(room_group) == 1 else \
         Room.join_adjacent_rooms(room_group, tolerance)[0]
-    block_room.identifier = str(block_handle)
+    block_room.identifier = str(HANDLE_COUNTER)
+    HANDLE_COUNTER += 1
     for f in block_room.faces:
         f.remove_sub_faces()
         f.identifier = str(HANDLE_COUNTER)
@@ -354,7 +356,6 @@ def room_group_to_dsbxml_block(
     ET.SubElement(xml_block, 'ProfileOutlines')
     ET.SubElement(xml_block, 'VoidBodies')
 
-    # TODO: add internal partitions to the block
     # add the rooms to the block
     ET.SubElement(xml_block, 'Zones')
     for room in room_group:
@@ -371,8 +372,39 @@ def room_group_to_dsbxml_block(
         xml_point = ET.SubElement(xml_vertices, 'Point3D')
         xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
     ET.SubElement(xml_body, 'Surfaces')
-    for i, face in enumerate(room.faces):
+    for i, face in enumerate(block_room.faces):
         face_to_dsbxml_element(face, xml_body, i, angle_tolerance)
+
+    # add the perimeter to the block
+    xml_perim = ET.SubElement(xml_block, 'Perimeter')
+    perim_geo = Room.grouped_horizontal_boundary(room_group, tolerance=tolerance)
+    if len(perim_geo) != 0:
+        perim_geo = perim_geo[0]
+        xml_perim_geo = ET.SubElement(xml_perim, 'Polygon', auxiliaryType='-1')
+        perim_handle = str(HANDLE_COUNTER)
+        HANDLE_COUNTER += 1
+        _object_ids(xml_perim_geo, perim_handle, '0', str(block_handle))
+        xml_perim_pts = ET.SubElement(xml_perim_geo, 'Vertices')
+        for pt in perim_geo.boundary:
+            xml_point = ET.SubElement(xml_perim_pts, 'Point3D')
+            xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+        xml_holes = ET.SubElement(xml_perim_pts, 'PolygonHoles')
+        if perim_geo.has_holes:
+            flip_plane = perim_geo.flip()  # flip to make holes clockwise
+            for hole in perim_geo.holes:
+                hole_face = Face3D(hole, plane=flip_plane)
+                xml_hole = ET.SubElement(xml_holes, 'PolygonHole')
+                _object_ids(xml_hole, '-1')
+                xml_hole_pts = ET.SubElement(xml_hole, 'Vertices')
+                for pt in hole_face:
+                    xml_point = ET.SubElement(xml_hole_pts, 'Point3D')
+                    xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+    else:
+        msg = 'Failed to calculate perimeter around block: {}'.format(block_name)
+        print(msg)
+
+    # TODO: add internal partitions to the block
+    ET.SubElement(xml_block, 'InternalPartitions')
 
     # add the other properties that are usually empty
     ET.SubElement(xml_body, 'VoidPerimeterList')
