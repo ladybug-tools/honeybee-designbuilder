@@ -1,7 +1,6 @@
 # coding=utf-8
 """Methods to write Honeybee core objects to dsbXML."""
 import datetime
-import math
 from copy import deepcopy
 import xml.etree.ElementTree as ET
 
@@ -99,8 +98,8 @@ def face_to_dsbxml_element(
     face_id_attr = {
         'type': face_type,
         'area': str(face.area),
-        'alpha': str(math.pi - face.geometry.tilt),
-        'phi': str(face.geometry.azimuth),
+        'alpha': str(face.geometry.azimuth),
+        'phi': str(face.geometry.altitude),
         'defaultOpenings': 'False',
         'adjacentPartitionHandle': '-1',  # TODO: make better for adjacency
         'thickness': '0.0'  # TODO: make better for adjacency
@@ -118,6 +117,10 @@ def face_to_dsbxml_element(
         xml_face = ET.Element('Surface', face_id_attr)
         dsb_face_i, block_handle, zone_handle = 0, '-1', '-1'
     _object_ids(xml_face, face.identifier, '0', block_handle, zone_handle, str(dsb_face_i))
+    if face.user_data is None:
+        face.user_data = {'dsb_face_i': str(dsb_face_i)}
+    else:
+        face.user_data['dsb_face_i'] = str(dsb_face_i)
 
     # add the vertices that define the Face
     if face.has_parent:
@@ -269,8 +272,9 @@ def room_to_dsbxml_element(
 
     # add an inner surface body that is a copy of the body
     # TODO: consider offsetting the room polyface inwards to create this object
+    xml_in_body_section = ET.SubElement(xml_zone, 'InnerSurfaceBody')
     xml_in_body = ET.SubElement(
-        xml_zone, 'InnerSurfaceBody', volume=str(room.volume), extrusionHeight=str(hgt))
+        xml_in_body_section, 'Body', volume=str(room.volume), extrusionHeight=str(hgt))
     _object_ids(xml_in_body, room.identifier, '0', block_handle)
     xml_in_vertices = ET.SubElement(xml_in_body, 'Vertices')
     for pt in room.geometry.vertices:
@@ -291,6 +295,8 @@ def room_to_dsbxml_element(
         ET.SubElement(in_face, 'Openings')
         ET.SubElement(in_face, 'Adjacencies')
         ET.SubElement(in_face, 'Attributes')
+    ET.SubElement(xml_in_body, 'VoidPerimeterList')
+    ET.SubElement(xml_in_body, 'Attributes')
 
     return xml_zone
 
@@ -325,10 +331,6 @@ def room_group_to_dsbxml_block(
         Room.join_adjacent_rooms(room_group, tolerance)[0]
     block_room.identifier = str(HANDLE_COUNTER)
     HANDLE_COUNTER += 1
-    for f in block_room.faces:
-        f.remove_sub_faces()
-        f.identifier = str(HANDLE_COUNTER)
-        HANDLE_COUNTER += 1
 
     # create the block element
     is_extrusion = block_room.is_extrusion(tolerance, angle_tolerance)
@@ -361,19 +363,49 @@ def room_group_to_dsbxml_block(
     for room in room_group:
         room_to_dsbxml_element(room, xml_block, tolerance, angle_tolerance)
 
+    # process the faces of the block room to be formatted for a body
+    for f in block_room.faces:
+        for room in room_group:
+            for f2 in room:
+                if f.geometry.is_centered_adjacent(f2.geometry, tolerance):
+                    f.user_data = {
+                        'zone_handle': room.identifier,
+                        'surface_index': f2.user_data['dsb_face_i']
+                    }
+                    break
+        # f.remove_sub_faces()
+        f.identifier = str(HANDLE_COUNTER)
+        HANDLE_COUNTER += 1
+
     # create the body of the block using the polyhedral vertices
     xml_profile = ET.SubElement(
         xml_block, 'ProfileBody', elementSlope='0.0000', roofOverlap='0.0000')
     xml_body = ET.SubElement(
         xml_profile, 'Body', volume=str(block_room.volume), extrusionHeight=str(hgt))
-    _object_ids(xml_body, room.identifier, '0', str(block_handle))
+    _object_ids(xml_body, block_room.identifier, '0', str(block_handle))
     xml_vertices = ET.SubElement(xml_body, 'Vertices')
     for pt in block_room.geometry.vertices:
         xml_point = ET.SubElement(xml_vertices, 'Point3D')
         xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
     ET.SubElement(xml_body, 'Surfaces')
     for i, face in enumerate(block_room.faces):
-        face_to_dsbxml_element(face, xml_body, i, angle_tolerance)
+        face_xml = face_to_dsbxml_element(face, xml_body, i, angle_tolerance)
+        adjs_xml = face_xml.find('Adjacencies')
+        adj_xml = adjs_xml.find('Adjacency')
+        in_adj_ids = adj_xml.find('ObjectIDs')
+        in_adj_ids.set('handle', '-1')
+        in_adj_ids.set('buildingHandle', '-1')
+        in_adj_ids.set('buildingBlockHandle', '-1')
+        in_adj_ids.set('zoneHandle', face.user_data['zone_handle'])
+        in_adj_ids.set('surfaceIndex', face.user_data['surface_index'])
+        polys_xml = adj_xml.find('AdjacencyPolygonList')
+        for poly_xml in polys_xml:
+            out_adj_ids = poly_xml.find('ObjectIDs')
+            out_adj_ids.set('handle', '-1')
+            out_adj_ids.set('buildingHandle', '-1')
+            out_adj_ids.set('buildingBlockHandle', '-1')
+            out_adj_ids.set('zoneHandle', '-1')
+            out_adj_ids.set('surfaceIndex', '-1')
 
     # add the perimeter to the block
     xml_perim = ET.SubElement(xml_block, 'Perimeter')
