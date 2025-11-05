@@ -116,7 +116,8 @@ def face_to_dsbxml_element(
     else:
         xml_face = ET.Element('Surface', face_id_attr)
         dsb_face_i, block_handle, zone_handle = 0, '-1', '-1'
-    _object_ids(xml_face, face.identifier, '0', block_handle, zone_handle, str(dsb_face_i))
+    face_obj_ids = _object_ids(xml_face, face.identifier, '0', block_handle,
+                               zone_handle, str(dsb_face_i))
     if face.user_data is None:
         face.user_data = {'dsb_face_i': str(dsb_face_i)}
     else:
@@ -169,6 +170,9 @@ def face_to_dsbxml_element(
         sub_face_to_dsbxml_element(ap, xml_face)
     for dr in face.doors:
         sub_face_to_dsbxml_element(dr, xml_face)
+    # remove the surface handles now that the openings no longer need them
+    face_obj_ids.set('zoneHandle', '-1')
+    face_obj_ids.set('surfaceIndex', '-1')
 
     # add the adjacency information
     # TODO: consider refactoring so that coplanar faces of the same type are one face
@@ -373,7 +377,7 @@ def room_group_to_dsbxml_block(
                         'surface_index': f2.user_data['dsb_face_i']
                     }
                     break
-        # f.remove_sub_faces()
+        f.remove_sub_faces()
         f.identifier = str(HANDLE_COUNTER)
         HANDLE_COUNTER += 1
 
@@ -390,6 +394,11 @@ def room_group_to_dsbxml_block(
     ET.SubElement(xml_body, 'Surfaces')
     for i, face in enumerate(block_room.faces):
         face_xml = face_to_dsbxml_element(face, xml_body, i, angle_tolerance)
+        face_xml.set('defaultOpenings', 'True')
+        face_xml.set('thickness', '0.1')
+        f_obj_ids_xml = face_xml.find('ObjectIDs')
+        f_obj_ids_xml.set('zoneHandle', '-1')
+        f_obj_ids_xml.set('surfaceIndex', '-1')
         adjs_xml = face_xml.find('Adjacencies')
         adj_xml = adjs_xml.find('Adjacency')
         in_adj_ids = adj_xml.find('ObjectIDs')
@@ -415,7 +424,8 @@ def room_group_to_dsbxml_block(
         xml_perim_geo = ET.SubElement(xml_perim, 'Polygon', auxiliaryType='-1')
         perim_handle = str(HANDLE_COUNTER)
         HANDLE_COUNTER += 1
-        _object_ids(xml_perim_geo, perim_handle, '0', str(block_handle))
+        _object_ids(xml_perim_geo, perim_handle, '0',
+                    str(block_handle), block_room.identifier)
         xml_perim_pts = ET.SubElement(xml_perim_geo, 'Vertices')
         for pt in perim_geo.boundary:
             xml_point = ET.SubElement(xml_perim_pts, 'Point3D')
