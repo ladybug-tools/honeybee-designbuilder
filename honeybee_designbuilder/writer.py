@@ -401,6 +401,7 @@ def room_group_to_dsbxml_block(
         f_obj_ids_xml.set('surfaceIndex', '-1')
         adjs_xml = face_xml.find('Adjacencies')
         adj_xml = adjs_xml.find('Adjacency')
+        adj_xml.set('type', 'Floor')
         in_adj_ids = adj_xml.find('ObjectIDs')
         in_adj_ids.set('handle', '-1')
         in_adj_ids.set('buildingHandle', '-1')
