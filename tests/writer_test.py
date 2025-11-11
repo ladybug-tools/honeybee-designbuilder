@@ -2,13 +2,13 @@
 import xml.etree.ElementTree as ET
 
 from ladybug_geometry.geometry3d import Point3D, Vector3D, Mesh3D
-from honeybee.boundarycondition import boundary_conditions as bcs
 from honeybee.model import Model
 from honeybee.room import Room
 from honeybee.face import Face
 from honeybee.aperture import Aperture
 from honeybee.door import Door
 from honeybee.shademesh import ShadeMesh
+# from honeybee.boundarycondition import boundary_conditions as bcs
 
 from honeybee_designbuilder.writer import sub_face_to_dsbxml, face_to_dsbxml, \
     room_to_dsbxml
@@ -129,12 +129,48 @@ def test_model_writer():
         fp.write(xml_str)
 
 
-def test_model_writer_from_standard_hbjson():
-    """Test translating a HBJSON to an XML ElementTree."""
+def test_model_writer_adjacency():
+    """Test the Model writer with a model that has an adjacency."""
+    room_1 = Room.from_box('Tiny_House_Zone_1', 5, 10, 3)
+    room_1.display_name = 'Tiny House Zone 1'
+    room_1.rename_faces_by_attribute()
+    room_2 = Room.from_box('Tiny_House_Zone_2', 5, 10, 3, origin=Point3D(5, 0, 0))
+    room_2.display_name = 'Tiny House Zone 2'
+    room_2.rename_faces_by_attribute()
+    Room.solve_adjacency([room_1, room_2])
+
+    model = Model('Tiny_House', [room_1, room_2])
+
+    xml_et = model.to.dsbxml_element(model)
+    assert isinstance(xml_et, ET.Element)
+
+    xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
+    assert isinstance(xml_str, str)
+
+    # write the string to a file
+    test_file = 'C:/Users/Chris/Documents/GitHub/honeybee-designbuilder/tests/assets/test.xml'
+    with open(test_file, 'w') as fp:
+        fp.write(xml_str)
+
+
+def test_model_writer_single_block_hbjson():
+    """Test translating a HBJSON of a single block to a dsbXML."""
+    standard_test = './tests/assets/small_revit_block.hbjson'
+    model = Model.from_file(standard_test)
+
+    xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
+    assert isinstance(xml_str, str)
+
+    # write the string to a file
+    test_file = 'C:/Users/Chris/Documents/GitHub/honeybee-designbuilder/tests/assets/test.xml'
+    with open(test_file, 'w') as fp:
+        fp.write(xml_str)
+
+
+def test_model_writer_standard_hbjson():
+    """Test translating a typical HBJSON to a dsbXML."""
     standard_test = './tests/assets/small_revit_sample.hbjson'
     hb_model = Model.from_file(standard_test)
-    for face in hb_model.faces:
-        face.boundary_condition = bcs.outdoors
 
     xml_str = hb_model.to.dsbxml(hb_model)
     assert isinstance(xml_str, str)

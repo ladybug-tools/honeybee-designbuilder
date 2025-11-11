@@ -1,12 +1,14 @@
 # coding=utf-8
 """Methods to write Honeybee core objects to dsbXML."""
+import math
 import datetime
 from copy import deepcopy
 import xml.etree.ElementTree as ET
 
-from ladybug_geometry.geometry3d import Face3D
+from ladybug_geometry.geometry2d import Point2D, Polygon2D
+from ladybug_geometry.geometry3d import Vector3D, Point3D, Face3D, Polyface3D
 from honeybee.typing import clean_string
-from honeybee.facetype import RoofCeiling, AirBoundary
+from honeybee.facetype import RoofCeiling, AirBoundary, face_types
 from honeybee.boundarycondition import Surface
 from honeybee.aperture import Aperture
 from honeybee.room import Room
@@ -101,9 +103,11 @@ def face_to_dsbxml_element(
         'alpha': str(face.geometry.azimuth),
         'phi': str(face.geometry.altitude),
         'defaultOpenings': 'False',
-        'adjacentPartitionHandle': '-1',  # TODO: make better for adjacency
+        'adjacentPartitionHandle': '-1',
         'thickness': '0.0'  # TODO: make better for adjacency
     }
+    if face.user_data is not None and 'partition_handle' in face.user_data:
+        face_id_attr['adjacentPartitionHandle'] = face.user_data['partition_handle']
 
     # create the Surface element
     if zone_body_element is not None:
@@ -182,8 +186,7 @@ def face_to_dsbxml_element(
     if isinstance(face.boundary_condition, Surface):
         adj_face, adj_room = face.boundary_condition.boundary_condition_objects
         _object_ids(xml_face_adj, '-1', '-1', '-1', adj_room, adj_face)
-        # TODO: write a face index in the zone XML instead of the face handle
-    else:  # add a meaningless ID object
+    else:  # add a ID object with all -1 for outdoors
         _object_ids(xml_face_adj, '-1')
     xml_adj_geos = ET.SubElement(xml_face_adj, 'AdjacencyPolygonList')
     xml_adj_geo = ET.SubElement(xml_adj_geos, 'Polygon', auxiliaryType='-1')
@@ -362,8 +365,91 @@ def room_group_to_dsbxml_block(
     ET.SubElement(xml_block, 'ProfileOutlines')
     ET.SubElement(xml_block, 'VoidBodies')
 
+    # join the flat floors of the rooms together to determine partitions
+    floor_geos, floor_z_vals, ceil_z_vals = [], [], []
+    for room in room_group:
+        flr_geos = room.horizontal_floor_boundaries(tolerance=tolerance)
+        floor_geos.extend(flr_geos)
+        floor_z_vals.extend([flr_geo.min.z for flr_geo in flr_geos])
+        ceil_z_vals.append(room.max.z)
+    min_z, max_z = min(floor_z_vals), max(ceil_z_vals)
+    polygons, is_holes = [], []
+    for f_geo in floor_geos:
+        is_holes.append(False)
+        polygons.append(Polygon2D(tuple(Point2D(pt.x, pt.y) for pt in f_geo.boundary)))
+        if f_geo.has_holes:
+            for hole in f_geo.holes:
+                is_holes.append(True)
+                polygons.append(Polygon2D(tuple(Point2D(pt.x, pt.y) for pt in hole)))
+    int_poly = Polygon2D.intersect_polygon_segments(polygons, tolerance)
+    face_pts, flat_flr_geos = [], []
+    for poly, is_hole in zip(int_poly, is_holes):
+        pt_3d = [Point3D(pt.x, pt.y, min_z) for pt in poly]
+        if not is_hole:
+            face_pts.append((pt_3d, []))
+        else:
+            face_pts[-1][1].append(pt_3d)
+    for f_pts in face_pts:
+        flat_flr_geos.append(Face3D(f_pts[0], holes=f_pts[1]))
+    flr_polyface = Polyface3D.from_faces(flat_flr_geos, tolerance)
+
+    # add internal partitions to the block
+    xml_partitions = ET.SubElement(xml_block, 'InternalPartitions')
+    part_height = max_z - min_z
+    for part_geo in flr_polyface.internal_edges:
+        p_min, p_max = part_geo.min, part_geo.max
+        p_min = Point2D(p_min.x, p_min.y)
+        p_max = Point2D(p_max.x, p_max.y)
+        # find the faces associated with the partition
+        rel_faces = []
+        for room in room_group:
+            for face in room:
+                f_min, f_max = face.min, face.max
+                f_min = Point2D(f_min.x, f_min.y)
+                f_max = Point2D(f_max.x, f_max.y)
+                if p_min.is_equivalent(f_min, tolerance) and \
+                        p_max.is_equivalent(f_max, tolerance):
+                    rel_faces.append(face)
+        # identify the two faces that coincide with the partition
+        match_faces = None
+        for i, i_face in enumerate(rel_faces):
+            if match_faces is not None:
+                break
+            if isinstance(i_face.boundary_condition, Surface):
+                for o_face in rel_faces[i + 1:]:
+                    if isinstance(o_face.boundary_condition, Surface):
+                        bc_obj = o_face.boundary_condition.boundary_condition_object
+                        if i_face.identifier == bc_obj:
+                            match_faces = (i_face, o_face)
+                            break
+        # create the internal partition object
+        if match_faces is not None:
+            part_id = str(HANDLE_COUNTER)
+            HANDLE_COUNTER += 1
+            for face in match_faces:
+                if face.user_data is None:
+                    face.user_data = {'partition_handle': part_id}
+                else:
+                    face.user_data['partition_handle'] = part_id
+            part_type = 'Virtual' if isinstance(face.type, AirBoundary) else 'Solid'
+            part_id_attr = {
+                'type': part_type,
+                'height': str(part_height),
+                'area': str(part_height * part_geo.length),
+                'floatingPartition': 'False',
+            }
+            xml_part = ET.SubElement(xml_partitions, 'InternalPartition', part_id_attr)
+            _object_ids(xml_part, part_id, '0', str(block_handle))
+            st_pt, end_pt = part_geo.p1, part_geo.p2
+            xml_st_pt = ET.SubElement(xml_part, 'StartPoint')
+            xml_point = ET.SubElement(xml_st_pt, 'Point3D')
+            xml_point.text = '{}; {}; {}'.format(st_pt.x, st_pt.y, st_pt.z)
+            xml_end_pt = ET.SubElement(xml_part, 'EndPoint')
+            xml_point = ET.SubElement(xml_end_pt, 'Point3D')
+            xml_point.text = '{}; {}; {}'.format(end_pt.x, end_pt.y, end_pt.z)
+
     # add the rooms to the block
-    ET.SubElement(xml_block, 'Zones')
+    xml_zones = ET.SubElement(xml_block, 'Zones')
     for room in room_group:
         room_to_dsbxml_element(room, xml_block, tolerance, angle_tolerance)
 
@@ -380,6 +466,21 @@ def room_group_to_dsbxml_block(
         f.remove_sub_faces()
         f.identifier = str(HANDLE_COUNTER)
         HANDLE_COUNTER += 1
+
+    # replace the face handle in the zone XML with the face index
+    f_index_map = {}
+    for room in room_group:
+        for f in room:
+            f_index_map[f.identifier] = f.user_data['dsb_face_i']
+    for xml_zone in xml_zones:
+        xml_zone_body = xml_zone.find('Body')
+        for xml_srf in xml_zone_body.find('Surfaces'):
+            xml_adjs = xml_srf.find('Adjacencies')
+            for xml_adj in xml_adjs:
+                xml_adj_obj_ids = xml_srf.find('ObjectIDs')
+                xml_adj_face_id = xml_adj_obj_ids.get('surfaceIndex')
+                if xml_adj_face_id != '-1':
+                    xml_adj_obj_ids.set('surfaceIndex', f_index_map[xml_adj_face_id])
 
     # create the body of the block using the polyhedral vertices
     xml_profile = ET.SubElement(
@@ -430,7 +531,7 @@ def room_group_to_dsbxml_block(
         xml_perim_pts = ET.SubElement(xml_perim_geo, 'Vertices')
         for pt in perim_geo.boundary:
             xml_point = ET.SubElement(xml_perim_pts, 'Point3D')
-            xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+            xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, min_z)
         xml_holes = ET.SubElement(xml_perim_pts, 'PolygonHoles')
         if perim_geo.has_holes:
             flip_plane = perim_geo.flip()  # flip to make holes clockwise
@@ -441,13 +542,10 @@ def room_group_to_dsbxml_block(
                 xml_hole_pts = ET.SubElement(xml_hole, 'Vertices')
                 for pt in hole_face:
                     xml_point = ET.SubElement(xml_hole_pts, 'Point3D')
-                    xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+                    xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, min_z)
     else:
         msg = 'Failed to calculate perimeter around block: {}'.format(block_name)
         print(msg)
-
-    # TODO: add internal partitions to the block
-    ET.SubElement(xml_block, 'InternalPartitions')
 
     # add the other properties that are usually empty
     ET.SubElement(xml_body, 'VoidPerimeterList')
@@ -458,7 +556,6 @@ def room_group_to_dsbxml_block(
     xml_block_name.text = block_name if block_name is not None \
         else 'Block {}'.format(block_handle)
 
-    # TODO: add the perimeter for the block
     return xml_block
 
 
@@ -491,6 +588,14 @@ def model_to_dsbxml_element(model):
     # erase room user data and use it to store attributes for later
     for room in model.rooms:
         room.user_data = {'__identifier__': room.identifier}
+    # reassign types for horizontal faces; remove any AirBoundaries that are not walls
+    z_axis = Vector3D(0, 0, 1)
+    for face in model.faces:
+        angle = math.degrees(z_axis.angle(face.normal))
+        if angle < 60:
+            face.type = face_types.roof_ceiling
+        elif angle >= 130:
+            face.type = face_types.floor
 
     # set up the ElementTree for the XML
     model_name = clean_string(model.display_name)
