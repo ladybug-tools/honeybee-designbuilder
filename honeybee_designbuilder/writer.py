@@ -366,12 +366,18 @@ def room_group_to_dsbxml_block(
     ET.SubElement(xml_block, 'VoidBodies')
 
     # join the flat floors of the rooms together to determine partitions
-    floor_geos, floor_z_vals, ceil_z_vals = [], [], []
+    floor_geos, floor_z_vals, ceil_z_vals, label_pts = [], [], [], []
     for room in room_group:
         flr_geos = room.horizontal_floor_boundaries(tolerance=tolerance)
         floor_geos.extend(flr_geos)
         floor_z_vals.extend([flr_geo.min.z for flr_geo in flr_geos])
         ceil_z_vals.append(room.max.z)
+        if len(flr_geos) != 0:
+            label_pt = flr_geos[0].center if flr_geos[0].is_convex else \
+                flr_geos[0].pole_of_inaccessibility(0.01)
+            label_pts.append(label_pt)
+        else:
+            label_pts.append(room.geometry.center)
     min_z, max_z = min(floor_z_vals), max(ceil_z_vals)
     polygons, is_holes = [], []
     for f_geo in floor_geos:
@@ -450,8 +456,11 @@ def room_group_to_dsbxml_block(
 
     # add the rooms to the block
     xml_zones = ET.SubElement(xml_block, 'Zones')
-    for room in room_group:
-        room_to_dsbxml_element(room, xml_block, tolerance, angle_tolerance)
+    for room, label_pt in zip(room_group, label_pts):
+        xml_room = room_to_dsbxml_element(room, xml_block, tolerance, angle_tolerance)
+        xml_label = ET.SubElement(xml_room, 'LabelPosition')
+        xml_label_pt = ET.SubElement(xml_label, 'Point3D')
+        xml_label_pt.text = '{}; {}; {}'.format(label_pt.x, label_pt.y, label_pt.z)
 
     # process the faces of the block room to be formatted for a body
     for f in block_room.faces:
@@ -477,7 +486,7 @@ def room_group_to_dsbxml_block(
         for xml_srf in xml_zone_body.find('Surfaces'):
             xml_adjs = xml_srf.find('Adjacencies')
             for xml_adj in xml_adjs:
-                xml_adj_obj_ids = xml_srf.find('ObjectIDs')
+                xml_adj_obj_ids = xml_adj.find('ObjectIDs')
                 xml_adj_face_id = xml_adj_obj_ids.get('surfaceIndex')
                 if xml_adj_face_id != '-1':
                     xml_adj_obj_ids.set('surfaceIndex', f_index_map[xml_adj_face_id])

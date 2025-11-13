@@ -123,11 +123,6 @@ def test_model_writer():
     xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
     assert isinstance(xml_str, str)
 
-    # write the string to a file
-    test_file = 'C:/Users/Chris/Documents/GitHub/honeybee-designbuilder/tests/assets/test.xml'
-    with open(test_file, 'w') as fp:
-        fp.write(xml_str)
-
 
 def test_model_writer_adjacency():
     """Test the Model writer with a model that has an adjacency."""
@@ -146,11 +141,6 @@ def test_model_writer_adjacency():
 
     xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
     assert isinstance(xml_str, str)
-
-    # write the string to a file
-    test_file = 'C:/Users/Chris/Documents/GitHub/honeybee-designbuilder/tests/assets/test.xml'
-    with open(test_file, 'w') as fp:
-        fp.write(xml_str)
 
 
 def test_model_writer_single_block_hbjson():
