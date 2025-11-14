@@ -386,11 +386,13 @@ def room_group_to_dsbxml_block(
     polygons, is_holes = [], []
     for f_geo in floor_geos:
         is_holes.append(False)
-        polygons.append(Polygon2D(tuple(Point2D(pt.x, pt.y) for pt in f_geo.boundary)))
+        b_poly = Polygon2D(tuple(Point2D(pt.x, pt.y) for pt in f_geo.boundary))
+        polygons.append(b_poly.remove_colinear_vertices(tolerance))
         if f_geo.has_holes:
             for hole in f_geo.holes:
                 is_holes.append(True)
-                polygons.append(Polygon2D(tuple(Point2D(pt.x, pt.y) for pt in hole)))
+                h_poly = Polygon2D(tuple(Point2D(pt.x, pt.y) for pt in hole))
+                polygons.append(h_poly.remove_colinear_vertices(tolerance))
     int_poly = Polygon2D.intersect_polygon_segments(polygons, tolerance)
     face_pts, flat_flr_geos = [], []
     for poly, is_hole in zip(int_poly, is_holes):
