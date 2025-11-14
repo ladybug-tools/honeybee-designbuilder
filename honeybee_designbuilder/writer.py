@@ -365,20 +365,24 @@ def room_group_to_dsbxml_block(
     ET.SubElement(xml_block, 'ProfileOutlines')
     ET.SubElement(xml_block, 'VoidBodies')
 
-    # join the flat floors of the rooms together to determine partitions
+    # gather horizontal floor boundaries for the rooms
     floor_geos, floor_z_vals, ceil_z_vals, label_pts = [], [], [], []
     for room in room_group:
         flr_geos = room.horizontal_floor_boundaries(tolerance=tolerance)
         floor_geos.extend(flr_geos)
         floor_z_vals.extend([flr_geo.min.z for flr_geo in flr_geos])
         ceil_z_vals.append(room.max.z)
+        # use the floor geometry to determine the room label point
         if len(flr_geos) != 0:
             label_pt = flr_geos[0].center if flr_geos[0].is_convex else \
                 flr_geos[0].pole_of_inaccessibility(0.01)
             label_pts.append(label_pt)
         else:
             label_pts.append(room.geometry.center)
+        # TODO: if there are any holes in the floor plate, make them VoidPerimeterList
     min_z, max_z = min(floor_z_vals), max(ceil_z_vals)
+
+    # join the flat floors of the rooms together to determine internal partitions
     polygons, is_holes = [], []
     for f_geo in floor_geos:
         is_holes.append(False)
@@ -455,7 +459,7 @@ def room_group_to_dsbxml_block(
             xml_point.text = '{}; {}; {}'.format(end_pt.x, end_pt.y, end_pt.z)
 
     # add the rooms to the block
-    xml_zones = ET.SubElement(xml_block, 'Zones')
+    ET.SubElement(xml_block, 'Zones')
     for room, label_pt in zip(room_group, label_pts):
         xml_room = room_to_dsbxml_element(room, xml_block, tolerance, angle_tolerance)
         xml_label = ET.SubElement(xml_room, 'LabelPosition')
@@ -475,21 +479,6 @@ def room_group_to_dsbxml_block(
         f.remove_sub_faces()
         f.identifier = str(HANDLE_COUNTER)
         HANDLE_COUNTER += 1
-
-    # replace the face handle in the zone XML with the face index
-    f_index_map = {}
-    for room in room_group:
-        for f in room:
-            f_index_map[f.identifier] = f.user_data['dsb_face_i']
-    for xml_zone in xml_zones:
-        xml_zone_body = xml_zone.find('Body')
-        for xml_srf in xml_zone_body.find('Surfaces'):
-            xml_adjs = xml_srf.find('Adjacencies')
-            for xml_adj in xml_adjs:
-                xml_adj_obj_ids = xml_adj.find('ObjectIDs')
-                xml_adj_face_id = xml_adj_obj_ids.get('surfaceIndex')
-                if xml_adj_face_id != '-1':
-                    xml_adj_obj_ids.set('surfaceIndex', f_index_map[xml_adj_face_id])
 
     # create the body of the block using the polyhedral vertices
     xml_profile = ET.SubElement(
@@ -657,9 +646,26 @@ def model_to_dsbxml_element(model):
     HANDLE_COUNTER += 1
 
     # translate each block to dsbXML; including all geometry
-    ET.SubElement(xml_bldg, 'BuildingBlocks')
+    f_index_map = {}  # create a map between the face handle the face index
+    xml_blocks = ET.SubElement(xml_bldg, 'BuildingBlocks')
     for i, (room_group, block_name) in enumerate(zip(block_rooms, block_names)):
         room_group_to_dsbxml_block(room_group, i + 1, xml_bldg, block_name)
+        for room in room_group:
+            for f in room:
+                f_index_map[f.identifier] = f.user_data['dsb_face_i']
+
+    # replace the face handle in the zone XML with the face index
+    for xml_block in xml_blocks:
+        xml_zones = xml_block.find('Zones')
+        for xml_zone in xml_zones:
+            xml_zone_body = xml_zone.find('Body')
+            for xml_srf in xml_zone_body.find('Surfaces'):
+                xml_adjs = xml_srf.find('Adjacencies')
+                for xml_adj in xml_adjs:
+                    xml_adj_obj_ids = xml_adj.find('ObjectIDs')
+                    xml_adj_face_id = xml_adj_obj_ids.get('surfaceIndex')
+                    if xml_adj_face_id != '-1':
+                        xml_adj_obj_ids.set('surfaceIndex', f_index_map[xml_adj_face_id])
 
     # set the handle of the site to the last index and reset the counter
     xml_site.set('handle', str(HANDLE_COUNTER))
