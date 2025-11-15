@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<dsbXML name="~Building_1" date="2025-11-13" version="2025.1.0.085" objects="all">
-  <Site handle="315" count="1">
+<dsbXML name="~Building_1" date="2025-11-14" version="2025.1.0.085" objects="all">
+  <Site handle="318" count="1">
     <Attributes />
     <Tables />
     <AssemblyLibrary />
@@ -26,8 +26,17 @@
             <ProfileOutlines />
             <VoidBodies />
             <InternalPartitions>
-              <InternalPartition type="Solid" height="3.5" area="8.954574999999682" floatingPartition="False">
+              <InternalPartition type="Solid" height="3.5" area="8.258074999999996" floatingPartition="False">
                 <ObjectIDs handle="214" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <StartPoint>
+                  <Point3D>10.001931517437628; -3.302593978581548; -0.5</Point3D>
+                </StartPoint>
+                <EndPoint>
+                  <Point3D>7.642481517437629; -3.30259397858154; -0.5</Point3D>
+                </EndPoint>
+              </InternalPartition>
+              <InternalPartition type="Solid" height="3.5" area="8.954574999999682" floatingPartition="False">
+                <ObjectIDs handle="215" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>7.642481517437629; -3.30259397858154; -0.5</Point3D>
                 </StartPoint>
@@ -36,7 +45,7 @@
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="3.5" area="2.2663886242148323" floatingPartition="False">
-                <ObjectIDs handle="215" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="216" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>7.6424815174376315; -0.744143978581631; -0.5</Point3D>
                 </StartPoint>
@@ -45,7 +54,7 @@
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="3.5" area="5.991686375785167" floatingPartition="False">
-                <ObjectIDs handle="216" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="217" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>8.290021124356155; -0.7441439785816331; -0.5</Point3D>
                 </StartPoint>
@@ -54,21 +63,12 @@
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="3.5" area="8.954574999999684" floatingPartition="False">
-                <ObjectIDs handle="217" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="218" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>10.001931517437631; -0.7441439785816385; -0.5</Point3D>
                 </StartPoint>
                 <EndPoint>
                   <Point3D>10.001931517437628; -3.302593978581548; -0.5</Point3D>
-                </EndPoint>
-              </InternalPartition>
-              <InternalPartition type="Solid" height="3.5" area="8.258074999999996" floatingPartition="False">
-                <ObjectIDs handle="218" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
-                <StartPoint>
-                  <Point3D>10.001931517437628; -3.302593978581548; -0.5</Point3D>
-                </StartPoint>
-                <EndPoint>
-                  <Point3D>7.642481517437629; -3.30259397858154; -0.5</Point3D>
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="3.5" area="7.358924999999358" floatingPartition="False">
@@ -98,8 +98,17 @@
                   <Point3D>10.001931517437631; -0.7441439785816384; -0.5</Point3D>
                 </EndPoint>
               </InternalPartition>
-              <InternalPartition type="Solid" height="3.5" area="5.393500000000225" floatingPartition="False">
+              <InternalPartition type="Solid" height="3.5" area="4.651813624214834" floatingPartition="False">
                 <ObjectIDs handle="222" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <StartPoint>
+                  <Point3D>8.290021124356159; 1.3584060214181835; -0.5</Point3D>
+                </StartPoint>
+                <EndPoint>
+                  <Point3D>6.9609315174376345; 1.3584060214181868; -0.5</Point3D>
+                </EndPoint>
+              </InternalPartition>
+              <InternalPartition type="Solid" height="3.5" area="5.393500000000225" floatingPartition="False">
+                <ObjectIDs handle="223" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>6.9609315174376345; 1.3584060214181868; -0.5</Point3D>
                 </StartPoint>
@@ -108,7 +117,7 @@
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="3.5" area="11.063499999999967" floatingPartition="False">
-                <ObjectIDs handle="223" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="224" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>13.162931517437618; -3.3025939785815592; -0.5</Point3D>
                 </StartPoint>
@@ -116,31 +125,22 @@
                   <Point3D>10.001931517437628; -3.302593978581548; -0.5</Point3D>
                 </EndPoint>
               </InternalPartition>
-              <InternalPartition type="Solid" height="3.5" area="4.651813624214834" floatingPartition="False">
-                <ObjectIDs handle="224" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
-                <StartPoint>
-                  <Point3D>8.290021124356159; 1.3584060214181835; -0.5</Point3D>
-                </StartPoint>
-                <EndPoint>
-                  <Point3D>6.9609315174376345; 1.3584060214181868; -0.5</Point3D>
-                </EndPoint>
-              </InternalPartition>
-              <InternalPartition type="Solid" height="3.5" area="7.358924999999356" floatingPartition="False">
-                <ObjectIDs handle="225" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
-                <StartPoint>
-                  <Point3D>6.9609315174376345; -0.7441439785816293; -0.5</Point3D>
-                </StartPoint>
-                <EndPoint>
-                  <Point3D>6.9609315174376345; 1.3584060214181868; -0.5</Point3D>
-                </EndPoint>
-              </InternalPartition>
               <InternalPartition type="Solid" height="3.5" area="2.3854249999999895" floatingPartition="False">
-                <ObjectIDs handle="226" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="225" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>7.6424815174376315; -0.744143978581631; -0.5</Point3D>
                 </StartPoint>
                 <EndPoint>
                   <Point3D>6.9609315174376345; -0.7441439785816293; -0.5</Point3D>
+                </EndPoint>
+              </InternalPartition>
+              <InternalPartition type="Solid" height="3.5" area="7.358924999999356" floatingPartition="False">
+                <ObjectIDs handle="226" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <StartPoint>
+                  <Point3D>6.9609315174376345; -0.7441439785816293; -0.5</Point3D>
+                </StartPoint>
+                <EndPoint>
+                  <Point3D>6.9609315174376345; 1.3584060214181868; -0.5</Point3D>
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="3.5" area="2.38542499999998" floatingPartition="False">
@@ -199,7 +199,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="5.135731179244429" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="216" thickness="0.0">
+                    <Surface type="Wall" area="5.135731179244429" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="217" thickness="0.0">
                       <ObjectIDs handle="18" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>4; 5; 1; 6</VertexIndices>
                       <HoleIndices />
@@ -226,7 +226,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="1.9426188207555706" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="215" thickness="0.0">
+                    <Surface type="Wall" area="1.9426188207555706" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="216" thickness="0.0">
                       <ObjectIDs handle="19" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>7; 4; 6; 0</VertexIndices>
                       <HoleIndices />
@@ -253,7 +253,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="7.675349999999727" alpha="4.712388980384691" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="214" thickness="0.0">
+                    <Surface type="Wall" area="7.675349999999727" alpha="4.712388980384691" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="215" thickness="0.0">
                       <ObjectIDs handle="20" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>8; 7; 0; 3</VertexIndices>
                       <HoleIndices />
@@ -280,7 +280,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="5.190789999999998" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="218" thickness="0.0">
+                    <Surface type="Wall" area="5.190789999999998" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="214" thickness="0.0">
                       <ObjectIDs handle="21" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>9; 10; 3; 2</VertexIndices>
                       <HoleIndices />
@@ -334,7 +334,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="7.675349999999728" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="217" thickness="0.0">
+                    <Surface type="Wall" area="7.675349999999728" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="218" thickness="0.0">
                       <ObjectIDs handle="23" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>5; 11; 2; 1</VertexIndices>
                       <HoleIndices />
@@ -421,7 +421,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="5.135731179244429" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="216" thickness="0.0">
+                      <Surface type="Wall" area="5.135731179244429" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="217" thickness="0.0">
                         <ObjectIDs handle="18" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>4; 5; 1; 6</VertexIndices>
                         <HoleIndices />
@@ -429,7 +429,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="1.9426188207555706" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="215" thickness="0.0">
+                      <Surface type="Wall" area="1.9426188207555706" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="216" thickness="0.0">
                         <ObjectIDs handle="19" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>7; 4; 6; 0</VertexIndices>
                         <HoleIndices />
@@ -437,7 +437,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="7.675349999999727" alpha="4.712388980384691" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="214" thickness="0.0">
+                      <Surface type="Wall" area="7.675349999999727" alpha="4.712388980384691" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="215" thickness="0.0">
                         <ObjectIDs handle="20" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>8; 7; 0; 3</VertexIndices>
                         <HoleIndices />
@@ -445,7 +445,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="5.190789999999998" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="218" thickness="0.0">
+                      <Surface type="Wall" area="5.190789999999998" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="214" thickness="0.0">
                         <ObjectIDs handle="21" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>9; 10; 3; 2</VertexIndices>
                         <HoleIndices />
@@ -461,7 +461,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="7.675349999999728" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="217" thickness="0.0">
+                      <Surface type="Wall" area="7.675349999999728" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="218" thickness="0.0">
                         <ObjectIDs handle="23" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>5; 11; 2; 1</VertexIndices>
                         <HoleIndices />
@@ -608,7 +608,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="5.135731179244429" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="216" thickness="0.0">
+                    <Surface type="Wall" area="5.135731179244429" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="217" thickness="0.0">
                       <ObjectIDs handle="29" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>3; 2; 5; 7</VertexIndices>
                       <HoleIndices />
@@ -715,7 +715,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="5.135731179244429" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="216" thickness="0.0">
+                      <Surface type="Wall" area="5.135731179244429" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="217" thickness="0.0">
                         <ObjectIDs handle="29" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>3; 2; 5; 7</VertexIndices>
                         <HoleIndices />
@@ -853,7 +853,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="4.623000000000193" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="222" thickness="0.0">
+                    <Surface type="Wall" area="4.623000000000193" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="223" thickness="0.0">
                       <ObjectIDs handle="33" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>8; 6; 0; 5</VertexIndices>
                       <HoleIndices />
@@ -880,7 +880,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="3.987268820755572" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="224" thickness="0.0">
+                    <Surface type="Wall" area="3.987268820755572" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="222" thickness="0.0">
                       <ObjectIDs handle="34" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>9; 8; 5; 10</VertexIndices>
                       <HoleIndices />
@@ -961,7 +961,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="7.675349999999728" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="217" thickness="0.0">
+                    <Surface type="Wall" area="7.675349999999728" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="218" thickness="0.0">
                       <ObjectIDs handle="37" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>12; 3; 14; 13</VertexIndices>
                       <HoleIndices />
@@ -988,7 +988,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="6.95419999999998" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="223" thickness="0.0">
+                    <Surface type="Wall" area="6.95419999999998" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="224" thickness="0.0">
                       <ObjectIDs handle="38" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>15; 16; 3; 2</VertexIndices>
                       <HoleIndices />
@@ -1162,7 +1162,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="4.623000000000193" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="222" thickness="0.0">
+                      <Surface type="Wall" area="4.623000000000193" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="223" thickness="0.0">
                         <ObjectIDs handle="33" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>8; 6; 0; 5</VertexIndices>
                         <HoleIndices />
@@ -1170,7 +1170,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="3.987268820755572" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="224" thickness="0.0">
+                      <Surface type="Wall" area="3.987268820755572" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="222" thickness="0.0">
                         <ObjectIDs handle="34" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>9; 8; 5; 10</VertexIndices>
                         <HoleIndices />
@@ -1194,7 +1194,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="7.675349999999728" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="217" thickness="0.0">
+                      <Surface type="Wall" area="7.675349999999728" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="218" thickness="0.0">
                         <ObjectIDs handle="37" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>12; 3; 14; 13</VertexIndices>
                         <HoleIndices />
@@ -1202,7 +1202,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="6.95419999999998" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="223" thickness="0.0">
+                      <Surface type="Wall" area="6.95419999999998" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="224" thickness="0.0">
                         <ObjectIDs handle="38" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>15; 16; 3; 2</VertexIndices>
                         <HoleIndices />
@@ -1286,7 +1286,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="3.987268820755572" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="224" thickness="0.0">
+                    <Surface type="Wall" area="3.987268820755572" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="222" thickness="0.0">
                       <ObjectIDs handle="43" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>1; 0; 4; 5</VertexIndices>
                       <HoleIndices />
@@ -1313,7 +1313,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="6.307649999999448" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="225" thickness="0.0">
+                    <Surface type="Wall" area="6.307649999999448" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="226" thickness="0.0">
                       <ObjectIDs handle="44" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>6; 4; 0; 3</VertexIndices>
                       <HoleIndices />
@@ -1340,7 +1340,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="2.044649999999991" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="226" thickness="0.0">
+                    <Surface type="Wall" area="2.044649999999991" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="225" thickness="0.0">
                       <ObjectIDs handle="45" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>7; 6; 3; 8</VertexIndices>
                       <HoleIndices />
@@ -1367,7 +1367,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="1.9426188207555706" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="215" thickness="0.0">
+                    <Surface type="Wall" area="1.9426188207555706" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="216" thickness="0.0">
                       <ObjectIDs handle="46" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>8; 2; 9; 7</VertexIndices>
                       <HoleIndices />
@@ -1479,7 +1479,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="3.987268820755572" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="224" thickness="0.0">
+                      <Surface type="Wall" area="3.987268820755572" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="222" thickness="0.0">
                         <ObjectIDs handle="43" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>1; 0; 4; 5</VertexIndices>
                         <HoleIndices />
@@ -1487,7 +1487,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="6.307649999999448" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="225" thickness="0.0">
+                      <Surface type="Wall" area="6.307649999999448" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="226" thickness="0.0">
                         <ObjectIDs handle="44" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>6; 4; 0; 3</VertexIndices>
                         <HoleIndices />
@@ -1495,7 +1495,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="2.044649999999991" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="226" thickness="0.0">
+                      <Surface type="Wall" area="2.044649999999991" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="225" thickness="0.0">
                         <ObjectIDs handle="45" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>7; 6; 3; 8</VertexIndices>
                         <HoleIndices />
@@ -1503,7 +1503,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="1.9426188207555706" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="215" thickness="0.0">
+                      <Surface type="Wall" area="1.9426188207555706" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="216" thickness="0.0">
                         <ObjectIDs handle="46" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>8; 2; 9; 7</VertexIndices>
                         <HoleIndices />
@@ -1602,7 +1602,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="2.044649999999991" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="226" thickness="0.0">
+                    <Surface type="Wall" area="2.044649999999991" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="225" thickness="0.0">
                       <ObjectIDs handle="50" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>3; 2; 6; 7</VertexIndices>
                       <HoleIndices />
@@ -1629,7 +1629,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="6.307649999999448" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="225" thickness="0.0">
+                    <Surface type="Wall" area="6.307649999999448" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="226" thickness="0.0">
                       <ObjectIDs handle="51" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>2; 8; 9; 6</VertexIndices>
                       <HoleIndices />
@@ -1656,7 +1656,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="4.623000000000193" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="222" thickness="0.0">
+                    <Surface type="Wall" area="4.623000000000193" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="223" thickness="0.0">
                       <ObjectIDs handle="52" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>8; 1; 10; 9</VertexIndices>
                       <HoleIndices />
@@ -2141,7 +2141,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="7.675349999999727" alpha="1.5707963267948977" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="214" thickness="0.0">
+                    <Surface type="Wall" area="7.675349999999727" alpha="1.5707963267948977" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="215" thickness="0.0">
                       <ObjectIDs handle="58" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>4; 3; 7; 17</VertexIndices>
                       <HoleIndices />
@@ -2440,7 +2440,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="2.044649999999991" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="226" thickness="0.0">
+                      <Surface type="Wall" area="2.044649999999991" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="225" thickness="0.0">
                         <ObjectIDs handle="50" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>3; 2; 6; 7</VertexIndices>
                         <HoleIndices />
@@ -2448,7 +2448,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="6.307649999999448" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="225" thickness="0.0">
+                      <Surface type="Wall" area="6.307649999999448" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="226" thickness="0.0">
                         <ObjectIDs handle="51" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>2; 8; 9; 6</VertexIndices>
                         <HoleIndices />
@@ -2456,7 +2456,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="4.623000000000193" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="222" thickness="0.0">
+                      <Surface type="Wall" area="4.623000000000193" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="223" thickness="0.0">
                         <ObjectIDs handle="52" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>8; 1; 10; 9</VertexIndices>
                         <HoleIndices />
@@ -2504,7 +2504,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="7.675349999999727" alpha="1.5707963267948977" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="214" thickness="0.0">
+                      <Surface type="Wall" area="7.675349999999727" alpha="1.5707963267948977" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="215" thickness="0.0">
                         <ObjectIDs handle="58" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>4; 3; 7; 17</VertexIndices>
                         <HoleIndices />
@@ -2877,7 +2877,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="6.95419999999998" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="223" thickness="0.0">
+                    <Surface type="Wall" area="6.95419999999998" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="224" thickness="0.0">
                       <ObjectIDs handle="71" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>8; 7; 10; 6</VertexIndices>
                       <HoleIndices />
@@ -2931,7 +2931,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="5.190789999999998" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="218" thickness="0.0">
+                    <Surface type="Wall" area="5.190789999999998" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="214" thickness="0.0">
                       <ObjectIDs handle="73" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>7; 11; 13; 10</VertexIndices>
                       <HoleIndices />
@@ -3192,7 +3192,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="6.95419999999998" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="223" thickness="0.0">
+                      <Surface type="Wall" area="6.95419999999998" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="224" thickness="0.0">
                         <ObjectIDs handle="71" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>8; 7; 10; 6</VertexIndices>
                         <HoleIndices />
@@ -3208,7 +3208,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="5.190789999999998" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="218" thickness="0.0">
+                      <Surface type="Wall" area="5.190789999999998" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="214" thickness="0.0">
                         <ObjectIDs handle="73" buildingHandle="0" buildingBlockHandle="1" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>7; 11; 13; 10</VertexIndices>
                         <HoleIndices />
@@ -4252,8 +4252,17 @@
             <ProfileOutlines />
             <VoidBodies />
             <InternalPartitions>
-              <InternalPartition type="Solid" height="5.913059657002158" area="7.805238747242846" floatingPartition="False">
+              <InternalPartition type="Solid" height="5.913059657002158" area="9.11202493144071" floatingPartition="False">
                 <ObjectIDs handle="263" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <StartPoint>
+                  <Point3D>1.0619315174376354; 2.8994060214182706; 3.0</Point3D>
+                </StartPoint>
+                <EndPoint>
+                  <Point3D>1.0619315174376334; 1.3584060214182059; 3.0</Point3D>
+                </EndPoint>
+              </InternalPartition>
+              <InternalPartition type="Solid" height="5.913059657002158" area="7.805238747242846" floatingPartition="False">
+                <ObjectIDs handle="264" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>1.0619315174376334; 1.3584060214182059; 3.0</Point3D>
                 </StartPoint>
@@ -4262,7 +4271,7 @@
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="5.913059657002158" area="14.42786556308531" floatingPartition="False">
-                <ObjectIDs handle="264" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="265" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>1.0619315174376318; 0.03840602141820626; 3.0</Point3D>
                 </StartPoint>
@@ -4271,21 +4280,12 @@
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="5.913059657002158" area="19.75553231404257" floatingPartition="False">
-                <ObjectIDs handle="265" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="266" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>-1.3780684825623757; 0.03840602141821425; 3.0</Point3D>
                 </StartPoint>
                 <EndPoint>
                   <Point3D>-1.3780684825623828; -3.302593978581508; 3.0</Point3D>
-                </EndPoint>
-              </InternalPartition>
-              <InternalPartition type="Solid" height="5.913059657002158" area="9.11202493144071" floatingPartition="False">
-                <ObjectIDs handle="266" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
-                <StartPoint>
-                  <Point3D>1.0619315174376354; 2.8994060214182706; 3.0</Point3D>
-                </StartPoint>
-                <EndPoint>
-                  <Point3D>1.0619315174376334; 1.3584060214182059; 3.0</Point3D>
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="5.913059657002158" area="19.755532314042572" floatingPartition="False">
@@ -4297,35 +4297,8 @@
                   <Point3D>1.0619315174376265; -3.302593978581517; 3.0</Point3D>
                 </EndPoint>
               </InternalPartition>
-              <InternalPartition type="Solid" height="5.913059657002158" area="12.512034234216442" floatingPartition="False">
-                <ObjectIDs handle="268" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
-                <StartPoint>
-                  <Point3D>4.121931517437632; 0.6504060214182782; 3.0</Point3D>
-                </StartPoint>
-                <EndPoint>
-                  <Point3D>4.121931517437629; -1.4655939785817007; 3.0</Point3D>
-                </EndPoint>
-              </InternalPartition>
-              <InternalPartition type="Solid" height="5.913059657002158" area="2.2689242550107585" floatingPartition="False">
-                <ObjectIDs handle="269" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
-                <StartPoint>
-                  <Point3D>4.121931517437629; -1.4655939785817007; 3.0</Point3D>
-                </StartPoint>
-                <EndPoint>
-                  <Point3D>4.505645598915554; -1.465593978581702; 3.0</Point3D>
-                </EndPoint>
-              </InternalPartition>
-              <InternalPartition type="Solid" height="5.913059657002158" area="10.862290589911941" floatingPartition="False">
-                <ObjectIDs handle="270" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
-                <StartPoint>
-                  <Point3D>4.505645598915554; -1.465593978581702; 3.0</Point3D>
-                </StartPoint>
-                <EndPoint>
-                  <Point3D>4.505645598915551; -3.302593978581529; 3.0</Point3D>
-                </EndPoint>
-              </InternalPartition>
               <InternalPartition type="Solid" height="5.913059657002158" area="18.093962550426607" floatingPartition="False">
-                <ObjectIDs handle="271" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="268" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>1.0619315174376334; 1.3584060214182059; 3.0</Point3D>
                 </StartPoint>
@@ -4334,7 +4307,7 @@
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="5.913059657002158" area="4.186446237157045" floatingPartition="False">
-                <ObjectIDs handle="272" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="269" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>4.121931517437634; 1.3584060214181966; 3.0</Point3D>
                 </StartPoint>
@@ -4342,22 +4315,49 @@
                   <Point3D>4.121931517437632; 0.6504060214182782; 3.0</Point3D>
                 </EndPoint>
               </InternalPartition>
-              <InternalPartition type="Solid" height="5.913059657002158" area="10.862290589911934" floatingPartition="False">
-                <ObjectIDs handle="273" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+              <InternalPartition type="Solid" height="5.913059657002158" area="12.512034234216442" floatingPartition="False">
+                <ObjectIDs handle="270" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
-                  <Point3D>6.9609315174376345; -1.4655939785817118; 3.0</Point3D>
+                  <Point3D>4.121931517437632; 0.6504060214182782; 3.0</Point3D>
                 </StartPoint>
                 <EndPoint>
-                  <Point3D>6.9609315174376345; -3.3025939785815375; 3.0</Point3D>
+                  <Point3D>4.121931517437629; -1.4655939785817007; 3.0</Point3D>
+                </EndPoint>
+              </InternalPartition>
+              <InternalPartition type="Solid" height="5.913059657002158" area="2.2689242550107585" floatingPartition="False">
+                <ObjectIDs handle="271" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <StartPoint>
+                  <Point3D>4.121931517437629; -1.4655939785817007; 3.0</Point3D>
+                </StartPoint>
+                <EndPoint>
+                  <Point3D>4.505645598915554; -1.465593978581702; 3.0</Point3D>
+                </EndPoint>
+              </InternalPartition>
+              <InternalPartition type="Solid" height="5.913059657002158" area="10.862290589911941" floatingPartition="False">
+                <ObjectIDs handle="272" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <StartPoint>
+                  <Point3D>4.505645598915554; -1.465593978581702; 3.0</Point3D>
+                </StartPoint>
+                <EndPoint>
+                  <Point3D>4.505645598915551; -3.302593978581529; 3.0</Point3D>
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="5.913059657002158" area="14.518252111218402" floatingPartition="False">
-                <ObjectIDs handle="274" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="273" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>4.505645598915554; -1.465593978581702; 3.0</Point3D>
                 </StartPoint>
                 <EndPoint>
                   <Point3D>6.9609315174376345; -1.4655939785817118; 3.0</Point3D>
+                </EndPoint>
+              </InternalPartition>
+              <InternalPartition type="Solid" height="5.913059657002158" area="10.862290589911934" floatingPartition="False">
+                <ObjectIDs handle="274" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <StartPoint>
+                  <Point3D>6.9609315174376345; -1.4655939785817118; 3.0</Point3D>
+                </StartPoint>
+                <EndPoint>
+                  <Point3D>6.9609315174376345; -3.3025939785815375; 3.0</Point3D>
                 </EndPoint>
               </InternalPartition>
               <InternalPartition type="Solid" height="5.913059657002158" area="16.78717636622914" floatingPartition="False">
@@ -4369,8 +4369,26 @@
                   <Point3D>6.9609315174376345; 0.6504060214182702; 3.0</Point3D>
                 </EndPoint>
               </InternalPartition>
-              <InternalPartition type="Solid" height="5.913059657002158" area="4.186446237157035" floatingPartition="False">
+              <InternalPartition type="Solid" height="5.913059657002158" area="12.51203423421646" floatingPartition="False">
                 <ObjectIDs handle="276" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <StartPoint>
+                  <Point3D>6.9609315174376345; 0.6504060214182702; 3.0</Point3D>
+                </StartPoint>
+                <EndPoint>
+                  <Point3D>6.9609315174376345; -1.4655939785817118; 3.0</Point3D>
+                </EndPoint>
+              </InternalPartition>
+              <InternalPartition type="Solid" height="5.913059657002158" area="27.56077106128544" floatingPartition="False">
+                <ObjectIDs handle="277" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <StartPoint>
+                  <Point3D>10.001931517437635; 1.358406021418178; 3.0</Point3D>
+                </StartPoint>
+                <EndPoint>
+                  <Point3D>10.001931517437628; -3.302593978581548; 3.0</Point3D>
+                </EndPoint>
+              </InternalPartition>
+              <InternalPartition type="Solid" height="5.913059657002158" area="4.186446237157035" floatingPartition="False">
+                <ObjectIDs handle="278" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>6.9609315174376345; 0.6504060214182702; 3.0</Point3D>
                 </StartPoint>
@@ -4378,8 +4396,17 @@
                   <Point3D>6.9609315174376345; 1.3584060214181868; 3.0</Point3D>
                 </EndPoint>
               </InternalPartition>
+              <InternalPartition type="Solid" height="5.913059657002158" area="17.981614416943565" floatingPartition="False">
+                <ObjectIDs handle="279" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <StartPoint>
+                  <Point3D>6.9609315174376345; 1.3584060214181868; 3.0</Point3D>
+                </StartPoint>
+                <EndPoint>
+                  <Point3D>10.001931517437635; 1.358406021418178; 3.0</Point3D>
+                </EndPoint>
+              </InternalPartition>
               <InternalPartition type="Solid" height="5.913059657002158" area="16.78717636622913" floatingPartition="False">
-                <ObjectIDs handle="277" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="280" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                 <StartPoint>
                   <Point3D>6.9609315174376345; 1.3584060214181868; 3.0</Point3D>
                 </StartPoint>
@@ -4734,7 +4761,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="14.774038758625629" alpha="1.5707963267948986" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="265" thickness="0.0">
+                    <Surface type="Wall" area="14.774038758625629" alpha="1.5707963267948986" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="266" thickness="0.0">
                       <ObjectIDs handle="82" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>11; 10; 2; 1; 12</VertexIndices>
                       <HoleIndices />
@@ -4762,7 +4789,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="14.109485331627473" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="264" thickness="0.0">
+                    <Surface type="Wall" area="14.109485331627473" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="265" thickness="0.0">
                       <ObjectIDs handle="83" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>13; 12; 1; 0</VertexIndices>
                       <HoleIndices />
@@ -4789,7 +4816,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="6.727408962338494" alpha="1.570796326794898" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="263" thickness="0.0">
+                    <Surface type="Wall" area="6.727408962338494" alpha="1.570796326794898" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="264" thickness="0.0">
                       <ObjectIDs handle="84" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>14; 13; 0; 15</VertexIndices>
                       <HoleIndices />
@@ -4816,7 +4843,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="5.562319383437275" alpha="1.570796326794898" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="266" thickness="0.0">
+                    <Surface type="Wall" area="5.562319383437275" alpha="1.570796326794898" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="263" thickness="0.0">
                       <ObjectIDs handle="85" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>7; 14; 15; 5</VertexIndices>
                       <HoleIndices />
@@ -4960,7 +4987,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="14.774038758625629" alpha="1.5707963267948986" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="265" thickness="0.0">
+                      <Surface type="Wall" area="14.774038758625629" alpha="1.5707963267948986" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="266" thickness="0.0">
                         <ObjectIDs handle="82" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>11; 10; 2; 1; 12</VertexIndices>
                         <HoleIndices />
@@ -4968,7 +4995,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="14.109485331627473" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="264" thickness="0.0">
+                      <Surface type="Wall" area="14.109485331627473" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="265" thickness="0.0">
                         <ObjectIDs handle="83" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>13; 12; 1; 0</VertexIndices>
                         <HoleIndices />
@@ -4976,7 +5003,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="6.727408962338494" alpha="1.570796326794898" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="263" thickness="0.0">
+                      <Surface type="Wall" area="6.727408962338494" alpha="1.570796326794898" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="264" thickness="0.0">
                         <ObjectIDs handle="84" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>14; 13; 0; 15</VertexIndices>
                         <HoleIndices />
@@ -4984,7 +5011,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="5.562319383437275" alpha="1.570796326794898" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="266" thickness="0.0">
+                      <Surface type="Wall" area="5.562319383437275" alpha="1.570796326794898" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="263" thickness="0.0">
                         <ObjectIDs handle="85" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>7; 14; 15; 5</VertexIndices>
                         <HoleIndices />
@@ -5060,7 +5087,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="14.774038758625629" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="265" thickness="0.0">
+                    <Surface type="Wall" area="14.774038758625629" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="266" thickness="0.0">
                       <ObjectIDs handle="89" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>4; 2; 1; 5; 6</VertexIndices>
                       <HoleIndices />
@@ -5160,7 +5187,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="14.109485331627473" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="264" thickness="0.0">
+                    <Surface type="Wall" area="14.109485331627473" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="265" thickness="0.0">
                       <ObjectIDs handle="92" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>3; 2; 4; 9</VertexIndices>
                       <HoleIndices />
@@ -5272,7 +5299,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="14.774038758625629" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="265" thickness="0.0">
+                      <Surface type="Wall" area="14.774038758625629" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="266" thickness="0.0">
                         <ObjectIDs handle="89" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>4; 2; 1; 5; 6</VertexIndices>
                         <HoleIndices />
@@ -5296,7 +5323,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="14.109485331627473" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="264" thickness="0.0">
+                      <Surface type="Wall" area="14.109485331627473" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="265" thickness="0.0">
                         <ObjectIDs handle="92" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>3; 2; 4; 9</VertexIndices>
                         <HoleIndices />
@@ -5426,7 +5453,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="6.80299746758539" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="270" thickness="0.0">
+                    <Surface type="Wall" area="6.80299746758539" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="272" thickness="0.0">
                       <ObjectIDs handle="97" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>8; 6; 2; 1</VertexIndices>
                       <HoleIndices />
@@ -5453,7 +5480,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="1.7600725959469352" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="269" thickness="0.0">
+                    <Surface type="Wall" area="1.7600725959469352" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="271" thickness="0.0">
                       <ObjectIDs handle="98" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>9; 8; 1; 0</VertexIndices>
                       <HoleIndices />
@@ -5480,7 +5507,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="11.31531306769448" alpha="1.5707963267948983" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="268" thickness="0.0">
+                    <Surface type="Wall" area="11.31531306769448" alpha="1.5707963267948983" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="270" thickness="0.0">
                       <ObjectIDs handle="99" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>10; 9; 0; 11; 12</VertexIndices>
                       <HoleIndices />
@@ -5508,7 +5535,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="3.3831371856842383" alpha="1.5707963267948992" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="272" thickness="0.0">
+                    <Surface type="Wall" area="3.3831371856842383" alpha="1.5707963267948992" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="269" thickness="0.0">
                       <ObjectIDs handle="100" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>13; 12; 11; 5</VertexIndices>
                       <HoleIndices />
@@ -5535,7 +5562,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="13.496031855842883" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="271" thickness="0.0">
+                    <Surface type="Wall" area="13.496031855842883" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="268" thickness="0.0">
                       <ObjectIDs handle="101" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>14; 13; 5; 4</VertexIndices>
                       <HoleIndices />
@@ -5562,7 +5589,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="6.727408962338494" alpha="4.712388980384691" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="263" thickness="0.0">
+                    <Surface type="Wall" area="6.727408962338494" alpha="4.712388980384691" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="264" thickness="0.0">
                       <ObjectIDs handle="102" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>4; 15; 16; 14</VertexIndices>
                       <HoleIndices />
@@ -5720,7 +5747,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="6.80299746758539" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="270" thickness="0.0">
+                      <Surface type="Wall" area="6.80299746758539" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="272" thickness="0.0">
                         <ObjectIDs handle="97" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>8; 6; 2; 1</VertexIndices>
                         <HoleIndices />
@@ -5728,7 +5755,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="1.7600725959469352" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="269" thickness="0.0">
+                      <Surface type="Wall" area="1.7600725959469352" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="271" thickness="0.0">
                         <ObjectIDs handle="98" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>9; 8; 1; 0</VertexIndices>
                         <HoleIndices />
@@ -5736,7 +5763,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="11.31531306769448" alpha="1.5707963267948983" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="268" thickness="0.0">
+                      <Surface type="Wall" area="11.31531306769448" alpha="1.5707963267948983" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="270" thickness="0.0">
                         <ObjectIDs handle="99" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>10; 9; 0; 11; 12</VertexIndices>
                         <HoleIndices />
@@ -5744,7 +5771,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="3.3831371856842383" alpha="1.5707963267948992" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="272" thickness="0.0">
+                      <Surface type="Wall" area="3.3831371856842383" alpha="1.5707963267948992" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="269" thickness="0.0">
                         <ObjectIDs handle="100" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>13; 12; 11; 5</VertexIndices>
                         <HoleIndices />
@@ -5752,7 +5779,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="13.496031855842883" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="271" thickness="0.0">
+                      <Surface type="Wall" area="13.496031855842883" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="268" thickness="0.0">
                         <ObjectIDs handle="101" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>14; 13; 5; 4</VertexIndices>
                         <HoleIndices />
@@ -5760,7 +5787,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="6.727408962338494" alpha="4.712388980384691" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="263" thickness="0.0">
+                      <Surface type="Wall" area="6.727408962338494" alpha="4.712388980384691" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="264" thickness="0.0">
                         <ObjectIDs handle="102" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>4; 15; 16; 14</VertexIndices>
                         <HoleIndices />
@@ -5842,7 +5869,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="6.80299746758539" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="270" thickness="0.0">
+                    <Surface type="Wall" area="6.80299746758539" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="272" thickness="0.0">
                       <ObjectIDs handle="107" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>2; 1; 4; 5</VertexIndices>
                       <HoleIndices />
@@ -5896,7 +5923,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="6.802997467585377" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="273" thickness="0.0">
+                    <Surface type="Wall" area="6.802997467585377" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="274" thickness="0.0">
                       <ObjectIDs handle="109" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>7; 6; 0; 3</VertexIndices>
                       <HoleIndices />
@@ -5923,7 +5950,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="11.262243605343745" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="274" thickness="0.0">
+                    <Surface type="Wall" area="11.262243605343745" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="273" thickness="0.0">
                       <ObjectIDs handle="110" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>5; 7; 3; 2</VertexIndices>
                       <HoleIndices />
@@ -6023,7 +6050,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="6.80299746758539" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="270" thickness="0.0">
+                      <Surface type="Wall" area="6.80299746758539" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="272" thickness="0.0">
                         <ObjectIDs handle="107" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>2; 1; 4; 5</VertexIndices>
                         <HoleIndices />
@@ -6039,7 +6066,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="6.802997467585377" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="273" thickness="0.0">
+                      <Surface type="Wall" area="6.802997467585377" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="274" thickness="0.0">
                         <ObjectIDs handle="109" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>7; 6; 0; 3</VertexIndices>
                         <HoleIndices />
@@ -6047,7 +6074,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="11.262243605343745" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="274" thickness="0.0">
+                      <Surface type="Wall" area="11.262243605343745" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="273" thickness="0.0">
                         <ObjectIDs handle="110" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>5; 7; 3; 2</VertexIndices>
                         <HoleIndices />
@@ -6117,7 +6144,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="1.7600725959469352" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="269" thickness="0.0">
+                    <Surface type="Wall" area="1.7600725959469352" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="271" thickness="0.0">
                       <ObjectIDs handle="113" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>1; 4; 5; 6</VertexIndices>
                       <HoleIndices />
@@ -6144,7 +6171,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="11.262243605343745" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="274" thickness="0.0">
+                    <Surface type="Wall" area="11.262243605343745" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="273" thickness="0.0">
                       <ObjectIDs handle="114" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>4; 0; 7; 5</VertexIndices>
                       <HoleIndices />
@@ -6171,7 +6198,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="11.31531306769449" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                    <Surface type="Wall" area="11.31531306769449" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="276" thickness="0.0">
                       <ObjectIDs handle="115" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>8; 7; 0; 3; 9</VertexIndices>
                       <HoleIndices />
@@ -6226,7 +6253,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="11.315313067694479" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="268" thickness="0.0">
+                    <Surface type="Wall" area="11.315313067694479" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="270" thickness="0.0">
                       <ObjectIDs handle="117" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>10; 2; 1; 6; 11</VertexIndices>
                       <HoleIndices />
@@ -6358,7 +6385,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="1.7600725959469352" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="269" thickness="0.0">
+                      <Surface type="Wall" area="1.7600725959469352" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="271" thickness="0.0">
                         <ObjectIDs handle="113" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>1; 4; 5; 6</VertexIndices>
                         <HoleIndices />
@@ -6366,7 +6393,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="11.262243605343745" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="274" thickness="0.0">
+                      <Surface type="Wall" area="11.262243605343745" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="273" thickness="0.0">
                         <ObjectIDs handle="114" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>4; 0; 7; 5</VertexIndices>
                         <HoleIndices />
@@ -6374,7 +6401,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="11.31531306769449" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                      <Surface type="Wall" area="11.31531306769449" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="276" thickness="0.0">
                         <ObjectIDs handle="115" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>8; 7; 0; 3; 9</VertexIndices>
                         <HoleIndices />
@@ -6390,7 +6417,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="11.315313067694479" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="268" thickness="0.0">
+                      <Surface type="Wall" area="11.315313067694479" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="270" thickness="0.0">
                         <ObjectIDs handle="117" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>10; 2; 1; 6; 11</VertexIndices>
                         <HoleIndices />
@@ -6601,7 +6628,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="21.5014477209641" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                    <Surface type="Wall" area="21.5014477209641" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="277" thickness="0.0">
                       <ObjectIDs handle="125" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>12; 10; 9; 8; 13</VertexIndices>
                       <HoleIndices />
@@ -6629,7 +6656,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="13.41223296523474" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                    <Surface type="Wall" area="13.41223296523474" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="279" thickness="0.0">
                       <ObjectIDs handle="126" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>14; 13; 8; 5</VertexIndices>
                       <HoleIndices />
@@ -6656,7 +6683,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="3.3831371856842356" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="276" thickness="0.0">
+                    <Surface type="Wall" area="3.3831371856842356" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="278" thickness="0.0">
                       <ObjectIDs handle="127" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>15; 16; 14; 5</VertexIndices>
                       <HoleIndices />
@@ -6683,7 +6710,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="11.31531306769449" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                    <Surface type="Wall" area="11.31531306769449" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="276" thickness="0.0">
                       <ObjectIDs handle="128" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>16; 15; 17; 18; 19</VertexIndices>
                       <HoleIndices />
@@ -6711,7 +6738,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="6.802997467585377" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="273" thickness="0.0">
+                    <Surface type="Wall" area="6.802997467585377" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="274" thickness="0.0">
                       <ObjectIDs handle="129" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>17; 1; 11; 18</VertexIndices>
                       <HoleIndices />
@@ -6865,7 +6892,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="21.5014477209641" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                      <Surface type="Wall" area="21.5014477209641" alpha="1.5707963267948981" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="277" thickness="0.0">
                         <ObjectIDs handle="125" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>12; 10; 9; 8; 13</VertexIndices>
                         <HoleIndices />
@@ -6873,7 +6900,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="13.41223296523474" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                      <Surface type="Wall" area="13.41223296523474" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="279" thickness="0.0">
                         <ObjectIDs handle="126" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>14; 13; 8; 5</VertexIndices>
                         <HoleIndices />
@@ -6881,7 +6908,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="3.3831371856842356" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="276" thickness="0.0">
+                      <Surface type="Wall" area="3.3831371856842356" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="278" thickness="0.0">
                         <ObjectIDs handle="127" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>15; 16; 14; 5</VertexIndices>
                         <HoleIndices />
@@ -6889,7 +6916,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="11.31531306769449" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                      <Surface type="Wall" area="11.31531306769449" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="276" thickness="0.0">
                         <ObjectIDs handle="128" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>16; 15; 17; 18; 19</VertexIndices>
                         <HoleIndices />
@@ -6897,7 +6924,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="6.802997467585377" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="273" thickness="0.0">
+                      <Surface type="Wall" area="6.802997467585377" alpha="4.71238898038469" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="274" thickness="0.0">
                         <ObjectIDs handle="129" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>17; 1; 11; 18</VertexIndices>
                         <HoleIndices />
@@ -7011,7 +7038,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="21.5014477209641" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                    <Surface type="Wall" area="21.5014477209641" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="277" thickness="0.0">
                       <ObjectIDs handle="134" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>8; 6; 5; 9; 10</VertexIndices>
                       <HoleIndices />
@@ -7220,7 +7247,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="5.562319383437275" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="266" thickness="0.0">
+                    <Surface type="Wall" area="5.562319383437275" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="263" thickness="0.0">
                       <ObjectIDs handle="138" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>2; 1; 15; 14</VertexIndices>
                       <HoleIndices />
@@ -7247,7 +7274,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="13.496031855842883" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="271" thickness="0.0">
+                    <Surface type="Wall" area="13.496031855842883" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="268" thickness="0.0">
                       <ObjectIDs handle="139" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>1; 16; 17; 15</VertexIndices>
                       <HoleIndices />
@@ -7274,7 +7301,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="12.521318444032023" alpha="3.141592653589793" phi="2.220446049250313e-16" defaultOpenings="False" adjacentPartitionHandle="277" thickness="0.0">
+                    <Surface type="Wall" area="12.521318444032023" alpha="3.141592653589793" phi="2.220446049250313e-16" defaultOpenings="False" adjacentPartitionHandle="280" thickness="0.0">
                       <ObjectIDs handle="140" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>18; 17; 16; 0</VertexIndices>
                       <HoleIndices />
@@ -7301,7 +7328,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="13.41223296523474" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                    <Surface type="Wall" area="13.41223296523474" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="279" thickness="0.0">
                       <ObjectIDs handle="141" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>0; 6; 8; 18</VertexIndices>
                       <HoleIndices />
@@ -7432,7 +7459,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="21.5014477209641" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                      <Surface type="Wall" area="21.5014477209641" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="277" thickness="0.0">
                         <ObjectIDs handle="134" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>8; 6; 5; 9; 10</VertexIndices>
                         <HoleIndices />
@@ -7464,7 +7491,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="5.562319383437275" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="266" thickness="0.0">
+                      <Surface type="Wall" area="5.562319383437275" alpha="4.7123889803846915" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="263" thickness="0.0">
                         <ObjectIDs handle="138" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>2; 1; 15; 14</VertexIndices>
                         <HoleIndices />
@@ -7472,7 +7499,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="13.496031855842883" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="271" thickness="0.0">
+                      <Surface type="Wall" area="13.496031855842883" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="268" thickness="0.0">
                         <ObjectIDs handle="139" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>1; 16; 17; 15</VertexIndices>
                         <HoleIndices />
@@ -7480,7 +7507,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="12.521318444032023" alpha="3.141592653589793" phi="2.220446049250313e-16" defaultOpenings="False" adjacentPartitionHandle="277" thickness="0.0">
+                      <Surface type="Wall" area="12.521318444032023" alpha="3.141592653589793" phi="2.220446049250313e-16" defaultOpenings="False" adjacentPartitionHandle="280" thickness="0.0">
                         <ObjectIDs handle="140" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>18; 17; 16; 0</VertexIndices>
                         <HoleIndices />
@@ -7488,7 +7515,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="13.41223296523474" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="-1" thickness="0.0">
+                      <Surface type="Wall" area="13.41223296523474" alpha="3.141592653589793" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="279" thickness="0.0">
                         <ObjectIDs handle="141" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>0; 6; 8; 18</VertexIndices>
                         <HoleIndices />
@@ -7562,7 +7589,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="3.3831371856842356" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="276" thickness="0.0">
+                    <Surface type="Wall" area="3.3831371856842356" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="278" thickness="0.0">
                       <ObjectIDs handle="145" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>3; 4; 5; 0</VertexIndices>
                       <HoleIndices />
@@ -7589,7 +7616,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="12.521318444032023" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="277" thickness="0.0">
+                    <Surface type="Wall" area="12.521318444032023" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="280" thickness="0.0">
                       <ObjectIDs handle="146" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>3; 2; 6; 4</VertexIndices>
                       <HoleIndices />
@@ -7616,7 +7643,7 @@
                         </Adjacency>
                       </Adjacencies>
                     </Surface>
-                    <Surface type="Wall" area="3.3831371856842383" alpha="4.712388980384692" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="272" thickness="0.0">
+                    <Surface type="Wall" area="3.3831371856842383" alpha="4.712388980384692" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="269" thickness="0.0">
                       <ObjectIDs handle="147" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                       <VertexIndices>2; 1; 7; 6</VertexIndices>
                       <HoleIndices />
@@ -7743,7 +7770,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="3.3831371856842356" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="276" thickness="0.0">
+                      <Surface type="Wall" area="3.3831371856842356" alpha="1.5707963267948966" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="278" thickness="0.0">
                         <ObjectIDs handle="145" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>3; 4; 5; 0</VertexIndices>
                         <HoleIndices />
@@ -7751,7 +7778,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="12.521318444032023" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="277" thickness="0.0">
+                      <Surface type="Wall" area="12.521318444032023" alpha="0.0" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="280" thickness="0.0">
                         <ObjectIDs handle="146" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>3; 2; 6; 4</VertexIndices>
                         <HoleIndices />
@@ -7759,7 +7786,7 @@
                         <Adjacencies />
                         <Attributes />
                       </Surface>
-                      <Surface type="Wall" area="3.3831371856842383" alpha="4.712388980384692" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="272" thickness="0.0">
+                      <Surface type="Wall" area="3.3831371856842383" alpha="4.712388980384692" phi="0.0" defaultOpenings="False" adjacentPartitionHandle="269" thickness="0.0">
                         <ObjectIDs handle="147" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                         <VertexIndices>2; 1; 7; 6</VertexIndices>
                         <HoleIndices />
@@ -7856,7 +7883,7 @@
                 </Vertices>
                 <Surfaces>
                   <Surface type="Floor" area="28.749859999999472" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="278" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="281" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>0; 1; 2; 3; 4; 5</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -7885,7 +7912,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Wall" area="16.711382716393754" alpha="0.0" phi="0.0" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="279" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="282" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>6; 7; 5; 4</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -7912,7 +7939,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Wall" area="27.063767104401386" alpha="4.71238898038469" phi="0.0" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="280" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="283" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>8; 9; 6; 4; 3</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -7940,7 +7967,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Wall" area="9.897149740622062" alpha="3.141592653589793" phi="0.0" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="281" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="284" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>10; 8; 3; 2</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -7967,7 +7994,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="15.661101960836795" alpha="3.141592653589793" phi="0.8047515928809967" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="282" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="285" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>11; 9; 8; 10</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -7994,7 +8021,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="25.189383524164757" alpha="0.0" phi="0.7660447339139007" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="283" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="286" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>12; 13; 7; 6; 9; 11</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8023,7 +8050,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Floor" area="8.152039999999351" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="284" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="287" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>14; 2; 1; 0</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8050,7 +8077,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Wall" area="6.8800699051617835" alpha="3.141592653589793" phi="0.0" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="285" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="288" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>15; 10; 2; 14</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8077,7 +8104,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="10.886919881607394" alpha="3.141592653589793" phi="0.8047515928809967" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="286" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="289" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>16; 11; 10; 15</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8104,7 +8131,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="0.4417907439855473" alpha="0.0" phi="0.7660447339139016" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="287" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="290" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>11; 16; 13; 12</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8131,7 +8158,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Floor" area="14.967542767674034" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="288" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="291" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>17; 18; 19; 14; 20; 21</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8160,7 +8187,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Wall" area="9.710243284409012" alpha="3.141592653589793" phi="0.0" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="289" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="292" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>22; 15; 14; 19</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8187,7 +8214,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="14.63137772959932" alpha="3.141592653589793" phi="0.8047515928809963" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="290" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="293" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>23; 16; 15; 22; 24; 25</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8216,7 +8243,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="6.380180116877474" alpha="0.0" phi="0.7660447339139007" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="291" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="294" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>16; 23; 26; 27</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8243,7 +8270,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Floor" area="9.090359000000381" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="292" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="295" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>28; 20; 5; 29</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8270,7 +8297,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Floor" area="24.290702999999464" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="293" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="296" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>30; 31; 32; 28; 29; 33</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8299,7 +8326,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Wall" area="8.913074168121348" alpha="3.141592653589793" phi="0.0" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="294" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="297" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>34; 35; 31; 30</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8326,7 +8353,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Wall" area="27.063767104401396" alpha="1.5707963267948974" phi="0.0" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="295" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="298" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>36; 34; 30; 33; 37</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8354,7 +8381,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Wall" area="33.98730121866908" alpha="0.0" phi="0.0" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="296" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="299" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>7; 37; 33; 5</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8381,7 +8408,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="14.103915469574165" alpha="3.141592653589793" phi="0.8047515928809963" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="297" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="300" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>36; 38; 35; 34</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8408,7 +8435,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="33.48807430596601" alpha="0.0" phi="0.7660447339139003" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="298" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="301" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>38; 36; 37; 7; 27; 39</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8437,7 +8464,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Floor" area="4.510360232324638" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="299" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="302" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>40; 19; 18; 41</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8464,7 +8491,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Wall" area="6.923171621553757" alpha="3.141592653589793" phi="0.0" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="300" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="303" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>42; 22; 19; 40</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8491,7 +8518,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="6.258665601056412" alpha="3.141592653589793" phi="0.8047515928809967" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="301" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="304" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>43; 24; 22; 42</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8518,7 +8545,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Floor" area="6.007323999999953" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="302" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="305" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>41; 17; 44; 45</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8545,7 +8572,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="5.430424038853282" alpha="3.141592653589793" phi="0.8047515928809963" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="303" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="306" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>46; 23; 25; 43</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8572,7 +8599,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="3.0201535011756953" alpha="0.0" phi="0.7660447339139007" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="304" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="307" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>23; 46; 47; 48</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8599,7 +8626,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Floor" area="2.0100119999997665" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="305" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="308" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>45; 44; 21; 28</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8626,7 +8653,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="2.8992358294828375" alpha="0.0" phi="0.7660447339139007" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="306" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="309" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>48; 47; 49; 26</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8653,7 +8680,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Floor" area="1.7437115974999267" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="307" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="310" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>50; 40; 51; 52</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8680,7 +8707,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Floor" area="2.7944773530262945" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="308" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="311" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>53; 51; 28; 54</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8707,7 +8734,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Floor" area="3.599377196973143" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="309" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="312" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>55; 53; 54; 32</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8734,7 +8761,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Floor" area="6.036534852499785" alpha="0" phi="-1.5707963267948966" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="310" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="313" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>31; 50; 52; 55</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8761,7 +8788,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Wall" area="8.574710074424896" alpha="3.141592653589793" phi="0.0" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="311" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="314" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>35; 42; 40; 31</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8788,7 +8815,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="13.568493180314785" alpha="3.141592653589793" phi="0.8047515928809963" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="312" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="315" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>38; 46; 42; 35</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8815,7 +8842,7 @@
                     </Adjacencies>
                   </Surface>
                   <Surface type="Pitched roof" area="6.3405646194197" alpha="0.0" phi="0.7660447339139007" defaultOpenings="True" adjacentPartitionHandle="-1" thickness="0.1">
-                    <ObjectIDs handle="313" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
+                    <ObjectIDs handle="316" buildingHandle="0" buildingBlockHandle="2" zoneHandle="-1" surfaceIndex="-1" openingIndex="-1" />
                     <VertexIndices>46; 38; 39; 49</VertexIndices>
                     <HoleIndices />
                     <Attributes>
@@ -8848,7 +8875,7 @@
             </ProfileBody>
             <Perimeter>
               <Polygon auxiliaryType="-1">
-                <ObjectIDs handle="314" buildingHandle="0" buildingBlockHandle="2" zoneHandle="262" surfaceIndex="-1" openingIndex="-1" />
+                <ObjectIDs handle="317" buildingHandle="0" buildingBlockHandle="2" zoneHandle="262" surfaceIndex="-1" openingIndex="-1" />
                 <Vertices>
                   <Point3D>13.162931517437618; -3.3025939785815583; 3.0</Point3D>
                   <Point3D>-4.8880684825623835; -3.302593978581495; 3.0</Point3D>

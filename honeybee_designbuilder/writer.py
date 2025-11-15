@@ -534,7 +534,7 @@ def room_group_to_dsbxml_block(
             xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, min_z)
         xml_holes = ET.SubElement(xml_perim_pts, 'PolygonHoles')
         if perim_geo.has_holes:
-            flip_plane = perim_geo.flip()  # flip to make holes clockwise
+            flip_plane = perim_geo.plane.flip()  # flip to make holes clockwise
             for hole in perim_geo.holes:
                 hole_face = Face3D(hole, plane=flip_plane)
                 xml_hole = ET.SubElement(xml_holes, 'PolygonHole')
@@ -667,7 +667,12 @@ def model_to_dsbxml_element(model):
                     xml_adj_obj_ids = xml_adj.find('ObjectIDs')
                     xml_adj_face_id = xml_adj_obj_ids.get('surfaceIndex')
                     if xml_adj_face_id != '-1':
-                        xml_adj_obj_ids.set('surfaceIndex', f_index_map[xml_adj_face_id])
+                        try:
+                            xml_adj_obj_ids.set(
+                                'surfaceIndex', f_index_map[xml_adj_face_id])
+                        except KeyError:  # invalid adjacency; remove the adjacency
+                            xml_adj_obj_ids.set('surfaceIndex', '-1')
+                            xml_adj_obj_ids.set('zoneHandle', '-1')
 
     # set the handle of the site to the last index and reset the counter
     xml_site.set('handle', str(HANDLE_COUNTER))
