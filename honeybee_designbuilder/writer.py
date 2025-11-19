@@ -1,5 +1,6 @@
 # coding=utf-8
 """Methods to write Honeybee core objects to dsbXML."""
+import os
 import math
 import datetime
 from copy import deepcopy
@@ -598,25 +599,22 @@ def model_to_dsbxml_element(model):
             face.type = face_types.floor
 
     # set up the ElementTree for the XML
+    package_dir = os.path.dirname(os.path.abspath(__file__))
+    template_file = os.path.join(package_dir, 'template.xml')
+    xml_tree = ET.parse(template_file)
+    xml_root = xml_tree.getroot()
     model_name = clean_string(model.display_name)
-    base_template = \
-        '<dsbXML name="~{}" date="{}" version = "{}" objects = "all">\n' \
-        '</dsbXML>\n'.format(model_name, datetime.date.today(), DESIGNBUILDER_VERSION)
-    xml_root = ET.fromstring(base_template)
+    xml_root.set('name', '~{}'.format(model_name))
+    xml_root.set('date', str(datetime.date.today()))
+    xml_root.set('version', DESIGNBUILDER_VERSION)
 
     # add the site and the building
-    xml_site = ET.SubElement(xml_root, 'Site', handle='-1', count='1')
+    xml_site = xml_root.find('Site')
     ET.SubElement(xml_site, 'Attributes')
     ET.SubElement(xml_site, 'Tables')
     ET.SubElement(xml_site, 'AssemblyLibrary')
-    xml_bldgs = ET.SubElement(xml_site, 'Buildings', numberOfBuildings='1')
-    bldg_attr = {
-        'currentComponentBlockHandle': '-1',
-        'currentAssemblyInstanceHandle': '-1',
-        'currentPlaneHandle': '-1'
-    }
-    xml_bldg = ET.SubElement(xml_bldgs, 'Building', bldg_attr)
-    _object_ids(xml_bldg, '0')
+    xml_bldgs = xml_site.find('Buildings')
+    xml_bldg = xml_bldgs.find('Building')
     ET.SubElement(xml_bldg, 'ComponentBlocks')
     ET.SubElement(xml_bldg, 'AssemblyInstances')
     ET.SubElement(xml_bldg, 'ProfileOutlines')
@@ -624,9 +622,6 @@ def model_to_dsbxml_element(model):
     ET.SubElement(xml_bldg, 'Planes')
     ET.SubElement(xml_bldg, 'HVACNetwork')
     ET.SubElement(xml_bldg, 'BookmarkBuildings', numberOfBuildings='0')
-    xml_bldg_attr = ET.SubElement(xml_bldg, 'Attributes')
-    xml_geo_level = ET.SubElement(xml_bldg_attr, 'Attribute', key='GeometryDataLevel')
-    xml_geo_level.text = str(3)
 
     # group the model rooms by story and connected volume so they translate to blocks
     block_rooms, block_names = [], []
