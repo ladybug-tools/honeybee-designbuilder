@@ -9,9 +9,10 @@ import xml.etree.ElementTree as ET
 from ladybug_geometry.geometry2d import Point2D, Polygon2D
 from ladybug_geometry.geometry3d import Vector3D, Point3D, Face3D, Polyface3D
 from honeybee.typing import clean_string
-from honeybee.facetype import RoofCeiling, AirBoundary, face_types
-from honeybee.boundarycondition import Surface
+from honeybee.facetype import Floor, RoofCeiling, AirBoundary, face_types
+from honeybee.boundarycondition import Surface, boundary_conditions
 from honeybee.aperture import Aperture
+from honeybee.face import Face
 from honeybee.room import Room
 
 DESIGNBUILDER_VERSION = '2025.1.0.085'
@@ -71,7 +72,8 @@ def sub_face_to_dsbxml_element(sub_face, surface_element=None):
 
 
 def face_to_dsbxml_element(
-    face, zone_body_element=None, face_index=0, angle_tolerance=1.0
+    face, zone_body_element=None, zone_face_indices=None, adjacency_faces=None,
+    angle_tolerance=1.0
 ):
     """Generate an dsbXML Surface Element object from a honeybee Face.
 
@@ -84,8 +86,15 @@ def face_to_dsbxml_element(
             generated surface object will be added. If None, a new XML Element
             will be generated. Note that this Zone Body element should have a
             Surfaces tag already created within it.
-        face_index: An integer for the index of the parent Room Polyface3D
-            to which this Face belongs. (Default: 0).
+        zone_face_indices: An optional tuple of integers for the vertex indices
+            of the face in the parent Room Polyface3D. If None, some placeholder
+            indices will be generated. (Default: None).
+        adjacency_faces: An optional list of Honeybee Faces for sub-elements
+            of the input face that specify adjacencies to multiple other
+            Faces. When specified, these adjacency faces should be coplanar
+            to the input face and should together completely fill its area.
+            If None, it will be assumed that the face in dsbXML should
+            have only one adjacency. (Default: None).
         angle_tolerance: The angle tolerance at which the geometry will
             be evaluated in degrees. This is needed to determine whether to
             write roof faces as flat or pitched. (Default: 1 degree).
@@ -127,17 +136,23 @@ def face_to_dsbxml_element(
         face.user_data = {'dsb_face_i': str(dsb_face_i)}
     else:
         face.user_data['dsb_face_i'] = str(dsb_face_i)
+    if adjacency_faces is not None:
+        for a_face in adjacency_faces:
+            if a_face.user_data is None:
+                a_face.user_data = {'dsb_face_i': str(dsb_face_i)}
+            else:
+                a_face.user_data['dsb_face_i'] = str(dsb_face_i)
 
     # add the vertices that define the Face
-    if face.has_parent:
-        face_indices = face.parent.geometry.face_indices[face_index]
-    else:
+    if zone_face_indices is None:
         face_indices = [tuple(range(len(face.geometry.boundary)))]
         if face.geometry.has_holes:
             counter = len(face_indices[0])
             for hole in face.geometry.holes:
                 face_indices.append(tuple(range(counter, counter + len(hole))))
                 counter += len(hole)
+    else:
+        face_indices = zone_face_indices
     xml_pt_i = ET.SubElement(xml_face, 'VertexIndices')
     xml_pt_i.text = '; '.join([str(i) for i in face_indices[0]])
 
@@ -180,40 +195,41 @@ def face_to_dsbxml_element(
     face_obj_ids.set('surfaceIndex', '-1')
 
     # add the adjacency information
-    # TODO: consider refactoring so that coplanar faces of the same type are one face
+    adjacency_faces = [face] if adjacency_faces is None else adjacency_faces
     xml_face_adjs = ET.SubElement(xml_face, 'Adjacencies')
-    xml_face_adj = ET.SubElement(xml_face_adjs, 'Adjacency',
-                                 type=face_type, adjacencyDistance='0.000')
-    if isinstance(face.boundary_condition, Surface):
-        adj_face, adj_room = face.boundary_condition.boundary_condition_objects
-        _object_ids(xml_face_adj, '-1', '-1', '-1', adj_room, adj_face)
-    else:  # add a ID object with all -1 for outdoors
-        _object_ids(xml_face_adj, '-1')
-    xml_adj_geos = ET.SubElement(xml_face_adj, 'AdjacencyPolygonList')
-    xml_adj_geo = ET.SubElement(xml_adj_geos, 'Polygon', auxiliaryType='-1')
-    if isinstance(face.boundary_condition, Surface):
-        _object_ids(xml_adj_geo, '-1')  # add a meaningless ID object
-    else:  # add an ID object referencing the self
-        _object_ids(xml_adj_geo, '-1', '0',
-                    str(block_handle), str(zone_handle), str(dsb_face_i))
-    xml_adj_pts = ET.SubElement(xml_adj_geo, 'Vertices')
-    for pt in face.geometry.boundary:
-        xml_point = ET.SubElement(xml_adj_pts, 'Point3D')
-        xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
-    xml_holes = ET.SubElement(xml_adj_pts, 'PolygonHoles')
-    if face.geometry.has_holes:
-        flip_plane = face.geometry.flip()  # flip to make holes clockwise
-        for hole, hole_i in zip(face.geometry.holes, hole_is):
-            hole_face = Face3D(hole, plane=flip_plane)
-            xml_hole = ET.SubElement(xml_holes, 'PolygonHole')
-            if isinstance(face.boundary_condition, Surface):
-                _object_ids(xml_hole, '-1')  # add a meaningless ID object
-            else:  # add an ID object referencing the self
-                _object_ids(xml_hole, '-1', '0', str(block_handle), zone_handle, hole_i)
-            xml_hole_pts = ET.SubElement(xml_hole, 'Vertices')
-            for pt in hole_face:
-                xml_point = ET.SubElement(xml_hole_pts, 'Point3D')
-                xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+    for adj_f_obj in adjacency_faces:
+        xml_face_adj = ET.SubElement(xml_face_adjs, 'Adjacency',
+                                     type=face_type, adjacencyDistance='0.000')
+        if isinstance(adj_f_obj.boundary_condition, Surface):
+            adj_face, adj_room = adj_f_obj.boundary_condition.boundary_condition_objects
+            _object_ids(xml_face_adj, '-1', '-1', '-1', adj_room, adj_face)
+        else:  # add a ID object with all -1 for outdoors
+            _object_ids(xml_face_adj, '-1')
+        xml_adj_geos = ET.SubElement(xml_face_adj, 'AdjacencyPolygonList')
+        xml_adj_geo = ET.SubElement(xml_adj_geos, 'Polygon', auxiliaryType='-1')
+        if isinstance(adj_f_obj.boundary_condition, Surface):
+            _object_ids(xml_adj_geo, '-1')  # add a meaningless ID object
+        else:  # add an ID object referencing the self
+            _object_ids(xml_adj_geo, '-1', '0',
+                        str(block_handle), str(zone_handle), str(dsb_face_i))
+        xml_adj_pts = ET.SubElement(xml_adj_geo, 'Vertices')
+        for pt in adj_f_obj.geometry.boundary:
+            xml_point = ET.SubElement(xml_adj_pts, 'Point3D')
+            xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+        xml_holes = ET.SubElement(xml_adj_pts, 'PolygonHoles')
+        if adj_f_obj.geometry.has_holes:
+            flip_plane = adj_f_obj.geometry.flip()  # flip to make holes clockwise
+            for hole, hole_i in zip(adj_f_obj.geometry.holes, hole_is):
+                hole_face = Face3D(hole, plane=flip_plane)
+                xml_hole = ET.SubElement(xml_holes, 'PolygonHole')
+                if isinstance(adj_f_obj.boundary_condition, Surface):
+                    _object_ids(xml_hole, '-1')  # add a meaningless ID object
+                else:  # add an ID object referencing the self
+                    _object_ids(xml_hole, '-1', '0', str(block_handle), zone_handle, hole_i)
+                xml_hole_pts = ET.SubElement(xml_hole, 'Vertices')
+                for pt in hole_face:
+                    xml_point = ET.SubElement(xml_hole_pts, 'Point3D')
+                    xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
 
     return xml_face
 
@@ -254,20 +270,60 @@ def room_to_dsbxml_element(
         xml_zone = ET.Element('Zone', zone_id_attr)
         block_handle = '-1'
 
+    # determine whether the room has multiple floor faces to merge
+    room_faces, room_geometry = room.faces, room.geometry
+    face_adjs = [None] * len(room_faces)
+    merge_faces = room.floors
+    if len(merge_faces) > 1:
+        f_geos = [f.geometry for f in merge_faces]
+        joined_geos = Face3D.join_coplanar_faces(f_geos, tolerance)
+        if len(joined_geos) != 0 and len(joined_geos) < len(f_geos):  # faces were merged
+            room_faces, face_adjs = [], []
+            apertures, doors = [], []
+            for f in merge_faces:
+                apertures.extend(f._apertures)
+                doors.extend(f._doors)
+            for new_geo in joined_geos:
+                if len(joined_geos) == 1:
+                    prop_fs = merge_faces
+                else:  # determine which of the faces corresponds to the merged one
+                    prop_fs = []
+                    for f in merge_faces:
+                        f_pt = f._point_on_face(tolerance)
+                        if new_geo.is_point_on_face(f_pt, tolerance):
+                            prop_fs.append(f)
+                prop_f = prop_fs[0]
+                fbc = boundary_conditions.outdoors
+                nf = Face(prop_f.identifier, new_geo, prop_f.type, fbc)
+                for ap in apertures:
+                    if nf.geometry.is_sub_face(ap.geometry, tolerance, angle_tolerance):
+                        nf.add_aperture(ap)
+                for dr in doors:
+                    if nf.geometry.is_sub_face(dr.geometry, tolerance, angle_tolerance):
+                        nf.add_door(dr)
+                room_faces.append(nf)
+                face_adjs.append(prop_fs)
+            for f in room.faces:
+                if not isinstance(f.type, Floor):
+                    room_faces.append(f)
+                    face_adjs.append(None)
+            room_geometry = Polyface3D.from_faces(
+                tuple(face.geometry for face in room_faces), tolerance)
+
     # create the body of the room using the polyhedral vertices
     hgt = round(room.max.z - room.min.z, 4)
     xml_body = ET.SubElement(
         xml_zone, 'Body', volume=str(room.volume), extrusionHeight=str(hgt))
     _object_ids(xml_body, room.identifier, '0', block_handle)
     xml_vertices = ET.SubElement(xml_body, 'Vertices')
-    for pt in room.geometry.vertices:
+    for pt in room_geometry.vertices:
         xml_point = ET.SubElement(xml_vertices, 'Point3D')
         xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
 
     # add the surfaces
     xml_faces = ET.SubElement(xml_body, 'Surfaces')
-    for i, face in enumerate(room.faces):
-        face_to_dsbxml_element(face, xml_body, i, angle_tolerance)
+    for face, fi, f_adj in zip(room_faces, room_geometry.face_indices, face_adjs):
+        face_to_dsbxml_element(face, xml_body, fi, f_adj, angle_tolerance)
 
     # add the other body attributes
     ET.SubElement(xml_body, 'VoidPerimeterList')
@@ -285,7 +341,7 @@ def room_to_dsbxml_element(
         xml_in_body_section, 'Body', volume=str(room.volume), extrusionHeight=str(hgt))
     _object_ids(xml_in_body, room.identifier, '0', block_handle)
     xml_in_vertices = ET.SubElement(xml_in_body, 'Vertices')
-    for pt in room.geometry.vertices:
+    for pt in room_geometry.vertices:
         xml_point = ET.SubElement(xml_in_vertices, 'Point3D')
         xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
     xml_in_faces = ET.SubElement(xml_in_body, 'Surfaces')
@@ -474,6 +530,8 @@ def room_group_to_dsbxml_block(
         for room in room_group:
             for f2 in room:
                 if f.geometry.is_centered_adjacent(f2.geometry, tolerance):
+                    if f2.user_data is None:
+                        print(f2)
                     f.user_data = {
                         'zone_handle': room.identifier,
                         'surface_index': f2.user_data['dsb_face_i']
@@ -494,8 +552,8 @@ def room_group_to_dsbxml_block(
         xml_point = ET.SubElement(xml_vertices, 'Point3D')
         xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
     ET.SubElement(xml_body, 'Surfaces')
-    for i, face in enumerate(block_room.faces):
-        face_xml = face_to_dsbxml_element(face, xml_body, i, angle_tolerance)
+    for face, fi in zip(block_room.faces, block_room.geometry.face_indices):
+        face_xml = face_to_dsbxml_element(face, xml_body, fi, angle_tolerance=angle_tolerance)
         face_xml.set('defaultOpenings', 'True')
         face_xml.set('thickness', '0.1')
         f_obj_ids_xml = face_xml.find('ObjectIDs')

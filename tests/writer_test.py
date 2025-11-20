@@ -151,10 +151,29 @@ def test_model_writer_single_block_hbjson():
     xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
     assert isinstance(xml_str, str)
 
+    # write the string to a file
+    test_file = 'C:/Users/Chris/Documents/GitHub/honeybee-designbuilder/tests/assets/test.xml'
+    with open(test_file, 'w') as fp:
+        fp.write(xml_str)
+
 
 def test_model_writer_standard_hbjson():
     """Test translating a typical HBJSON to a dsbXML."""
     standard_test = './tests/assets/small_revit_sample.hbjson'
+    hb_model = Model.from_file(standard_test)
+
+    xml_str = hb_model.to.dsbxml(hb_model)
+    assert isinstance(xml_str, str)
+
+    # write the string to a file
+    test_file = 'C:/Users/Chris/Documents/GitHub/honeybee-designbuilder/tests/assets/test.xml'
+    with open(test_file, 'w') as fp:
+        fp.write(xml_str)
+
+
+def test_model_writer_complex_hbjson():
+    """Test translating a complex HBJSON to a dsbXML."""
+    standard_test = './tests/assets/test_model.hbjson'
     hb_model = Model.from_file(standard_test)
 
     xml_str = hb_model.to.dsbxml(hb_model)
