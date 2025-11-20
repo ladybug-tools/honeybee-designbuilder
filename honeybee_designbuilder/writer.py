@@ -618,13 +618,22 @@ def room_group_to_dsbxml_block(
     return xml_block
 
 
-def model_to_dsbxml_element(model):
+def model_to_dsbxml_element(model, xml_template='Default'):
     """Generate an dsbXML Element object for a honeybee Model.
 
     The resulting Element has all geometry (Rooms, Faces, Apertures, Doors, Shades).
 
     Args:
         model: A honeybee Model for which an dsbXML ElementTree object will be returned.
+        xml_template: Text for the type of template file to be used to write the
+            dsbXML. Different templates contain different amounts of default
+            assembly library data, which may be needed in order to import the
+            dsbXML into older versions of DesignBuilder. However, this data can
+            greatly increase the size of the resulting dsbXML file. Choose from
+            the following options.
+
+            * Default
+            * Full
     """
     global HANDLE_COUNTER  # declare that we will edit the global variable
     # duplicate model to avoid mutating it as we edit it for INP export
@@ -658,7 +667,7 @@ def model_to_dsbxml_element(model):
 
     # set up the ElementTree for the XML
     package_dir = os.path.dirname(os.path.abspath(__file__))
-    template_file = os.path.join(package_dir, 'template.xml')
+    template_file = os.path.join(package_dir, '_templates', '{}.xml'.format(xml_template))
     xml_tree = ET.parse(template_file)
     xml_root = xml_tree.getroot()
     model_name = clean_string(model.display_name)
@@ -668,9 +677,6 @@ def model_to_dsbxml_element(model):
 
     # add the site and the building
     xml_site = xml_root.find('Site')
-    ET.SubElement(xml_site, 'Attributes')
-    ET.SubElement(xml_site, 'Tables')
-    ET.SubElement(xml_site, 'AssemblyLibrary')
     xml_bldgs = xml_site.find('Buildings')
     xml_bldg = xml_bldgs.find('Building')
     ET.SubElement(xml_bldg, 'ComponentBlocks')
@@ -734,7 +740,7 @@ def model_to_dsbxml_element(model):
     return xml_root
 
 
-def model_to_dsbxml(model, program_name=None):
+def model_to_dsbxml(model, xml_template='Default', program_name=None):
     """Generate an dsbXML string for a Model.
 
     The resulting string will include all geometry (Rooms, Faces, Apertures,
@@ -745,6 +751,16 @@ def model_to_dsbxml(model, program_name=None):
 
     Args:
         model: A honeybee Model for which an dsbXML ElementTree object will be returned.
+        xml_template: Text for the type of template file to be used to write the
+            dsbXML. Different templates contain different amounts of default
+            assembly library data, which may be needed in order to import the
+            dsbXML into older versions of DesignBuilder. However, this data can
+            greatly increase the size of the resulting dsbXML file. Choose from
+            the following options.
+
+            * Default
+            * Full
+
         program_name: Optional text to set the name of the software that will
             appear under a comment in the XML to identify where it is being exported
             from. This can be set things like "Ladybug Tools" or "Pollination"
@@ -775,7 +791,7 @@ def model_to_dsbxml(model, program_name=None):
         write_to_file(dsbxml, xml_str, True)
     """
     # create the XML string
-    xml_root = model_to_dsbxml_element(model)
+    xml_root = model_to_dsbxml_element(model, xml_template)
     ET.indent(xml_root)
     dsbxml_str = ET.tostring(xml_root, encoding='unicode')
 

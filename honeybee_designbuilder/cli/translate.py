@@ -64,6 +64,6 @@ def model_to_dsbxml(
     # re-serialize the Model to Python
     model = Model.from_file(model_file)
     # create the DsbXML string for the model
-    dsbxml_str = model_writer.model_to_dsbxml(model, program_name)
+    dsbxml_str = model_writer.model_to_dsbxml(model, program_name=program_name)
     # write out the INP file
     return process_content_to_output(dsbxml_str, output_file)
