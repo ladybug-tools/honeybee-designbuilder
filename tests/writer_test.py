@@ -120,8 +120,13 @@ def test_model_writer():
     xml_et = model.to.dsbxml_element(model)
     assert isinstance(xml_et, ET.Element)
 
-    xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
+    xml_str = model.to.dsbxml(model)
     assert isinstance(xml_str, str)
+
+    # write the string to a file
+    test_file = 'C:/Users/Chris/Documents/GitHub/honeybee-designbuilder/tests/assets/test.xml'
+    with open(test_file, 'wb') as fp:
+        fp.write(xml_str.encode('iso-8859-15'))
 
 
 def test_model_writer_adjacency():
@@ -162,7 +167,7 @@ def test_model_writer_standard_hbjson():
     standard_test = './tests/assets/small_revit_sample.hbjson'
     hb_model = Model.from_file(standard_test)
 
-    xml_str = hb_model.to.dsbxml(hb_model)
+    xml_str = hb_model.to.dsbxml_file(hb_model, program_name='Ladybug Tools')
     assert isinstance(xml_str, str)
 
     # write the string to a file
@@ -176,10 +181,6 @@ def test_model_writer_complex_hbjson():
     standard_test = './tests/assets/test_model.hbjson'
     hb_model = Model.from_file(standard_test)
 
-    xml_str = hb_model.to.dsbxml(hb_model)
-    assert isinstance(xml_str, str)
-
-    # write the string to a file
     test_file = 'C:/Users/Chris/Documents/GitHub/honeybee-designbuilder/tests/assets/test.xml'
-    with open(test_file, 'w') as fp:
-        fp.write(xml_str)
+    xml_str = hb_model.to.dsbxml_file(hb_model, test_file)
+    assert isinstance(xml_str, str)
