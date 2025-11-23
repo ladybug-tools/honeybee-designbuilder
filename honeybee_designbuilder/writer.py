@@ -751,8 +751,9 @@ def model_to_dsbxml(model, xml_template='Default', program_name=None):
             greatly increase the size of the resulting dsbXML file. Choose from
             the following options.
 
-            * Default
-            * Full
+            * Default - a minimal file that imports into the latest versions
+            * Assembly - the Default plus an AssemblyLibrary with typical objects
+            * Full - a large file with all libraries that can be imported to version 7.3
 
         program_name: Optional text to set the name of the software that will
             appear under a comment in the XML to identify where it is being exported
@@ -817,8 +818,9 @@ def model_to_dsbxml_file(model, output_file, xml_template='Default', program_nam
             greatly increase the size of the resulting dsbXML file. Choose from
             the following options.
 
-            * Default
-            * Full
+            * Default - a minimal file that imports into the latest versions
+            * Assembly - the Default plus an AssemblyLibrary with typical objects
+            * Full - a large file with all libraries that can be imported to version 7.3
 
         program_name: Optional text to set the name of the software that will
             appear under a comment in the XML to identify where it is being exported
