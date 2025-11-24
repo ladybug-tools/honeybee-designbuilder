@@ -4,4 +4,4 @@ CLI Docs
 Installation
 ------------
 
-To check if the command line is installed correctly use ``honeybee-designbuilder --help``
+To check if the command line interface is installed correctly use `honeybee-designbuilder --help`.
