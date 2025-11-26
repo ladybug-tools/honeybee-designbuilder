@@ -285,9 +285,12 @@ def room_to_dsbxml_element(
     face_adjs = [None] * len(room_faces)
     merge_faces = room.floors
     if len(merge_faces) > 1:
-        f_geos = [f.geometry for f in merge_faces]
-        floor_geos = Face3D.join_coplanar_faces(f_geos, tolerance)
-        if len(floor_geos) != 0 and len(floor_geos) < len(f_geos):  # faces were merged
+        if room.properties.designbuilder.floor_geometry is not None:
+            floor_geos = [room.properties.designbuilder.floor_geometry]
+        else:
+            f_geos = [f.geometry for f in merge_faces]
+            floor_geos = Face3D.join_coplanar_faces(f_geos, tolerance)
+        if len(floor_geos) != 0 and len(floor_geos) < len(merge_faces):  # faces were merged
             room_faces, face_adjs = [], []
             apertures, doors = [], []
             for f in merge_faces:
@@ -450,7 +453,10 @@ def room_group_to_dsbxml_block(
     # gather horizontal floor boundaries for the rooms
     floor_geos, floor_z_vals, ceil_z_vals, label_pts = [], [], [], []
     for room in room_group:
-        flr_geos = room.horizontal_floor_boundaries(tolerance=tolerance)
+        if room.properties.designbuilder.floor_geometry is not None:
+            flr_geos = [room.properties.designbuilder.floor_geometry]
+        else:
+            flr_geos = room.horizontal_floor_boundaries(tolerance=tolerance)
         floor_geos.extend(flr_geos)
         floor_z_vals.extend([flr_geo.min.z for flr_geo in flr_geos])
         ceil_z_vals.append(room.max.z)
@@ -468,15 +474,17 @@ def room_group_to_dsbxml_block(
     for f_geo in floor_geos:
         is_holes.append(False)
         b_poly = Polygon2D(tuple(Point2D(pt.x, pt.y) for pt in f_geo.boundary))
-        polygons.append(b_poly.remove_colinear_vertices(tolerance))
+        polygons.append(b_poly)
         if f_geo.has_holes:
             for hole in f_geo.holes:
                 is_holes.append(True)
                 h_poly = Polygon2D(tuple(Point2D(pt.x, pt.y) for pt in hole))
-                polygons.append(h_poly.remove_colinear_vertices(tolerance))
-    int_poly = Polygon2D.intersect_polygon_segments(polygons, tolerance)
+                polygons.append(h_poly)
+    if any(r.properties.designbuilder.floor_geometry is None for r in room_group):
+        polygons = [poly.remove_colinear_vertices(tolerance) for poly in polygons]
+        polygons = Polygon2D.intersect_polygon_segments(polygons, tolerance)
     face_pts, flat_flr_geos = [], []
-    for poly, is_hole in zip(int_poly, is_holes):
+    for poly, is_hole in zip(polygons, is_holes):
         pt_3d = [Point3D(pt.x, pt.y, min_z) for pt in poly]
         if not is_hole:
             face_pts.append((pt_3d, []))
