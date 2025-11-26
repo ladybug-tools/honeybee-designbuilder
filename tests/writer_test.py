@@ -148,14 +148,15 @@ def test_model_writer_hole():
     bound_pts = [Point3D(0, 0), Point3D(3, 0), Point3D(3, 3), Point3D(0, 3)]
     hole_pts = [Point3D(1, 1, 0), Point3D(2, 1, 0), Point3D(2, 2, 0), Point3D(1, 2, 0)]
     face = Face3D(bound_pts, None, [hole_pts])
-    polyface = Polyface3D.from_offset_face(face, 3)
-    room = Room.from_polyface3d('DonutZone', polyface)
-    room.rename_faces_by_attribute()
+    polyface_1 = Polyface3D.from_offset_face(face, 3)
+    room_1 = Room.from_polyface3d('DonutZone', polyface_1)
+    room_1.rename_faces_by_attribute()
+    polyface_2 = Polyface3D.from_offset_face(Face3D(hole_pts), 3)
+    room_2 = Room.from_polyface3d('HoleZone', polyface_2)
+    room_2.rename_faces_by_attribute()
+    Room.solve_adjacency([room_1, room_2])
 
-    model = Model('Tiny_House', [room])
-
-    xml_et = model.to.dsbxml_element(model)
-    assert isinstance(xml_et, ET.Element)
+    model = Model('Tiny_House', [room_1, room_2])
 
     xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
     assert isinstance(xml_str, str)

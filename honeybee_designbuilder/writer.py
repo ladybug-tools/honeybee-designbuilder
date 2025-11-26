@@ -320,7 +320,7 @@ def room_to_dsbxml_element(
             room_geometry = Polyface3D.from_faces(
                 tuple(face.geometry for face in room_faces), tolerance)
     else:
-        floor_geos = merge_faces
+        floor_geos = [f.geometry for f in merge_faces]
 
     # create the body of the room using the polyhedral vertices
     hgt = round(room.max.z - room.min.z, 4)
@@ -337,8 +337,20 @@ def room_to_dsbxml_element(
     for face, fi, f_adj in zip(room_faces, room_geometry.face_indices, face_adjs):
         face_to_dsbxml_element(face, xml_body, fi, f_adj, angle_tolerance)
 
+    # if the room floor plate has holes, write them in the void perimeter list
+    xml_void = ET.SubElement(xml_body, 'VoidPerimeterList')
+    for fli, floor_g in enumerate(floor_geos):
+        if floor_g.has_holes:
+            flip_plane = floor_g.plane.flip()  # flip to make holes clockwise
+            for hole in floor_g.holes:
+                xml_v_poly = ET.SubElement(xml_void, 'Polygon', auxiliaryType='-1')
+                _object_ids(xml_v_poly, '-1', surface=str(fli))
+                hole_face = Face3D(hole, plane=flip_plane)
+                for pt in hole_face.boundary:
+                    xml_point = ET.SubElement(xml_v_poly, 'Point3D')
+                    xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+
     # add the other body attributes
-    ET.SubElement(xml_body, 'VoidPerimeterList')
     xml_room_attr = ET.SubElement(xml_body, 'Attributes')
     xml_room_name = ET.SubElement(xml_room_attr, 'Attribute', key='Title')
     xml_room_name.text = str(room.display_name)
@@ -371,7 +383,8 @@ def room_to_dsbxml_element(
         ET.SubElement(in_face, 'Openings')
         ET.SubElement(in_face, 'Adjacencies')
         ET.SubElement(in_face, 'Attributes')
-    ET.SubElement(xml_in_body, 'VoidPerimeterList')
+    in_xml_void = deepcopy(xml_void)
+    xml_in_body.append(in_xml_void)
     ET.SubElement(xml_in_body, 'Attributes')
 
     return xml_zone
