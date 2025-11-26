@@ -1,7 +1,7 @@
 """Test the translators for geometry to INP."""
 import xml.etree.ElementTree as ET
 
-from ladybug_geometry.geometry3d import Point3D, Vector3D, Mesh3D
+from ladybug_geometry.geometry3d import Point3D, Vector3D, Mesh3D, Face3D, Polyface3D
 from honeybee.model import Model
 from honeybee.room import Room
 from honeybee.face import Face
@@ -141,6 +141,27 @@ def test_model_writer_adjacency():
 
     xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
     assert isinstance(xml_str, str)
+
+
+def test_model_writer_hole():
+    """Test the Model writer with a model that has a room with a hole."""
+    bound_pts = [Point3D(0, 0), Point3D(3, 0), Point3D(3, 3), Point3D(0, 3)]
+    hole_pts = [Point3D(1, 1, 0), Point3D(2, 1, 0), Point3D(2, 2, 0), Point3D(1, 2, 0)]
+    face = Face3D(bound_pts, None, [hole_pts])
+    polyface = Polyface3D.from_offset_face(face, 3)
+    room = Room.from_polyface3d('DonutZone', polyface)
+    room.rename_faces_by_attribute()
+
+    model = Model('Tiny_House', [room])
+
+    xml_et = model.to.dsbxml_element(model)
+    assert isinstance(xml_et, ET.Element)
+
+    xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
+    assert isinstance(xml_str, str)
+
+    out_file = './tests/assets/donut_room.xml'
+    model.to.dsbxml_file(model, out_file, program_name='Ladybug Tools')
 
 
 def test_model_writer_single_block_hbjson():

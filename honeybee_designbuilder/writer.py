@@ -156,20 +156,20 @@ def face_to_dsbxml_element(
     xml_pt_i = ET.SubElement(xml_face, 'VertexIndices')
     xml_pt_i.text = '; '.join([str(i) for i in face_indices[0]])
 
-    # add the holes as duplicated Surfaces; very stupid
+    # add the holes as duplicated Surfaces
     xml_hole_i = ET.SubElement(xml_face, 'HoleIndices')
     if len(face_indices) > 1:  # we have holes to add
         hole_is = []
-        for j, hole in enumerate(face_indices[1:]):
+        for j, (hole_i, hole) in enumerate(zip(face_indices[1:], face.geometry.holes)):
             hole_id_attr = face_id_attr.copy()
             hole_id_attr['type'] = 'Hole'
             hole_geo = Face3D(hole)
-            hole_id_attr['area'] = hole_geo.area
-            xml_hole = ET.SubElement(surfaces_element, 'Surface', face_id_attr)
+            hole_id_attr['area'] = str(hole_geo.area)
+            xml_hole = ET.SubElement(surfaces_element, 'Surface', hole_id_attr)
             _object_ids(xml_hole, str(HANDLE_COUNTER), '0', block_handle)
             HANDLE_COUNTER += 1
             xml_hole_pt_i = ET.SubElement(xml_hole, 'VertexIndices')
-            xml_hole_pt_i.text = '; '.join([str(i) for i in hole])
+            xml_hole_pt_i.text = '; '.join([str(i) for i in hole_i])
             ET.SubElement(xml_hole, 'HoleIndices')
             ET.SubElement(xml_hole, 'Openings')
             ET.SubElement(xml_hole, 'Adjacencies')
@@ -218,14 +218,14 @@ def face_to_dsbxml_element(
             xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
         xml_holes = ET.SubElement(xml_adj_pts, 'PolygonHoles')
         if adj_f_obj.geometry.has_holes:
-            flip_plane = adj_f_obj.geometry.flip()  # flip to make holes clockwise
+            flip_plane = adj_f_obj.geometry.plane.flip()  # flip to make holes clockwise
             for hole, hole_i in zip(adj_f_obj.geometry.holes, hole_is):
                 hole_face = Face3D(hole, plane=flip_plane)
                 xml_hole = ET.SubElement(xml_holes, 'PolygonHole')
                 if isinstance(adj_f_obj.boundary_condition, Surface):
                     _object_ids(xml_hole, '-1')  # add a meaningless ID object
                 else:  # add an ID object referencing the self
-                    _object_ids(xml_hole, '-1', '0', str(block_handle), zone_handle, hole_i)
+                    _object_ids(xml_hole, '-1', '0', str(block_handle), zone_handle, str(hole_i))
                 xml_hole_pts = ET.SubElement(xml_hole, 'Vertices')
                 for pt in hole_face:
                     xml_point = ET.SubElement(xml_hole_pts, 'Point3D')
@@ -527,16 +527,20 @@ def room_group_to_dsbxml_block(
 
     # process the faces of the block room to be formatted for a body
     for f in block_room.faces:
+        face_matched = False
         for room in room_group:
             for f2 in room:
-                if f.geometry.is_centered_adjacent(f2.geometry, tolerance):
-                    if f2.user_data is None:
-                        print(f2)
+                if f.identifier == f2.identifier:
                     f.user_data = {
                         'zone_handle': room.identifier,
                         'surface_index': f2.user_data['dsb_face_i']
                     }
+                    face_matched = True
                     break
+            if face_matched:
+                break
+        else:
+            print('Failed to match the block Face: {}'.format(f.display_name))
         f.remove_sub_faces()
         f.identifier = str(HANDLE_COUNTER)
         HANDLE_COUNTER += 1
