@@ -9,11 +9,12 @@ import xml.etree.ElementTree as ET
 from ladybug_geometry.geometry2d import Point2D, Polygon2D
 from ladybug_geometry.geometry3d import Vector3D, Point3D, Face3D, Polyface3D
 from honeybee.typing import clean_string
-from honeybee.facetype import Floor, RoofCeiling, AirBoundary, face_types
-from honeybee.boundarycondition import Surface, boundary_conditions
 from honeybee.aperture import Aperture
 from honeybee.face import Face
 from honeybee.room import Room
+from honeybee.facetype import Floor, RoofCeiling, AirBoundary, face_types
+from honeybee.boundarycondition import Outdoors, Surface, Ground, boundary_conditions
+from honeybee_energy.boundarycondition import Adiabatic
 
 DESIGNBUILDER_VERSION = '2025.1.0.085'
 HANDLE_COUNTER = 1  # counter used to generate unique handles when necessary
@@ -183,6 +184,15 @@ def face_to_dsbxml_element(
     xml_face_name.text = str(face.display_name)
     xml_gbxml_type = ET.SubElement(xml_face_attr, 'Attribute', key='gbXMLSurfaceType')
     xml_gbxml_type.text = str(face.gbxml_type)
+    xml_bc = ET.SubElement(xml_face_attr, 'Attribute', key='AdjacentCondition')
+    if isinstance(face.boundary_condition, Outdoors):
+        xml_bc.text = '2-Not adjacent to ground'
+    elif isinstance(face.boundary_condition, Ground):
+        xml_bc.text = '3-Adjacent to ground'
+    elif isinstance(face.boundary_condition, Adiabatic):
+        xml_bc.text = '4-Adiabatic'
+    else:
+        xml_bc.text = '1-Auto'
 
     # add any openings if they exist
     ET.SubElement(xml_face, 'Openings')
@@ -276,15 +286,15 @@ def room_to_dsbxml_element(
     merge_faces = room.floors
     if len(merge_faces) > 1:
         f_geos = [f.geometry for f in merge_faces]
-        joined_geos = Face3D.join_coplanar_faces(f_geos, tolerance)
-        if len(joined_geos) != 0 and len(joined_geos) < len(f_geos):  # faces were merged
+        floor_geos = Face3D.join_coplanar_faces(f_geos, tolerance)
+        if len(floor_geos) != 0 and len(floor_geos) < len(f_geos):  # faces were merged
             room_faces, face_adjs = [], []
             apertures, doors = [], []
             for f in merge_faces:
                 apertures.extend(f._apertures)
                 doors.extend(f._doors)
-            for new_geo in joined_geos:
-                if len(joined_geos) == 1:
+            for new_geo in floor_geos:
+                if len(floor_geos) == 1:
                     prop_fs = merge_faces
                 else:  # determine which of the faces corresponds to the merged one
                     prop_fs = []
@@ -309,6 +319,8 @@ def room_to_dsbxml_element(
                     face_adjs.append(None)
             room_geometry = Polyface3D.from_faces(
                 tuple(face.geometry for face in room_faces), tolerance)
+    else:
+        floor_geos = merge_faces
 
     # create the body of the room using the polyhedral vertices
     hgt = round(room.max.z - room.min.z, 4)
@@ -436,7 +448,6 @@ def room_group_to_dsbxml_block(
             label_pts.append(label_pt)
         else:
             label_pts.append(room.geometry.center)
-        # TODO: if there are any holes in the floor plate, make them VoidPerimeterList
     min_z, max_z = min(floor_z_vals), max(ceil_z_vals)
 
     # join the flat floors of the rooms together to determine internal partitions
