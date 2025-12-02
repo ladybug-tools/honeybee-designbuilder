@@ -20,6 +20,85 @@ DESIGNBUILDER_VERSION = '2025.1.0.085'
 HANDLE_COUNTER = 1  # counter used to generate unique handles when necessary
 
 
+def shade_to_dsbxml_element(shade, building_element=None):
+    """Generate an dsbXML Plane Element object from a honeybee Shade.
+
+    Args:
+        shade: A honeybee Shade for which an dsbXML Plane Element object will
+            be returned.
+        building_element: An optional XML Element for the Building to which the
+            generated plane object will be added. If None, a new XML Element
+            will be generated. Note that this Building element should have a
+            Planes tag already created within it.
+    """
+    # create the Plane element
+    if building_element is not None:
+        planes_element = building_element.find('Planes')
+        xml_shade = ET.SubElement(planes_element, 'Plane', type='2')
+    else:
+        xml_shade = ET.Element('Plane', type='2')
+    # add the vertices for the geometry
+    xml_geo = ET.SubElement(xml_shade, 'Polygon', auxiliaryType='-1')
+    _object_ids(xml_geo, shade.identifier, '0')
+    xml_sub_pts = ET.SubElement(xml_geo, 'Vertices')
+    for pt in shade.geometry.boundary:
+        xml_point = ET.SubElement(xml_sub_pts, 'Point3D')
+        xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+    xml_holes = ET.SubElement(xml_geo, 'PolygonHoles')
+    if shade.geometry.has_holes:
+        flip_plane = shade.geometry.plane.flip()  # flip to make holes clockwise
+        for hole in shade.geometry.holes:
+            hole_face = Face3D(hole, plane=flip_plane)
+            xml_sub_hole = ET.SubElement(xml_holes, 'PolygonHole')
+            _object_ids(xml_geo, shade.identifier, '0')
+            xml_sub_hole_pts = ET.SubElement(xml_sub_hole, 'Vertices')
+            for pt in hole_face:
+                xml_point = ET.SubElement(xml_sub_hole_pts, 'Point3D')
+                xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+    # add the name of the shade
+    xml_shd_attr = ET.SubElement(xml_shade, 'Attributes')
+    xml_shd_name = ET.SubElement(xml_shd_attr, 'Attribute', key='Title')
+    xml_shd_name.text = str(shade.display_name)
+    return xml_shade
+
+
+def shade_mesh_to_dsbxml_element(shade_mesh, building_element=None, reset_counter=True):
+    """Generate an dsbXML Planes Element object from a honeybee ShadeMesh.
+
+    Args:
+        shade_mesh: A honeybee ShadeMesh for which an dsbXML Planes Element
+            object will be returned.
+        building_element: An optional XML Element for the Building to which the
+            generated objects will be added. If None, a new XML Element
+            will be generated. Note that this Building element should have a
+            Planes tag already created within it.
+        reset_counter: A boolean to note whether the global counter for unique
+            handles should be reset after the method is run. (Default: True).
+    """
+    global HANDLE_COUNTER  # declare that we will edit the global variable
+    # create the Planes element
+    xml_planes = building_element.find('Planes') \
+        if building_element is not None else ET.Element('Planes')
+    # add a plane element for each mesh face
+    for i, face in enumerate(shade_mesh.geometry.face_vertices):
+        xml_shade = ET.SubElement(xml_planes, 'Plane', type='2')
+        xml_geo = ET.SubElement(xml_shade, 'Polygon', auxiliaryType='-1')
+        _object_ids(xml_geo, str(HANDLE_COUNTER), '0')
+        HANDLE_COUNTER += 1
+        xml_sub_pts = ET.SubElement(xml_geo, 'Vertices')
+        for pt in face:
+            xml_point = ET.SubElement(xml_sub_pts, 'Point3D')
+            xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
+        ET.SubElement(xml_geo, 'PolygonHoles')
+        # add the name of the shade
+        xml_shd_attr = ET.SubElement(xml_shade, 'Attributes')
+        xml_shd_name = ET.SubElement(xml_shd_attr, 'Attribute', key='Title')
+        xml_shd_name.text = '{} {}'.format(shade_mesh.display_name, i)
+    if reset_counter:  # reset the counter back to 1 if requested
+        HANDLE_COUNTER = 1
+    return xml_planes
+
+
 def sub_face_to_dsbxml_element(sub_face, surface_element=None):
     """Generate an dsbXML Opening Element object from a honeybee Aperture or Door.
 
@@ -53,11 +132,11 @@ def sub_face_to_dsbxml_element(sub_face, surface_element=None):
         xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
     xml_sub_holes = ET.SubElement(xml_sub_geo, 'PolygonHoles')
     if sub_face.geometry.has_holes:
-        flip_plane = sub_face.geometry.flip()  # flip to make holes clockwise
+        flip_plane = sub_face.geometry.plane.flip()  # flip to make holes clockwise
         for hole in sub_face.geometry.holes:
             hole_face = Face3D(hole, plane=flip_plane)
             xml_sub_hole = ET.SubElement(xml_sub_holes, 'PolygonHole')
-            _object_ids(xml_sub_geo, sub_face.identifier, '0',
+            _object_ids(xml_sub_geo, '-1', '0',
                         str(block_handle), str(zone_handle), surface_index)
             xml_sub_hole_pts = ET.SubElement(xml_sub_hole, 'Vertices')
             for pt in hole_face:
@@ -74,7 +153,7 @@ def sub_face_to_dsbxml_element(sub_face, surface_element=None):
 
 def face_to_dsbxml_element(
     face, zone_body_element=None, zone_face_indices=None, adjacency_faces=None,
-    angle_tolerance=1.0
+    angle_tolerance=1.0, reset_counter=True
 ):
     """Generate an dsbXML Surface Element object from a honeybee Face.
 
@@ -99,6 +178,8 @@ def face_to_dsbxml_element(
         angle_tolerance: The angle tolerance at which the geometry will
             be evaluated in degrees. This is needed to determine whether to
             write roof faces as flat or pitched. (Default: 1 degree).
+        reset_counter: A boolean to note whether the global counter for unique
+            handles should be reset after the method is run. (Default: True).
     """
     global HANDLE_COUNTER  # declare that we will edit the global variable
     # get the basic attributes of the Face
@@ -240,12 +321,13 @@ def face_to_dsbxml_element(
                 for pt in hole_face:
                     xml_point = ET.SubElement(xml_hole_pts, 'Point3D')
                     xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
-
+    if reset_counter:  # reset the counter back to 1 if requested
+        HANDLE_COUNTER = 1
     return xml_face
 
 
 def room_to_dsbxml_element(
-    room, block_element=None, tolerance=0.01, angle_tolerance=1.0
+    room, block_element=None, tolerance=0.01, angle_tolerance=1.0, reset_counter=True
 ):
     """Generate an dsbXML Zone Element object for a honeybee Room.
 
@@ -261,6 +343,8 @@ def room_to_dsbxml_element(
             be evaluated. (Default: 0.01, suitable for objects in meters).
         angle_tolerance: The angle tolerance at which the geometry will
             be evaluated in degrees. (Default: 1 degree).
+        reset_counter: A boolean to note whether the global counter for unique
+            handles should be reset after the method is run. (Default: True).
     """
     global HANDLE_COUNTER  # declare that we will edit the global variable
     # create the zone element
@@ -338,7 +422,9 @@ def room_to_dsbxml_element(
     # add the surfaces
     xml_faces = ET.SubElement(xml_body, 'Surfaces')
     for face, fi, f_adj in zip(room_faces, room_geometry.face_indices, face_adjs):
-        face_to_dsbxml_element(face, xml_body, fi, f_adj, angle_tolerance)
+        face_to_dsbxml_element(
+            face, xml_body, fi, f_adj, angle_tolerance, reset_counter=False
+        )
 
     # if the room floor plate has holes, write them in the void perimeter list
     xml_void = ET.SubElement(xml_body, 'VoidPerimeterList')
@@ -389,13 +475,14 @@ def room_to_dsbxml_element(
     in_xml_void = deepcopy(xml_void)
     xml_in_body.append(in_xml_void)
     ET.SubElement(xml_in_body, 'Attributes')
-
+    if reset_counter:  # reset the counter back to 1 if requested
+        HANDLE_COUNTER = 1
     return xml_zone
 
 
 def room_group_to_dsbxml_block(
     room_group, block_handle, building_element=None, block_name=None,
-    tolerance=0.01, angle_tolerance=1.0
+    tolerance=0.01, angle_tolerance=1.0, reset_counter=True
 ):
     """Generate an dsbXML BuildingBlock Element object for a list of honeybee Rooms.
 
@@ -416,6 +503,8 @@ def room_group_to_dsbxml_block(
             be evaluated. (Default: 0.01, suitable for objects in meters).
         angle_tolerance: The angle tolerance at which the geometry will
             be evaluated in degrees. (Default: 1 degree).
+        reset_counter: A boolean to note whether the global counter for unique
+            handles should be reset after the method is run. (Default: True).
     """
     global HANDLE_COUNTER  # declare that we will edit the global variable
     # get a room representing the fully-joined volume to be used for the block body
@@ -552,7 +641,9 @@ def room_group_to_dsbxml_block(
     # add the rooms to the block
     ET.SubElement(xml_block, 'Zones')
     for room, label_pt in zip(room_group, label_pts):
-        xml_room = room_to_dsbxml_element(room, xml_block, tolerance, angle_tolerance)
+        xml_room = room_to_dsbxml_element(
+            room, xml_block, tolerance, angle_tolerance, reset_counter=False
+        )
         xml_label = ET.SubElement(xml_room, 'LabelPosition')
         xml_label_pt = ET.SubElement(xml_label, 'Point3D')
         xml_label_pt.text = '{}; {}; {}'.format(label_pt.x, label_pt.y, label_pt.z)
@@ -589,7 +680,9 @@ def room_group_to_dsbxml_block(
         xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
     ET.SubElement(xml_body, 'Surfaces')
     for face, fi in zip(block_room.faces, block_room.geometry.face_indices):
-        face_xml = face_to_dsbxml_element(face, xml_body, fi, angle_tolerance=angle_tolerance)
+        face_xml = face_to_dsbxml_element(
+            face, xml_body, fi, angle_tolerance=angle_tolerance, reset_counter=False
+        )
         face_xml.set('defaultOpenings', 'True')
         face_xml.set('thickness', '0.1')
         f_obj_ids_xml = face_xml.find('ObjectIDs')
@@ -650,7 +743,8 @@ def room_group_to_dsbxml_block(
     xml_block_name = ET.SubElement(xml_block_attr, 'Attribute', key='Title')
     xml_block_name.text = block_name if block_name is not None \
         else 'Block {}'.format(block_handle)
-
+    if reset_counter:  # reset the counter back to 1 if requested
+        HANDLE_COUNTER = 1
     return xml_block
 
 
@@ -668,8 +762,9 @@ def model_to_dsbxml_element(model, xml_template='Default'):
             greatly increase the size of the resulting dsbXML file. Choose from
             the following options.
 
-            * Default
-            * Full
+            * Default - a minimal file that imports into the latest versions
+            * Assembly - the Default plus an AssemblyLibrary with typical objects
+            * Full - a large file with all libraries that can be imported to version 7.3
     """
     global HANDLE_COUNTER  # declare that we will edit the global variable
     # duplicate model to avoid mutating it as we edit it for INP export
@@ -685,7 +780,6 @@ def model_to_dsbxml_element(model, xml_template='Default'):
         error = 'Failed to remove degenerate Rooms.\nYour Model units system is: {}. ' \
             'Is this correct?'.format(original_model.units)
         raise ValueError(error)
-    model.shade_meshes_to_shades()
     # auto-assign stories if there are none since these are needed for blocks
     if len(model.stories) == 0 and len(model.rooms) != 0:
         model.assign_stories_by_floor_height(min_difference=2.0)
@@ -739,7 +833,9 @@ def model_to_dsbxml_element(model, xml_template='Default'):
     f_index_map = {}  # create a map between the face handle the face index
     xml_blocks = ET.SubElement(xml_bldg, 'BuildingBlocks')
     for i, (room_group, block_name) in enumerate(zip(block_rooms, block_names)):
-        room_group_to_dsbxml_block(room_group, i + 1, xml_bldg, block_name)
+        room_group_to_dsbxml_block(
+            room_group, i + 1, xml_bldg, block_name, reset_counter=False
+        )
         for room in room_group:
             for f in room:
                 f_index_map[f.identifier] = f.user_data['dsb_face_i']
@@ -761,6 +857,13 @@ def model_to_dsbxml_element(model, xml_template='Default'):
                         except KeyError:  # invalid adjacency; remove the adjacency
                             xml_adj_obj_ids.set('surfaceIndex', '-1')
                             xml_adj_obj_ids.set('zoneHandle', '-1')
+
+    # translate all of the shade geometries into the Planes section
+    for shade in model.shades:
+        shade_to_dsbxml_element(shade, xml_bldg)
+    for shade_mesh in model.shade_meshes:
+        shade_mesh.triangulate_and_remove_degenerate_faces(model.tolerance)
+        shade_mesh_to_dsbxml_element(shade_mesh, xml_bldg, reset_counter=False)
 
     # set the handle of the site to the last index and reset the counter
     xml_site.set('handle', str(HANDLE_COUNTER))
@@ -863,25 +966,6 @@ def model_to_dsbxml_file(model, output_file, xml_template='Default', program_nam
             from. This can be set things like "Ladybug Tools" or "Pollination"
             or some other software in which this dsbXML export capability is being
             run. If None, no comment will appear. (Default: None).
-
-    Usage:
-
-    .. code-block:: python
-
-        import os
-        from honeybee.model import Model
-        from honeybee.room import Room
-        from honeybee.config import folders
-
-        # Crate an input Model
-        room = Room.from_box('Tiny House Zone', 5, 10, 3)
-        room.properties.energy.program_type = office_program
-        room.properties.energy.add_default_ideal_air()
-        model = Model('Tiny House', [room])
-
-        # write the dsbXML file from the model
-        dsbxml = os.path.join(folders.default_simulation_folder, 'in_dsb.xml')
-        xml_str = model.to.dsbxml(model, dsbxml)
     """
     # make sure the directory exists where the file will be written
     dir_name = os.path.dirname(os.path.abspath(output_file))
@@ -930,6 +1014,30 @@ def sub_face_to_dsbxml(sub_face):
             string will be returned.
     """
     xml_root = sub_face_to_dsbxml_element(sub_face)
+    ET.indent(xml_root)
+    return ET.tostring(xml_root, encoding='unicode')
+
+
+def shade_to_dsbxml(shade):
+    """Generate an dsbXML Plane string from a honeybee Shade.
+
+    Args:
+        shade: A honeybee Shade for which an dsbXML Plane XML string will
+            be returned.
+    """
+    xml_root = shade_to_dsbxml_element(shade)
+    ET.indent(xml_root)
+    return ET.tostring(xml_root, encoding='unicode')
+
+
+def shade_mesh_to_dsbxml(shade_mesh):
+    """Generate an dsbXML Planes string from a honeybee ShadeMesh.
+
+    Args:
+        shade_mesh: A honeybee ShadeMesh for which an dsbXML Planes XML string
+            will be returned.
+    """
+    xml_root = shade_mesh_to_dsbxml_element(shade_mesh)
     ET.indent(xml_root)
     return ET.tostring(xml_root, encoding='unicode')
 

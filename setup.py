@@ -15,7 +15,7 @@ setuptools.setup(
     setup_requires=['setuptools_scm'],
     author="Ladybug Tools",
     author_email="info@ladybug.tools",
-    description="Honeybee extension for translating HBJSON files to INP files for eQuest",
+    description="Honeybee extension for translating HBJSON files to dsbXML files for DesignBuilder",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ladybug-tools/honeybee-designbuilder",

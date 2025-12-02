@@ -1541,25 +1541,7 @@
 			<Attribute name="NRMCostMCCostItem">0.068</Attribute>
 			<Attribute name="NRMCostSpecialistA">0</Attribute>
 			<Attribute name="NRMCostSpecialist">0</Attribute>
-			<Attribute name="GBXMLImportReport">Building 1 - Imported C:\Users\Chris\Desktop\shoe_box_gbxml.xml
-
-Number of blocks imported: 1
-
-Number of zones imported: 1
-
-
-
-1 zones were imported using surfaces and 0 were imported using spaces.
-
-
-
-All zones are closed manifold
-
-
-
-Please check whether any shading surfaces need to be deleted. For example some BIM models import with shading surfaces on top of the roof which would prevent radiation heat exchange between the roof and the sky.
-
-</Attribute>
+			<Attribute name="GBXMLImportReport">Building 1 - Imported</Attribute>
 			<Attribute name="DetailedHVACTemplateId"></Attribute>
 			<Attribute name="SavedFrameOuterWidth">0</Attribute>
 			<Attribute name="CombineBlocksInStoreys">1</Attribute>
