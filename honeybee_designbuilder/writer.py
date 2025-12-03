@@ -240,6 +240,7 @@ def face_to_dsbxml_element(
 
     # add the holes as duplicated Surfaces
     xml_hole_i = ET.SubElement(xml_face, 'HoleIndices')
+    hole_is = None
     if len(face_indices) > 1:  # we have holes to add
         hole_is = []
         for j, (hole_i, hole) in enumerate(zip(face_indices[1:], face.geometry.holes)):
@@ -310,7 +311,8 @@ def face_to_dsbxml_element(
         xml_holes = ET.SubElement(xml_adj_pts, 'PolygonHoles')
         if adj_f_obj.geometry.has_holes:
             flip_plane = adj_f_obj.geometry.plane.flip()  # flip to make holes clockwise
-            for hole, hole_i in zip(adj_f_obj.geometry.holes, hole_is):
+            hole_inds = hole_is if hole_is is not None else [-1] * len(adj_f_obj.geometry.holes)
+            for hole, hole_i in zip(adj_f_obj.geometry.holes, hole_inds):
                 hole_face = Face3D(hole, plane=flip_plane)
                 xml_hole = ET.SubElement(xml_holes, 'PolygonHole')
                 if isinstance(adj_f_obj.boundary_condition, Surface):
@@ -668,6 +670,24 @@ def room_group_to_dsbxml_block(
         f.identifier = str(HANDLE_COUNTER)
         HANDLE_COUNTER += 1
 
+    # get a version of the block room with coplanar faces merged
+    blk_room = block_room.duplicate()
+    blk_room.merge_coplanar_faces(tolerance, angle_tolerance)
+    face_adjs = []
+    for nf in blk_room.faces:
+        nf_adj = []
+        for of in block_room.faces:
+            if nf.identifier == of.identifier:
+                nf_adj.append(of)
+            else:
+                f_pt = of.geometry._point_on_face(tolerance)
+                if nf.geometry.is_point_on_face(f_pt, tolerance):
+                    nf_adj.append(of)
+        if len(nf_adj) != 0:
+            face_adjs.append(nf_adj)
+        else:
+            face_adjs.append(None)
+
     # create the body of the block using the polyhedral vertices
     xml_profile = ET.SubElement(
         xml_block, 'ProfileBody', elementSlope='0.0000', roofOverlap='0.0000')
@@ -675,13 +695,15 @@ def room_group_to_dsbxml_block(
         xml_profile, 'Body', volume=str(block_room.volume), extrusionHeight=str(hgt))
     _object_ids(xml_body, block_room.identifier, '0', str(block_handle))
     xml_vertices = ET.SubElement(xml_body, 'Vertices')
-    for pt in block_room.geometry.vertices:
+    for pt in blk_room.geometry.vertices:
         xml_point = ET.SubElement(xml_vertices, 'Point3D')
         xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
     ET.SubElement(xml_body, 'Surfaces')
-    for face, fi in zip(block_room.faces, block_room.geometry.face_indices):
+    zip_obj = zip(blk_room.faces, blk_room.geometry.face_indices, face_adjs)
+    for face, fi, f_adj in zip_obj:
         face_xml = face_to_dsbxml_element(
-            face, xml_body, fi, angle_tolerance=angle_tolerance, reset_counter=False
+            face, xml_body, fi, adjacency_faces=f_adj,
+            angle_tolerance=angle_tolerance, reset_counter=False
         )
         face_xml.set('defaultOpenings', 'True')
         face_xml.set('thickness', '0.1')
@@ -689,22 +711,24 @@ def room_group_to_dsbxml_block(
         f_obj_ids_xml.set('zoneHandle', '-1')
         f_obj_ids_xml.set('surfaceIndex', '-1')
         adjs_xml = face_xml.find('Adjacencies')
-        adj_xml = adjs_xml.find('Adjacency')
-        adj_xml.set('type', 'Floor')
-        in_adj_ids = adj_xml.find('ObjectIDs')
-        in_adj_ids.set('handle', '-1')
-        in_adj_ids.set('buildingHandle', '-1')
-        in_adj_ids.set('buildingBlockHandle', '-1')
-        in_adj_ids.set('zoneHandle', face.user_data['zone_handle'])
-        in_adj_ids.set('surfaceIndex', face.user_data['surface_index'])
-        polys_xml = adj_xml.find('AdjacencyPolygonList')
-        for poly_xml in polys_xml:
-            out_adj_ids = poly_xml.find('ObjectIDs')
-            out_adj_ids.set('handle', '-1')
-            out_adj_ids.set('buildingHandle', '-1')
-            out_adj_ids.set('buildingBlockHandle', '-1')
-            out_adj_ids.set('zoneHandle', '-1')
-            out_adj_ids.set('surfaceIndex', '-1')
+        if f_adj is None:
+            f_adj = [face] * len(adjs_xml)
+        for adj_xml, af in zip(adjs_xml, f_adj):
+            adj_xml.set('type', 'Floor')
+            in_adj_ids = adj_xml.find('ObjectIDs')
+            in_adj_ids.set('handle', '-1')
+            in_adj_ids.set('buildingHandle', '-1')
+            in_adj_ids.set('buildingBlockHandle', '-1')
+            in_adj_ids.set('zoneHandle', af.user_data['zone_handle'])
+            in_adj_ids.set('surfaceIndex', af.user_data['surface_index'])
+            polys_xml = adj_xml.find('AdjacencyPolygonList')
+            for poly_xml in polys_xml:
+                out_adj_ids = poly_xml.find('ObjectIDs')
+                out_adj_ids.set('handle', '-1')
+                out_adj_ids.set('buildingHandle', '-1')
+                out_adj_ids.set('buildingBlockHandle', '-1')
+                out_adj_ids.set('zoneHandle', '-1')
+                out_adj_ids.set('surfaceIndex', '-1')
 
     # add the perimeter to the block
     xml_perim = ET.SubElement(xml_block, 'Perimeter')

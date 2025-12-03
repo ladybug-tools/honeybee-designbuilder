@@ -182,6 +182,9 @@ def test_model_writer_standard_hbjson():
     xml_str = hb_model.to.dsbxml(hb_model, program_name='Ladybug Tools')
     assert isinstance(xml_str, str)
 
+    out_file = './tests/assets/test.xml'
+    hb_model.to.dsbxml_file(hb_model, out_file, program_name='Ladybug Tools')
+
 
 def test_model_writer_complex_hbjson():
     """Test translating a complex HBJSON to a dsbXML."""
@@ -190,3 +193,6 @@ def test_model_writer_complex_hbjson():
 
     xml_str = hb_model.to.dsbxml(hb_model)
     assert isinstance(xml_str, str)
+
+    out_file = './tests/assets/test.xml'
+    hb_model.to.dsbxml_file(hb_model, out_file, program_name='Ladybug Tools')
