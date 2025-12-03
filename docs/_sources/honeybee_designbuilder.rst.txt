@@ -1,0 +1,27 @@
+honeybee\_designbuilder package
+===============================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   honeybee_designbuilder.cli
+   honeybee_designbuilder.properties
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   honeybee_designbuilder.writer
+
+Module contents
+---------------
+
+.. automodule:: honeybee_designbuilder
+   :members:
+   :undoc-members:
+   :show-inheritance:

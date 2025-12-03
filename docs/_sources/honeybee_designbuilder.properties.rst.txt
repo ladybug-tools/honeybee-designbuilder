@@ -1,0 +1,19 @@
+honeybee\_designbuilder.properties package
+==========================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   honeybee_designbuilder.properties.model
+   honeybee_designbuilder.properties.room
+
+Module contents
+---------------
+
+.. automodule:: honeybee_designbuilder.properties
+   :members:
+   :undoc-members:
+   :show-inheritance:

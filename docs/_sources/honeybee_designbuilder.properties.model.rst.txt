@@ -1,0 +1,7 @@
+honeybee\_designbuilder.properties.model module
+===============================================
+
+.. automodule:: honeybee_designbuilder.properties.model
+   :members:
+   :undoc-members:
+   :show-inheritance:
