@@ -153,7 +153,7 @@ def sub_face_to_dsbxml_element(sub_face, surface_element=None):
 
 def face_to_dsbxml_element(
     face, zone_body_element=None, zone_face_indices=None, adjacency_faces=None,
-    angle_tolerance=1.0, reset_counter=True
+    tolerance=0.01, angle_tolerance=1.0, reset_counter=True
 ):
     """Generate an dsbXML Surface Element object from a honeybee Face.
 
@@ -175,6 +175,8 @@ def face_to_dsbxml_element(
             to the input face and should together completely fill its area.
             If None, it will be assumed that the face in dsbXML should
             have only one adjacency. (Default: None).
+        tolerance: The absolute tolerance with which the Room geometry will
+            be evaluated. (Default: 0.01, suitable for objects in meters).
         angle_tolerance: The angle tolerance at which the geometry will
             be evaluated in degrees. This is needed to determine whether to
             write roof faces as flat or pitched. (Default: 1 degree).
@@ -310,17 +312,15 @@ def face_to_dsbxml_element(
             xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
         xml_holes = ET.SubElement(xml_adj_pts, 'PolygonHoles')
         if adj_f_obj.geometry.has_holes:
-            flip_plane = adj_f_obj.geometry.plane.flip()  # flip to make holes clockwise
             hole_inds = hole_is if hole_is is not None else [-1] * len(adj_f_obj.geometry.holes)
             for hole, hole_i in zip(adj_f_obj.geometry.holes, hole_inds):
-                hole_face = Face3D(hole, plane=flip_plane)
                 xml_hole = ET.SubElement(xml_holes, 'PolygonHole')
                 if isinstance(adj_f_obj.boundary_condition, Surface):
                     _object_ids(xml_hole, '-1')  # add a meaningless ID object
                 else:  # add an ID object referencing the self
                     _object_ids(xml_hole, '-1', '0', str(block_handle), zone_handle, str(hole_i))
                 xml_hole_pts = ET.SubElement(xml_hole, 'Vertices')
-                for pt in hole_face:
+                for pt in hole:
                     xml_point = ET.SubElement(xml_hole_pts, 'Point3D')
                     xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
     if reset_counter:  # reset the counter back to 1 if requested
@@ -365,6 +365,23 @@ def room_to_dsbxml_element(
     else:
         xml_zone = ET.Element('Zone', zone_id_attr)
         block_handle = '-1'
+
+    # rebuild the faces with holes if any are found
+    if any(f.geometry.has_holes for f in room.faces):
+        rebuilt_face_3ds = []
+        for face in room.faces:
+            if face.geometry.has_holes:
+                flat_pt_face = Face3D(
+                    face.geometry.vertices, plane=face.geometry.plane
+                )
+                rebuilt_face = flat_pt_face.separate_boundary_and_holes(tolerance)
+                face._geometry = rebuilt_face
+                rebuilt_face_3ds.append(rebuilt_face)
+            else:
+                rebuilt_face_3ds.append(face.geometry)
+        room._geometry = Polyface3D.from_faces(rebuilt_face_3ds, tolerance)
+        if not room._geometry.is_solid:
+            room._geometry = room._geometry.merge_overlapping_edges(tolerance)
 
     # determine whether the room has multiple floor faces to merge
     room_faces, room_geometry = room.faces, room.geometry
@@ -425,7 +442,7 @@ def room_to_dsbxml_element(
     xml_faces = ET.SubElement(xml_body, 'Surfaces')
     for face, fi, f_adj in zip(room_faces, room_geometry.face_indices, face_adjs):
         face_to_dsbxml_element(
-            face, xml_body, fi, f_adj, angle_tolerance, reset_counter=False
+            face, xml_body, fi, f_adj, tolerance, angle_tolerance, reset_counter=False
         )
 
     # if the room floor plate has holes, write them in the void perimeter list
@@ -703,7 +720,7 @@ def room_group_to_dsbxml_block(
     for face, fi, f_adj in zip_obj:
         face_xml = face_to_dsbxml_element(
             face, xml_body, fi, adjacency_faces=f_adj,
-            angle_tolerance=angle_tolerance, reset_counter=False
+            tolerance=tolerance, angle_tolerance=angle_tolerance, reset_counter=False
         )
         face_xml.set('defaultOpenings', 'True')
         face_xml.set('thickness', '0.1')
