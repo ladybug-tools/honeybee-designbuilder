@@ -310,7 +310,7 @@ def face_to_dsbxml_element(
         for pt in adj_f_obj.geometry.boundary:
             xml_point = ET.SubElement(xml_adj_pts, 'Point3D')
             xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, pt.z)
-        xml_holes = ET.SubElement(xml_adj_pts, 'PolygonHoles')
+        xml_holes = ET.SubElement(xml_adj_geo, 'PolygonHoles')
         if adj_f_obj.geometry.has_holes:
             hole_inds = hole_is if hole_is is not None else [-1] * len(adj_f_obj.geometry.holes)
             for hole, hole_i in zip(adj_f_obj.geometry.holes, hole_inds):
@@ -761,7 +761,7 @@ def room_group_to_dsbxml_block(
         for pt in perim_geo.boundary:
             xml_point = ET.SubElement(xml_perim_pts, 'Point3D')
             xml_point.text = '{}; {}; {}'.format(pt.x, pt.y, min_z)
-        xml_holes = ET.SubElement(xml_perim_pts, 'PolygonHoles')
+        xml_holes = ET.SubElement(xml_perim_geo, 'PolygonHoles')
         if perim_geo.has_holes:
             flip_plane = perim_geo.plane.flip()  # flip to make holes clockwise
             for hole in perim_geo.holes:
@@ -865,7 +865,7 @@ def model_to_dsbxml_element(model, xml_template='Default'):
                 block_names.append('{} {}'.format(flr_name, i + 1))
 
     # give unique integers to each of the building blocks and faces
-    HANDLE_COUNTER = len(block_rooms) + 1
+    HANDLE_COUNTER = len(block_rooms) + 2
     # convert identifiers to integers as this is the only ID format used by DesignBuilder
     HANDLE_COUNTER = model.reset_ids_to_integers(start_integer=HANDLE_COUNTER)
     HANDLE_COUNTER += 1
@@ -875,7 +875,7 @@ def model_to_dsbxml_element(model, xml_template='Default'):
     xml_blocks = ET.SubElement(xml_bldg, 'BuildingBlocks')
     for i, (room_group, block_name) in enumerate(zip(block_rooms, block_names)):
         room_group_to_dsbxml_block(
-            room_group, i + 1, xml_bldg, block_name, reset_counter=False
+            room_group, i + 2, xml_bldg, block_name, reset_counter=False
         )
         for room in room_group:
             for f in room:
@@ -907,7 +907,7 @@ def model_to_dsbxml_element(model, xml_template='Default'):
         shade_mesh_to_dsbxml_element(shade_mesh, xml_bldg, reset_counter=False)
 
     # set the handle of the site to the last index and reset the counter
-    xml_site.set('handle', str(HANDLE_COUNTER))
+    xml_site.set('handle', '1')
     HANDLE_COUNTER = 1
 
     return xml_root

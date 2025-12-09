@@ -88,7 +88,8 @@ def model_to_dsbxml(
             model, output_file, xml_template=xml_template, program_name=program_name
         )
     else:
-        dsbxml_str = model_writer.model_to_dsbxml(model, program_name=program_name)
+        dsbxml_str = model_writer.model_to_dsbxml(
+            model, xml_template=xml_template, program_name=program_name)
         f_contents = dsbxml_str.encode('iso-8859-15')
         if output_file is None:
             b = base64.b64encode(f_contents)
