@@ -808,10 +808,10 @@ def model_to_dsbxml_element(model, xml_template='Default'):
             * Full - a large file with all libraries that can be imported to version 7.3
     """
     global HANDLE_COUNTER  # declare that we will edit the global variable
-    # duplicate model to avoid mutating it as we edit it for INP export
+    # duplicate model to avoid mutating it as we edit it for dsbXML export
     original_model = model
     model = model.duplicate()
-    # scale the model if the units are not feet
+    # scale the model if the units are not meters
     if model.units != 'Meters':
         model.convert_to_units('Meters')
     # remove degenerate geometry within DesignBuilder native tolerance
