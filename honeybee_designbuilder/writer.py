@@ -99,7 +99,7 @@ def shade_mesh_to_dsbxml_element(shade_mesh, building_element=None, reset_counte
     return xml_planes
 
 
-def sub_face_to_dsbxml_element(sub_face, surface_element=None):
+def sub_face_to_dsbxml_element(sub_face, surface_element=None, sub_face_type=None):
     """Generate an dsbXML Opening Element object from a honeybee Aperture or Door.
 
     Args:
@@ -109,9 +109,26 @@ def sub_face_to_dsbxml_element(sub_face, surface_element=None):
             generated opening object will be added. If None, a new XML Element
             will be generated. Note that this Surface element should have a
             Openings tag already created within it.
+        sub_face_type: Text for a particular type of Honeybee sub-face object to
+            be written as a DesignBuilder Surface. This is useful in cases of
+            modeling radiant ceiling panels or spandrel panels, which have a
+            special sub-Surface object used to represent them in DesignBuilder
+            instead of splitting the parent Face.
     """
+    # determine the opening type
+    if isinstance(sub_face, Aperture):
+        open_type = 'Window'
+    elif sub_face_type == 'OverheadDoors':
+        open_type = 'Surface' if sub_face.has_parent and \
+            isinstance(sub_face.parent.type, RoofCeiling) else 'Door'
+    elif sub_face_type == 'GlassDoors':
+        open_type = 'Surface' if sub_face.is_glass else 'Door'
+    elif sub_face_type == 'Doors':
+        open_type = 'Surface'
+    else:
+        open_type = 'Door'
+
     # create the Opening element
-    open_type = 'Window' if isinstance(sub_face, Aperture) else 'Door'
     if surface_element is not None:
         surfaces_element = surface_element.find('Openings')
         xml_sub_face = ET.SubElement(surfaces_element, 'Opening', type=open_type)
@@ -153,7 +170,7 @@ def sub_face_to_dsbxml_element(sub_face, surface_element=None):
 
 def face_to_dsbxml_element(
     face, zone_body_element=None, zone_face_indices=None, adjacency_faces=None,
-    tolerance=0.01, angle_tolerance=1.0, reset_counter=True
+    sub_face_type=None, tolerance=0.01, angle_tolerance=1.0, reset_counter=True
 ):
     """Generate an dsbXML Surface Element object from a honeybee Face.
 
@@ -175,6 +192,11 @@ def face_to_dsbxml_element(
             to the input face and should together completely fill its area.
             If None, it will be assumed that the face in dsbXML should
             have only one adjacency. (Default: None).
+        sub_face_type: Text for a particular type of Honeybee sub-face object to
+            be written as a DesignBuilder Surface. This is useful in cases of
+            modeling radiant ceiling panels or spandrel panels, which have a
+            special sub-Surface object used to represent them in DesignBuilder
+            instead of splitting the parent Face.
         tolerance: The absolute tolerance with which the Room geometry will
             be evaluated. (Default: 0.01, suitable for objects in meters).
         angle_tolerance: The angle tolerance at which the geometry will
@@ -281,9 +303,9 @@ def face_to_dsbxml_element(
     # add any openings if they exist
     ET.SubElement(xml_face, 'Openings')
     for ap in face.apertures:
-        sub_face_to_dsbxml_element(ap, xml_face)
+        sub_face_to_dsbxml_element(ap, xml_face, sub_face_type=sub_face_type)
     for dr in face.doors:
-        sub_face_to_dsbxml_element(dr, xml_face)
+        sub_face_to_dsbxml_element(dr, xml_face, sub_face_type=sub_face_type)
     # remove the surface handles now that the openings no longer need them
     face_obj_ids.set('zoneHandle', '-1')
     face_obj_ids.set('surfaceIndex', '-1')
@@ -329,7 +351,8 @@ def face_to_dsbxml_element(
 
 
 def room_to_dsbxml_element(
-    room, block_element=None, tolerance=0.01, angle_tolerance=1.0, reset_counter=True
+    room, block_element=None, sub_face_type=None,
+    tolerance=0.01, angle_tolerance=1.0, reset_counter=True
 ):
     """Generate an dsbXML Zone Element object for a honeybee Room.
 
@@ -341,6 +364,11 @@ def room_to_dsbxml_element(
             generated zone object will be added. If None, a new XML Element
             will be generated. Note that this BuildingBlock element should
             have a Zones tag already created within it.
+        sub_face_type: Text for a particular type of Honeybee sub-face object to
+            be written as a DesignBuilder Surface. This is useful in cases of
+            modeling radiant ceiling panels or spandrel panels, which have a
+            special sub-Surface object used to represent them in DesignBuilder
+            instead of splitting the parent Face.
         tolerance: The absolute tolerance with which the Room geometry will
             be evaluated. (Default: 0.01, suitable for objects in meters).
         angle_tolerance: The angle tolerance at which the geometry will
@@ -442,7 +470,8 @@ def room_to_dsbxml_element(
     xml_faces = ET.SubElement(xml_body, 'Surfaces')
     for face, fi, f_adj in zip(room_faces, room_geometry.face_indices, face_adjs):
         face_to_dsbxml_element(
-            face, xml_body, fi, f_adj, tolerance, angle_tolerance, reset_counter=False
+            face, xml_body, fi, f_adj, sub_face_type,
+            tolerance, angle_tolerance, reset_counter=False
         )
 
     # if the room floor plate has holes, write them in the void perimeter list
@@ -500,7 +529,7 @@ def room_to_dsbxml_element(
 
 
 def room_group_to_dsbxml_block(
-    room_group, block_handle, building_element=None, block_name=None,
+    room_group, block_handle, building_element=None, block_name=None, sub_face_type=None,
     tolerance=0.01, angle_tolerance=1.0, reset_counter=True
 ):
     """Generate an dsbXML BuildingBlock Element object for a list of honeybee Rooms.
@@ -518,6 +547,12 @@ def room_group_to_dsbxml_block(
             generated block object will be added. If None, a new XML Element
             will be generated. Note that this Building element should
             have a BuildingBlocks tag already created within it.
+        block_name: An optional text string for the name of the block to be written.
+        sub_face_type: Text for a particular type of Honeybee sub-face object to
+            be written as a DesignBuilder Surface. This is useful in cases of
+            modeling radiant ceiling panels or spandrel panels, which have a
+            special sub-Surface object used to represent them in DesignBuilder
+            instead of splitting the parent Face.
         tolerance: The absolute tolerance with which the Room geometry will
             be evaluated. (Default: 0.01, suitable for objects in meters).
         angle_tolerance: The angle tolerance at which the geometry will
@@ -661,7 +696,8 @@ def room_group_to_dsbxml_block(
     ET.SubElement(xml_block, 'Zones')
     for room, label_pt in zip(room_group, label_pts):
         xml_room = room_to_dsbxml_element(
-            room, xml_block, tolerance, angle_tolerance, reset_counter=False
+            room, xml_block, sub_face_type, tolerance, angle_tolerance,
+            reset_counter=False
         )
         xml_label = ET.SubElement(xml_room, 'LabelPosition')
         xml_label_pt = ET.SubElement(xml_label, 'Point3D')
@@ -789,7 +825,7 @@ def room_group_to_dsbxml_block(
     return xml_block
 
 
-def model_to_dsbxml_element(model, xml_template='Default'):
+def model_to_dsbxml_element(model, xml_template='Default', sub_face_type=None):
     """Generate an dsbXML Element object for a honeybee Model.
 
     The resulting Element has all geometry (Rooms, Faces, Apertures, Doors, Shades).
@@ -806,6 +842,17 @@ def model_to_dsbxml_element(model, xml_template='Default'):
             * Default - a minimal file that imports into the latest versions
             * Assembly - the Default plus an AssemblyLibrary with typical objects
             * Full - a large file with all libraries that can be imported to version 7.3
+
+        sub_face_type: Text for a particular type of Honeybee sub-face object to
+            be written as a DesignBuilder Surface. This is useful in cases of
+            modeling radiant ceiling panels or spandrel panels, which have a
+            special sub-Surface object used to represent them in DesignBuilder
+            instead of splitting the parent Face. Choose from the following options.
+
+            * None - none of the honeybee objects will be written as a sub-Surface
+            * OverheadDoors - Doors in RoofCeilings will be written as Surface
+            * GlassDoors - glass Doors will be written as Surface
+            * Doors - all Doors will be written as Surface
     """
     global HANDLE_COUNTER  # declare that we will edit the global variable
     # duplicate model to avoid mutating it as we edit it for dsbXML export
@@ -875,7 +922,9 @@ def model_to_dsbxml_element(model, xml_template='Default'):
     xml_blocks = ET.SubElement(xml_bldg, 'BuildingBlocks')
     for i, (room_group, block_name) in enumerate(zip(block_rooms, block_names)):
         room_group_to_dsbxml_block(
-            room_group, i + 2, xml_bldg, block_name, reset_counter=False
+            room_group, i + 2, xml_bldg, block_name, sub_face_type=sub_face_type,
+            tolerance=model.tolerance, angle_tolerance=model.angle_tolerance,
+            reset_counter=False
         )
         for room in room_group:
             for f in room:
@@ -913,7 +962,8 @@ def model_to_dsbxml_element(model, xml_template='Default'):
     return xml_root
 
 
-def model_to_dsbxml(model, xml_template='Default', program_name=None):
+def model_to_dsbxml(model, xml_template='Default', sub_face_type=None,
+                    program_name=None):
     """Generate an dsbXML string for a Model.
 
     The resulting string will include all geometry (Rooms, Faces, Apertures,
@@ -934,6 +984,17 @@ def model_to_dsbxml(model, xml_template='Default', program_name=None):
             * Default - a minimal file that imports into the latest versions
             * Assembly - the Default plus an AssemblyLibrary with typical objects
             * Full - a large file with all libraries that can be imported to version 7.3
+
+        sub_face_type: Text for a particular type of Honeybee sub-face object to
+            be written as a DesignBuilder Surface. This is useful in cases of
+            modeling radiant ceiling panels or spandrel panels, which have a
+            special sub-Surface object used to represent them in DesignBuilder
+            instead of splitting the parent Face. Choose from the following options.
+
+            * None - none of the honeybee objects will be written as a sub-Surface
+            * OverheadDoors - Doors in RoofCeilings will be written as Surface
+            * GlassDoors - glass Doors will be written as Surface
+            * Doors - all Doors will be written as Surface
 
         program_name: Optional text to set the name of the software that will
             appear under a comment in the XML to identify where it is being exported
@@ -965,7 +1026,7 @@ def model_to_dsbxml(model, xml_template='Default', program_name=None):
             fp.write(xml_str.encode('iso-8859-15'))
     """
     # create the XML string
-    xml_root = model_to_dsbxml_element(model, xml_template)
+    xml_root = model_to_dsbxml_element(model, xml_template, sub_face_type)
     ET.indent(xml_root, '\t')
     dsbxml_str = ET.tostring(
         xml_root, encoding='unicode', xml_declaration=False
@@ -982,7 +1043,8 @@ def model_to_dsbxml(model, xml_template='Default', program_name=None):
     return dsbxml_str
 
 
-def model_to_dsbxml_file(model, output_file, xml_template='Default', program_name=None):
+def model_to_dsbxml_file(model, output_file, xml_template='Default', sub_face_type=None,
+                         program_name=None):
     """Write an dsbXML file from a Honeybee Model.
 
     Note that this method also ensures that the resulting dsbXML file uses the
@@ -1002,6 +1064,17 @@ def model_to_dsbxml_file(model, output_file, xml_template='Default', program_nam
             * Assembly - the Default plus an AssemblyLibrary with typical objects
             * Full - a large file with all libraries that can be imported to version 7.3
 
+        sub_face_type: Text for a particular type of Honeybee sub-face object to
+            be written as a DesignBuilder Surface. This is useful in cases of
+            modeling radiant ceiling panels or spandrel panels, which have a
+            special sub-Surface object used to represent them in DesignBuilder
+            instead of splitting the parent Face. Choose from the following options.
+
+            * None - none of the honeybee objects will be written as a sub-Surface
+            * OverheadDoors - Doors in RoofCeilings will be written as Surface
+            * GlassDoors - glass Doors will be written as Surface
+            * Doors - all Doors will be written as Surface
+
         program_name: Optional text to set the name of the software that will
             appear under a comment in the XML to identify where it is being exported
             from. This can be set things like "Ladybug Tools" or "Pollination"
@@ -1013,7 +1086,7 @@ def model_to_dsbxml_file(model, output_file, xml_template='Default', program_nam
     if not os.path.isdir(dir_name):
         os.makedirs(dir_name)
     # get the string of the dsbXML file
-    xml_str = model_to_dsbxml(model, xml_template, program_name)
+    xml_str = model_to_dsbxml(model, xml_template, sub_face_type, program_name)
     # write the string into the file and encode it in ISO-8859-15
     with open(output_file, 'wb') as fp:
         fp.write(xml_str.encode('iso-8859-15'))

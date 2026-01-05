@@ -1,4 +1,5 @@
-"""Test the translators for geometry to INP."""
+"""Test the translators for geometry to dsbXML."""
+import os
 import xml.etree.ElementTree as ET
 
 from ladybug_geometry.geometry3d import Point3D, Vector3D, Mesh3D, Face3D, Polyface3D
@@ -161,9 +162,6 @@ def test_model_writer_hole():
     xml_str = model.to.dsbxml(model, program_name='Ladybug Tools')
     assert isinstance(xml_str, str)
 
-    out_file = './tests/assets/donut_room.xml'
-    model.to.dsbxml_file(model, out_file, program_name='Ladybug Tools')
-
 
 def test_model_writer_single_block_hbjson():
     """Test translating a HBJSON of a single block to a dsbXML."""
@@ -184,6 +182,8 @@ def test_model_writer_standard_hbjson():
 
     out_file = './tests/assets/test.xml'
     hb_model.to.dsbxml_file(hb_model, out_file, program_name='Ladybug Tools')
+    assert os.path.isfile(out_file)
+    os.remove(out_file)
 
 
 def test_model_writer_complex_hbjson():
@@ -193,6 +193,3 @@ def test_model_writer_complex_hbjson():
 
     xml_str = hb_model.to.dsbxml(hb_model)
     assert isinstance(xml_str, str)
-
-    out_file = './tests/assets/test.xml'
-    hb_model.to.dsbxml_file(hb_model, out_file, program_name='Ladybug Tools')
