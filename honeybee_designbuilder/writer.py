@@ -767,6 +767,8 @@ def room_group_to_dsbxml_block(
         if f_adj is None:
             f_adj = [face] * len(adjs_xml)
         for adj_xml, af in zip(adjs_xml, f_adj):
+            if 'zone_handle' not in af.user_data:
+                continue
             adj_xml.set('type', 'Floor')
             in_adj_ids = adj_xml.find('ObjectIDs')
             in_adj_ids.set('handle', '-1')
