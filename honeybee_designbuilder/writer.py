@@ -1091,7 +1091,7 @@ def model_to_dsbxml_file(model, output_file, xml_template='Default', sub_face_ty
     xml_str = model_to_dsbxml(model, xml_template, sub_face_type, program_name)
     # write the string into the file and encode it in ISO-8859-15
     with open(output_file, 'wb') as fp:
-        fp.write(xml_str.encode('iso-8859-15'))
+        fp.write(xml_str.encode('iso-8859-15', errors='ignore'))
     return output_file
 
 
