@@ -170,7 +170,7 @@ def sub_face_to_dsbxml_element(sub_face, surface_element=None, sub_face_type=Non
 
 def face_to_dsbxml_element(
     face, zone_body_element=None, zone_face_indices=None, adjacency_faces=None,
-    sub_face_type=None, tolerance=0.01, angle_tolerance=1.0, reset_counter=True
+    sub_face_type=None, tolerance=0.001, angle_tolerance=1.0, reset_counter=True
 ):
     """Generate an dsbXML Surface Element object from a honeybee Face.
 
@@ -198,7 +198,7 @@ def face_to_dsbxml_element(
             special sub-Surface object used to represent them in DesignBuilder
             instead of splitting the parent Face.
         tolerance: The absolute tolerance with which the Room geometry will
-            be evaluated. (Default: 0.01, suitable for objects in meters).
+            be evaluated. (Default: 0.001, suitable for objects in meters).
         angle_tolerance: The angle tolerance at which the geometry will
             be evaluated in degrees. This is needed to determine whether to
             write roof faces as flat or pitched. (Default: 1 degree).
@@ -352,7 +352,7 @@ def face_to_dsbxml_element(
 
 def room_to_dsbxml_element(
     room, block_element=None, sub_face_type=None,
-    tolerance=0.01, angle_tolerance=1.0, reset_counter=True
+    tolerance=0.001, angle_tolerance=1.0, reset_counter=True
 ):
     """Generate an dsbXML Zone Element object for a honeybee Room.
 
@@ -370,7 +370,7 @@ def room_to_dsbxml_element(
             special sub-Surface object used to represent them in DesignBuilder
             instead of splitting the parent Face.
         tolerance: The absolute tolerance with which the Room geometry will
-            be evaluated. (Default: 0.01, suitable for objects in meters).
+            be evaluated. (Default: 0.001, suitable for objects in meters).
         angle_tolerance: The angle tolerance at which the geometry will
             be evaluated in degrees. (Default: 1 degree).
         reset_counter: A boolean to note whether the global counter for unique
@@ -530,7 +530,7 @@ def room_to_dsbxml_element(
 
 def room_group_to_dsbxml_block(
     room_group, block_handle, building_element=None, block_name=None, sub_face_type=None,
-    tolerance=0.01, angle_tolerance=1.0, reset_counter=True
+    tolerance=0.001, angle_tolerance=1.0, reset_counter=True
 ):
     """Generate an dsbXML BuildingBlock Element object for a list of honeybee Rooms.
 
@@ -554,7 +554,7 @@ def room_group_to_dsbxml_block(
             special sub-Surface object used to represent them in DesignBuilder
             instead of splitting the parent Face.
         tolerance: The absolute tolerance with which the Room geometry will
-            be evaluated. (Default: 0.01, suitable for objects in meters).
+            be evaluated. (Default: 0.001, suitable for objects in meters).
         angle_tolerance: The angle tolerance at which the geometry will
             be evaluated in degrees. (Default: 1 degree).
         reset_counter: A boolean to note whether the global counter for unique
@@ -726,6 +726,8 @@ def room_group_to_dsbxml_block(
     # get a version of the block room with coplanar faces merged
     blk_room = block_room.duplicate()
     blk_room.merge_coplanar_faces(tolerance, angle_tolerance)
+    if not blk_room.geometry.is_solid:  # coplanar merge made the volume unsiutable
+        blk_room = block_room
     face_adjs = []
     for nf in blk_room.faces:
         nf_adj = []
@@ -865,7 +867,7 @@ def model_to_dsbxml_element(model, xml_template='Default', sub_face_type=None):
         model.convert_to_units('Meters')
     # remove degenerate geometry within DesignBuilder native tolerance
     try:
-        model.remove_degenerate_geometry(0.01)
+        model.remove_degenerate_geometry(0.001)
     except ValueError:
         error = 'Failed to remove degenerate Rooms.\nYour Model units system is: {}. ' \
             'Is this correct?'.format(original_model.units)
