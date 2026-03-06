@@ -918,7 +918,7 @@ def model_to_dsbxml_element(model, xml_template='Default', sub_face_type=None):
                 block_names.append('{} {}'.format(flr_name, i + 1))
 
     # give unique integers to each of the building blocks and faces
-    HANDLE_COUNTER = len(block_rooms) + 2
+    HANDLE_COUNTER = len(block_rooms) + 1
     # convert identifiers to integers as this is the only ID format used by DesignBuilder
     HANDLE_COUNTER = model.reset_ids_to_integers(start_integer=HANDLE_COUNTER)
     HANDLE_COUNTER += 1
@@ -928,7 +928,7 @@ def model_to_dsbxml_element(model, xml_template='Default', sub_face_type=None):
     xml_blocks = ET.SubElement(xml_bldg, 'BuildingBlocks')
     for i, (room_group, block_name) in enumerate(zip(block_rooms, block_names)):
         room_group_to_dsbxml_block(
-            room_group, i + 2, xml_bldg, block_name, sub_face_type=sub_face_type,
+            room_group, i + 1, xml_bldg, block_name, sub_face_type=sub_face_type,
             tolerance=model.tolerance, angle_tolerance=model.angle_tolerance,
             reset_counter=False
         )
@@ -962,7 +962,7 @@ def model_to_dsbxml_element(model, xml_template='Default', sub_face_type=None):
         shade_mesh_to_dsbxml_element(shade_mesh, xml_bldg, reset_counter=False)
 
     # set the handle of the site to the last index and reset the counter
-    xml_site.set('handle', '1')
+    xml_site.set('handle', str(HANDLE_COUNTER))
     HANDLE_COUNTER = 1
 
     return xml_root
