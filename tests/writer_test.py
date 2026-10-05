@@ -193,3 +193,12 @@ def test_model_writer_complex_hbjson():
 
     xml_str = hb_model.to.dsbxml(hb_model)
     assert isinstance(xml_str, str)
+
+
+def test_model_writer_ceiling_void_hbjson():
+    """Test translating a complex HBJSON to a dsbXML."""
+    standard_test = './tests/assets/block_test.hbjson'
+    hb_model = Model.from_file(standard_test)
+
+    xml_str = hb_model.to.dsbxml(hb_model)
+    assert isinstance(xml_str, str)

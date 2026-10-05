@@ -728,8 +728,10 @@ def room_group_to_dsbxml_block(
     # get a version of the block room with coplanar faces merged
     blk_room = block_room.duplicate()
     blk_room.merge_coplanar_faces(tolerance, angle_tolerance)
-    if not blk_room.geometry.is_solid:  # coplanar merge made the volume unsiutable
+    if not blk_room.geometry.is_solid:  # coplanar merge made the volume unsuitable
         blk_room = block_room
+
+    # track which zone faces are adjacent to the coplanar result
     face_adjs = []
     for nf in blk_room.faces:
         nf_adj = []
@@ -792,6 +794,11 @@ def room_group_to_dsbxml_block(
     # add the perimeter to the block
     xml_perim = ET.SubElement(xml_block, 'Perimeter')
     perim_geo = Room.grouped_horizontal_boundary(room_group, tolerance=tolerance)
+    if len(perim_geo) == 0:
+        try:
+            perim_geo = [blk_room.horizontal_boundary(match_walls=True, tolerance=tolerance)]
+        except Exception:  # room might somehow not be solid
+            perim_geo = []
     if len(perim_geo) != 0:
         perim_geo = perim_geo[0]
         xml_perim_geo = ET.SubElement(xml_perim, 'Polygon', auxiliaryType='-1')
