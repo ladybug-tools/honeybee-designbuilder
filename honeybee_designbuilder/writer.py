@@ -470,7 +470,13 @@ def room_to_dsbxml_element(
 
     # add the surfaces
     xml_faces = ET.SubElement(xml_body, 'Surfaces')
+    unique_vertices = room_geometry.vertices
     for face, fi, f_adj in zip(room_faces, room_geometry.face_indices, face_adjs):
+        boundary = tuple(unique_vertices[i] for i in fi[0])
+        rebuilt_face = Face3D(boundary)
+        if face.geometry.plane.n.angle(rebuilt_face.plane.n) > (math.pi / 2):
+            # face indices are reversed from Face3D objects
+            fi = [list(reversed(pt_i)) for pt_i in fi]
         face_to_dsbxml_element(
             face, xml_body, fi, f_adj, sub_face_type,
             tolerance, angle_tolerance, reset_counter=False
