@@ -1,0 +1,6 @@
+translate
+=========
+
+.. click:: honeybee_designbuilder.cli.translate:translate
+   :prog: honeybee-designbuilder translate
+   :show-nested:
