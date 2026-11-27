@@ -16,6 +16,8 @@ from honeybee.facetype import Floor, RoofCeiling, AirBoundary, face_types
 from honeybee.boundarycondition import Outdoors, Surface, Ground, boundary_conditions
 from honeybee_energy.boundarycondition import Adiabatic
 
+from .site import modify_template_for_site
+
 DESIGNBUILDER_VERSION = '2025.1.0.085'
 HANDLE_COUNTER = 1  # counter used to generate unique handles when necessary
 
@@ -850,13 +852,22 @@ def room_group_to_dsbxml_block(
     return xml_block
 
 
-def model_to_dsbxml_element(model, xml_template='Default', sub_face_type=None):
+def model_to_dsbxml_element(
+    model, project_info=None, xml_template='Default', sub_face_type=None
+):
     """Generate an dsbXML Element object for a honeybee Model.
 
     The resulting Element has all geometry (Rooms, Faces, Apertures, Doors, Shades).
 
     Args:
         model: A honeybee Model for which an dsbXML ElementTree object will be returned.
+        project_info: An optional ladybug ProjectInfo object that describes criteria
+            about the project site. When specified, this will set the BuildingOrientation
+            using the north defined in the project info object. If the project_info
+            contains a location, this will also be used to set the latitude, longitude
+            and elevation. Furthermore, all weather data attributes in the dsbXML will
+            be set to the closest location found in the DesignBuilder climate library.
+            If None, a default location of San Francisco will be used. (Default: None).
         xml_template: Text for the type of template file to be used to write the
             dsbXML. Different templates contain different amounts of default
             assembly library data, which may be needed in order to import the
@@ -917,6 +928,8 @@ def model_to_dsbxml_element(model, xml_template='Default', sub_face_type=None):
     xml_root.set('name', '~{}'.format(model_name))
     xml_root.set('date', str(datetime.date.today()))
     xml_root.set('version', DESIGNBUILDER_VERSION)
+    if project_info is not None:
+        modify_template_for_site(xml_root, project_info)
 
     # add the site and the building
     xml_site = xml_root.find('Site')
@@ -987,8 +1000,10 @@ def model_to_dsbxml_element(model, xml_template='Default', sub_face_type=None):
     return xml_root
 
 
-def model_to_dsbxml(model, xml_template='Default', sub_face_type=None,
-                    program_name=None):
+def model_to_dsbxml(
+    model, project_info=None, xml_template='Default', sub_face_type=None,
+    program_name=None
+):
     """Generate an dsbXML string for a Model.
 
     The resulting string will include all geometry (Rooms, Faces, Apertures,
@@ -999,6 +1014,13 @@ def model_to_dsbxml(model, xml_template='Default', sub_face_type=None,
 
     Args:
         model: A honeybee Model for which an dsbXML text string will be returned.
+        project_info: An optional ladybug ProjectInfo object that describes criteria
+            about the project site. When specified, this will set the BuildingOrientation
+            using the north defined in the project info object. If the project_info
+            contains a location, this will also be used to set the latitude, longitude
+            and elevation. Furthermore, all weather data attributes in the dsbXML will
+            be set to the closest location found in the DesignBuilder climate library.
+            If None, a default location of San Francisco will be used. (Default: None).
         xml_template: Text for the type of template file to be used to write the
             dsbXML. Different templates contain different amounts of default
             assembly library data, which may be needed in order to import the
@@ -1051,7 +1073,7 @@ def model_to_dsbxml(model, xml_template='Default', sub_face_type=None,
             fp.write(xml_str.encode('iso-8859-15'))
     """
     # create the XML string
-    xml_root = model_to_dsbxml_element(model, xml_template, sub_face_type)
+    xml_root = model_to_dsbxml_element(model, project_info, xml_template, sub_face_type)
     ET.indent(xml_root, '\t')
     dsbxml_str = ET.tostring(
         xml_root, encoding='unicode', xml_declaration=False
@@ -1068,8 +1090,10 @@ def model_to_dsbxml(model, xml_template='Default', sub_face_type=None,
     return dsbxml_str
 
 
-def model_to_dsbxml_file(model, output_file, xml_template='Default', sub_face_type=None,
-                         program_name=None):
+def model_to_dsbxml_file(
+    model, output_file, project_info=None, xml_template='Default', sub_face_type=None,
+    program_name=None
+):
     """Write an dsbXML file from a Honeybee Model.
 
     Note that this method also ensures that the resulting dsbXML file uses the
@@ -1078,6 +1102,13 @@ def model_to_dsbxml_file(model, output_file, xml_template='Default', sub_face_ty
     Args:
         model: A honeybee Model for which an dsbXML file will be written.
         output_file: The path to the XML file that will be written from the model.
+        project_info: An optional ladybug ProjectInfo object that describes criteria
+            about the project site. When specified, this will set the BuildingOrientation
+            using the north defined in the project info object. If the project_info
+            contains a location, this will also be used to set the latitude, longitude
+            and elevation. Furthermore, all weather data attributes in the dsbXML will
+            be set to the closest location found in the DesignBuilder climate library.
+            If None, a default location of San Francisco will be used. (Default: None).
         xml_template: Text for the type of template file to be used to write the
             dsbXML. Different templates contain different amounts of default
             assembly library data, which may be needed in order to import the
@@ -1111,7 +1142,7 @@ def model_to_dsbxml_file(model, output_file, xml_template='Default', sub_face_ty
     if not os.path.isdir(dir_name):
         os.makedirs(dir_name)
     # get the string of the dsbXML file
-    xml_str = model_to_dsbxml(model, xml_template, sub_face_type, program_name)
+    xml_str = model_to_dsbxml(model, project_info, xml_template, sub_face_type, program_name)
     # write the string into the file and encode it in ISO-8859-15
     with open(output_file, 'wb') as fp:
         fp.write(xml_str.encode('iso-8859-15', errors='ignore'))
