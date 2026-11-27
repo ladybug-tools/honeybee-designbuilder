@@ -1,0 +1,7 @@
+honeybee\_designbuilder.cli.translate module
+============================================
+
+.. automodule:: honeybee_designbuilder.cli.translate
+   :members:
+   :undoc-members:
+   :show-inheritance:

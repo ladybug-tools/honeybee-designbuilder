@@ -1,0 +1,7 @@
+honeybee\_designbuilder.properties.room module
+==============================================
+
+.. automodule:: honeybee_designbuilder.properties.room
+   :members:
+   :undoc-members:
+   :show-inheritance:
